@@ -1,7 +1,9 @@
-import { FC, ReactElement } from 'react';
+import { FC, lazy, LazyExoticComponent, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
-import Button from '../../button/Button';
 import { IHeader } from '../interfaces/header.interface';
+import { IButtonProps } from '../../shared.interface';
+
+const Button : LazyExoticComponent<FC<IButtonProps>> = lazy(() => import('../../button/Button'));
 
 const Header: FC<IHeader> = ({ navClass }): ReactElement => {
   return (
