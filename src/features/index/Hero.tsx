@@ -1,13 +1,32 @@
-import  { FC, ReactElement } from 'react';
+import { FC, ReactElement, RefObject, useEffect, useRef } from 'react';
 import Button from '../shared/button/Button';
+import { v4 as uuidv4 } from 'uuid';
+import Typed from 'typed.js';
+
+const categories: string[] = ['Graphics and Design', 'Digital Marketing', 'Writing & Translation', 'Programming & Technology'];
 
 export const Hero: FC = (): ReactElement => {
+  const typedElement: RefObject<HTMLSpanElement> = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const typed = new Typed(typedElement.current, {
+      strings: [...categories, 'Video & Animation'],
+      startDelay: 300,
+      typeSpeed: 120,
+      backSpeed: 200,
+      backDelay: 300
+    });
+
+    return () => {
+      typed.destroy();
+    };
+  }, []);
+
   return (
     <div className="relative bg-white pb-20 pt-40 dark:bg-gray-900 lg:pt-44">
       <div className="relative m-auto px-6 xl:container md:px-12 lg:px-6">
         <h3 className="mb-4 mt-4 max-w-2xl pb-2 text-center text-2xl font-normal dark:text-white lg:text-left">
-          Expert categories:
-          {/* <span ref={typedElement}></span> */}
+          Expert categories: <span ref={typedElement}></span>
         </h3>
         <h1 className="text-center text-4xl font-black text-blue-900 dark:text-white sm:mx-auto sm:w-10/12 sm:text-5xl md:w-10/12 md:text-5xl lg:w-auto lg:text-left xl:text-7xl">
           Hire expert freelancers <br className="hidden lg:block" />{' '}
@@ -39,13 +58,18 @@ export const Hero: FC = (): ReactElement => {
             </div>
 
             <div className="grid grid-cols-3 gap-x-2 gap-y-4 sm:flex sm:justify-center lg:justify-start">
-              <div className="w-full min-w-0 cursor-pointer rounded-full border border-gray-200 p-4 duration-300 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-600/20 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-cyan-300/30">
-                <div className="flex justify-center">
-                  <span className="block truncate font-medium dark:text-white">
-                    <a href={`/search/categories/data`}>Data</a>
-                  </span>
+              {categories.map((category: string) => (
+                <div
+                  key={uuidv4()}
+                  className="w-full min-w-0 cursor-pointer rounded-full border border-gray-200 p-4 duration-300 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-600/20 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-cyan-300/30"
+                >
+                  <div className="flex justify-center">
+                    <span className="block truncate font-medium dark:text-white">
+                      <a href={`/search/categories/${category}`}>{category}</a>
+                    </span>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
           <div className="-right-10 hidden lg:col-span-2 lg:mt-0 lg:flex">
