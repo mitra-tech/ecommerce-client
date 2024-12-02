@@ -1,16 +1,23 @@
-import { ChangeEvent, FC, ReactElement, RefObject, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, ReactElement, RefObject, useEffect, useRef, useState } from 'react';
 import Button from '../shared/button/Button';
 import { v4 as uuidv4 } from 'uuid';
 import Typed from 'typed.js';
 import TextInput from '../shared/input/TextInput';
 import { FaSearch } from 'react-icons/fa';
+import { replaceSpacesWithDash } from '../shared/utils/utils.service';
+import { createSearchParams, NavigateFunction, useNavigate } from 'react-router-dom';
 
 const categories: string[] = ['Graphics and Design', 'Digital Marketing', 'Writing & Translation', 'Programming & Technology'];
 
 const Hero: FC = (): ReactElement => {
   const typedElement: RefObject<HTMLSpanElement> = useRef<HTMLSpanElement>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const navigateToSearchPage = (): void => {};
+  const navigate: NavigateFunction = useNavigate();
+
+  const navigateToSearchPage = (): void => {
+    const url = `/products/searc?${createSearchParams({query: searchTerm.trim() })}`;
+    navigate(url);
+  };
 
   useEffect(() => {
     const typed = new Typed(typedElement.current, {
@@ -46,7 +53,12 @@ const Hero: FC = (): ReactElement => {
             </p>
 
             <div className="flex w-full justify-between gap-6 lg:gap-12">
-              <form className="mx-auto flex w-full items-center bg-white">
+              <form className="mx-auto flex w-full items-center bg-white"
+              onSubmit={(event: FormEvent) => {
+                event.preventDefault();
+                navigateToSearchPage();
+              }}
+              >
                 <div className="w-full">
                   <TextInput
                     type="search"
@@ -77,7 +89,7 @@ const Hero: FC = (): ReactElement => {
                 >
                   <div className="flex justify-center">
                     <span className="block truncate font-medium dark:text-white">
-                      <a href={`/search/categories/${category}`}>{category}</a>
+                      <a href={`/search/categories/${replaceSpacesWithDash(category)}`}>{category}</a>
                     </span>
                   </div>
                 </div>
