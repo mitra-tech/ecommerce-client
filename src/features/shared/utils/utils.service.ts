@@ -24,3 +24,17 @@ export const replaceAmpersandAndDashWithSpace = (title: string): string => {
   const titleWithoutDash = replaceDashWithSpaces(title);
   return titleWithoutDash.replace(/&| /g, ' ');
 };
+
+export const categories = (): string[] => {
+  return [
+    'Graphics & Design',
+    'Digital Marketing',
+    'Writing & Translation',
+    'Video & Animation',
+    'Music & Audio',
+    'Programming & Tech',
+    'Photography',
+    'Data',
+    'Business'
+  ];
+};
