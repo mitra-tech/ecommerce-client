@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from 'react';
-import { IAuthUser, IBuyerDocument, ISellerDocument } from '@mitra-tech/ecommerce_microservice_app';
 export interface IReduxHeader {
   type: string;
   payload: string;
@@ -21,9 +20,6 @@ export interface INotification {
 }
 
 export interface IHomeHeaderProps {
-  buyer?: IBuyerDocument;
-  seller?: ISellerDocument;
-  authUser?: IAuthUser;
   type?: string;
   showCategoryContainer?: boolean;
   setIsDropdownOpen?: Dispatch<SetStateAction<boolean>>;
