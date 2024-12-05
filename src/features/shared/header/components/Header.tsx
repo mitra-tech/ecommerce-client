@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { IHeader, IHeaderModalProps } from '../interfaces/header.interface';
 import { IButtonProps } from '../../shared.interface';
 import LoginModal from 'src/features/auth/components/Login';
+import RegisterModal from 'src/features/auth/components/Register';
 
 const Button: LazyExoticComponent<FC<IButtonProps>> = lazy(() => import('../../button/Button'));
 
@@ -19,6 +20,12 @@ const Header: FC<IHeader> = ({ navClass }): ReactElement => {
           onClose={() => setShowModal((item: IHeaderModalProps) => ({ ...item, login: false }))}
           onToggle={() => setShowModal((item: IHeaderModalProps) => ({ ...item, login: false, register: true }))}
           onTogglePassword={() => setShowModal((item: IHeaderModalProps) => ({ ...item, login: false, forgotPassword: true }))}
+        />
+      )}
+       {showModal.register && (
+        <RegisterModal
+          onClose={() => setShowModal((item: IHeaderModalProps) => ({ ...item, register: false }))}
+          onToggle={() => setShowModal((item: IHeaderModalProps) => ({ ...item, login: true, register: false }))}
         />
       )}
       <header>
