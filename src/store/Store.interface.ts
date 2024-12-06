@@ -1,7 +1,8 @@
+import { IAuthUser } from "src/features/auth/interfaces/auth.interface";
 
 
 export interface IReduxState {
-  authUser: object;
+  authUser: IAuthUser;
   header: string;
   logout: boolean;
   buyer: object;
