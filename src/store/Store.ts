@@ -1,9 +1,12 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers, getDefaultMiddleware} from '@reduxjs/toolkit';
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
+import { setupListeners } from '@reduxjs/toolkit/query';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { Reducer } from 'redux';
 import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+
+
 
 const persistConfig = {
   key: 'root',
@@ -12,6 +15,7 @@ const persistConfig = {
 };
 
 export const combineReducer = combineReducers({});
+
 
 export const rootReducers: Reducer<RootState> = (state, action) => {
   // this is to reset the state to default when user logs out
@@ -33,6 +37,7 @@ export const store: ToolkitStore = configureStore({
       }
     })
 });
+setupListeners(store.dispatch);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

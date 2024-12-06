@@ -1,13 +1,13 @@
 import { ChangeEvent, FC, FormEvent, ReactElement, RefObject, useEffect, useRef, useState } from 'react';
-import Button from '../shared/button/Button';
-import { v4 as uuidv4 } from 'uuid';
-import Typed from 'typed.js';
-import TextInput from '../shared/input/TextInput';
 import { FaSearch } from 'react-icons/fa';
-import { replaceSpacesWithDash } from '../shared/utils/utils.service';
 import { createSearchParams, NavigateFunction, useNavigate } from 'react-router-dom';
+import Button from '../shared/button/Button';
+import TextInput from '../shared/input/TextInput';
+import { replaceSpacesWithDash } from '../shared/utils/utils.service';
+import Typed from 'typed.js';
+import { v4 as uuidv4 } from 'uuid';
 
-const categories: string[] = ['Graphics and Design', 'Digital Marketing', 'Writing & Translation', 'Programming & Technology'];
+const categories: string[] = ['Graphics & Design', 'Digital Marketing', 'Writing & Translation', 'Programming & Tech'];
 
 const Hero: FC = (): ReactElement => {
   const typedElement: RefObject<HTMLSpanElement> = useRef<HTMLSpanElement>(null);
@@ -15,7 +15,7 @@ const Hero: FC = (): ReactElement => {
   const navigate: NavigateFunction = useNavigate();
 
   const navigateToSearchPage = (): void => {
-    const url = `/products/searc?${createSearchParams({query: searchTerm.trim() })}`;
+    const url = `/products/search?${createSearchParams({ query: searchTerm.trim() })}`;
     navigate(url);
   };
 
@@ -53,11 +53,12 @@ const Hero: FC = (): ReactElement => {
             </p>
 
             <div className="flex w-full justify-between gap-6 lg:gap-12">
-              <form className="mx-auto flex w-full items-center bg-white"
-              onSubmit={(event: FormEvent) => {
-                event.preventDefault();
-                navigateToSearchPage();
-              }}
+              <form
+                className="mx-auto flex w-full items-center bg-white"
+                onSubmit={(event: FormEvent) => {
+                  event.preventDefault();
+                  navigateToSearchPage();
+                }}
               >
                 <div className="w-full">
                   <TextInput
