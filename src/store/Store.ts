@@ -5,6 +5,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { Reducer } from 'redux';
 import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { api } from './Api';
 
 
 
@@ -14,7 +15,9 @@ const persistConfig = {
   blacklist: ['clientApi', '_persist']
 };
 
-export const combineReducer = combineReducers({});
+export const combineReducer = combineReducers({
+  [api.reducerPath]: api.reducer,
+});
 
 
 export const rootReducers: Reducer<RootState> = (state, action) => {
