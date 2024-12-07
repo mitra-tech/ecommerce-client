@@ -1,4 +1,4 @@
-import { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement, useRef, useState } from 'react';
 import { FaCamera, FaChevronLeft, FaEye, FaEyeSlash, FaTimes } from 'react-icons/fa';
 import Alert from '../../../shared/alerts/Alert';
 import Button from '../../../shared/button/Button';
@@ -9,10 +9,13 @@ import { ISignUpPayload } from '../interfaces/auth.interface';
 import { ChangeEvent } from 'react';
 import Dropdown from 'src/shared/dropdowns/Dropdown';
 import { countriesList } from 'src/shared/utils/utils.service';
+import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service';
 
 const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement => {
   const [country, setCountry] = useState<string>('Select Country');
   const [passwordType, setPasswordType] = useState<string>('password');
+  const [profileImage, setProfileImage] = useState<string>('https://placehold.co/330x220?text=Profile+Image');
+  const [showImageSelect, setShowImageSelect] = useState<boolean>(false);
 
   const [step, setStep] = useState<number>(1);
   const [userInfo, setUserInfo] = useState<ISignUpPayload>({
@@ -24,7 +27,21 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
     browserName: '',
     deviceType: ''
   });
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const handleFileChange = async (event: ChangeEvent): Promise<void> => {
+    const target: HTMLInputElement = event.target as HTMLInputElement;
+    if (target.files) {
+      const file: File = target.files[0];
+      const isValid = checkImage(file, 'image');
+      if (isValid) {
+        const dataImage: string | ArrayBuffer | null = await readAsBase64(file);
+        setProfileImage(`${dataImage}`);
+        setUserInfo({ ...userInfo, profilePicture: `${dataImage}` });
+      }
+      setShowImageSelect(false);
+    }
+  };
   return (
     <ModalBg>
       <div className="relative top-[10%] mx-auto w-11/12 max-w-md rounded bg-white md:w-2/3">
@@ -170,13 +187,35 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
               <label htmlFor="profilePicture" className="text-sm font-bold leading-tight tracking-normal text-gray-800">
                 Profile Picture
               </label>
-              <div className="relative mb-5 mt-2 w-[20%] cursor-pointer">
-                <img id="profilePicture" src="" alt="Profile Picture" className="" />
-                <div className="left-0 top-0 flex h-20 w-20 cursor-pointer justify-center rounded-full bg-[#dee1e7]"></div>
-                <div className="absolute left-0 top-0 flex h-20 w-20 cursor-pointer justify-center rounded-full bg-[#dee1e7]">
-                  <FaCamera className="flex self-center" />
-                </div>
-                <TextInput name="image" type="file" />
+              <div
+                className="relative mb-5 mt-2 w-[20%] cursor-pointer"
+                onMouseEnter={() => setShowImageSelect(true)}
+                onMouseLeave={() => setShowImageSelect(false)}
+              >
+                {profileImage && <img id="profilePicture" src={profileImage} alt="Profile Picture" className="" />}
+                {!profileImage && (
+                  <div className="left-0 top-0 flex h-20 w-20 cursor-pointer justify-center rounded-full bg-[#dee1e7]"></div>
+                )}
+                {showImageSelect && (
+                  <div
+                    className="absolute left-0 top-0 flex h-20 w-20 cursor-pointer justify-center rounded-full bg-[#dee1e7]"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <FaCamera className="flex self-center" />
+                  </div>
+                )}
+                <TextInput
+                  name="image"
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                  type="file"
+                  onClick={() => {
+                    if (fileInputRef.current) {
+                      fileInputRef.current.value = '';
+                    }
+                  }}
+                  onChange={handleFileChange}
+                />
               </div>
             </div>
             <Button
