@@ -1,3 +1,8 @@
+import countries, {LocalizedCountryNames} from 'i18n-iso-countries';
+import enLocale from 'i18n-iso-countries/langs/en.json';
+
+countries.registerLocale(enLocale);
+
 export const lowerCase = (str: string): string => {
   return str.toLowerCase();
 };
@@ -37,4 +42,9 @@ export const categories = (): string[] => {
     'Data',
     'Business'
   ];
+};
+
+export const countriesList = (): string[] => {
+  const countriesObj: LocalizedCountryNames<{ select: 'official' }> = countries.getNames('en', { select: 'official' });
+  return Object.values(countriesObj);
 };

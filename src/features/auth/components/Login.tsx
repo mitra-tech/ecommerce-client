@@ -1,10 +1,10 @@
 import { FC, ReactElement, useState } from 'react';
 import { FaEye, FaEyeSlash, FaTimes } from 'react-icons/fa';
-import Button from '../../shared/button/Button';
-import TextInput from '../../shared/input/TextInput';
-import { IModalBgProps } from '../../shared/modals/interfaces/modal.interface';
-import ModalBg from '../../shared/modals/ModalBg';
-import Alert from 'src/features/shared/alerts/Alert';
+import Button from '../../../shared/button/Button';
+import TextInput from '../../../shared/input/TextInput';
+import { IModalBgProps } from '../../../shared/modals/interfaces/modal.interface';
+import ModalBg from '../../../shared/modals/ModalBg';
+import Alert from 'src/shared/alerts/Alert';
 
 const LoginModal: FC<IModalBgProps> = ({ onClose, onToggle, onTogglePassword }): ReactElement => {
   const [passwordType, setPasswordType] = useState<string>('password');

@@ -1,5 +1,5 @@
 import { FC, ReactElement, useState } from 'react';
-import { categories, replaceSpacesWithDash } from 'src/features/shared/utils/utils.service';
+import { categories, replaceSpacesWithDash } from 'src/shared/utils/utils.service';
 import { v4 as uuidv4 } from 'uuid';
 
 const ProductTabs: FC = (): ReactElement => {

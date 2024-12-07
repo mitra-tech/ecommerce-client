@@ -1,11 +1,11 @@
 import { FC, lazy, LazyExoticComponent, ReactElement, Suspense } from 'react';
-import { IHeader } from '../shared/header/interfaces/header.interface';
+import { IHeader } from '../../shared/header/interfaces/header.interface';
 import Hero from './Hero';
 import ProductTabs from './product-tabs/ProductTabs';
 import HowItWorks from './HowItWorks';
 import Categories from './Categories';
 
-const IndexHeader: LazyExoticComponent<FC<IHeader>> = lazy(() => import('../shared/header/components/Header'));
+const IndexHeader: LazyExoticComponent<FC<IHeader>> = lazy(() => import('../../shared/header/components/Header'));
 
 
 const Index: FC = (): ReactElement => {
