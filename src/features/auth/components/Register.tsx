@@ -20,6 +20,8 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
   const [passwordType, setPasswordType] = useState<string>('password');
   const [profileImage, setProfileImage] = useState<string>('https://placehold.co/330x220?text=Profile+Image');
   const [showImageSelect, setShowImageSelect] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
+
   const [signUp, { isLoading }] = useSignUpMutation();
   const [step, setStep] = useState<number>(1);
 
@@ -35,18 +37,6 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [schemaValidation] = useAuthSchema({ schema: registerUserSchema, userInfo });
 
-  const onRegisterUser = async (): Promise<void> => {
-    try {
-      const isValid: boolean = await schemaValidation();
-      if (isValid) {
-        // unwrap(): unwraps whatever the response returns
-        const result: IResponse = await signUp(userInfo).unwrap();
-        console.log(result);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const handleFileChange = async (event: ChangeEvent): Promise<void> => {
     const target: HTMLInputElement = event.target as HTMLInputElement;
     if (target.files) {
@@ -58,6 +48,21 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
         setUserInfo({ ...userInfo, profilePicture: `${dataImage}` });
       }
       setShowImageSelect(false);
+    }
+  };
+
+  const onRegisterUser = async (): Promise<void> => {
+    try {
+      const isValid: boolean = await schemaValidation();
+      if (isValid) {
+        // unwrap(): unwraps whatever the response returns
+        const result: IResponse = await signUp(userInfo).unwrap();
+        console.log(result);
+        setAlertMessage('');
+      }
+    } catch (error) {
+      setAlertMessage(error?.data.message);
+      console.log(error);
     }
   };
   return (
@@ -98,9 +103,7 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
             </li>
           </ol>
         </div>
-        <div className="px-5">
-          <Alert type="error" message="alert" />
-        </div>
+        <div className="px-5">{alertMessage && <Alert type="error" message={alertMessage} />}</div>
         {step === 1 && (
           <div className="relative px-5 py-5">
             <div>

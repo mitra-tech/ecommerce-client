@@ -34,7 +34,7 @@ export const store: EnhancedStore = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
-    })
+    }).concat(api.middleware)
 });
 setupListeners(store.dispatch);
 
