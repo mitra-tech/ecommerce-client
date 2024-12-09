@@ -10,6 +10,9 @@ import { ChangeEvent } from 'react';
 import Dropdown from 'src/shared/dropdowns/Dropdown';
 import { countriesList } from 'src/shared/utils/utils.service';
 import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service';
+import { useAuthSchema } from '../hooks/useAuthSchema';
+import { registerUserSchema } from '../schemas/auth.schema';
+import { IResponse } from 'src/shared/shared.interface';
 
 const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement => {
   const [country, setCountry] = useState<string>('Select Country');
@@ -28,7 +31,18 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
     deviceType: ''
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [schemaValidation] = useAuthSchema({ schema: registerUserSchema, userInfo });
 
+  const onRegisterUser = async (): Promise<void> => {
+    try {
+      const isValid: boolean = await schemaValidation();
+      if (isValid) {
+        console.log(isValid);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleFileChange = async (event: ChangeEvent): Promise<void> => {
     const target: HTMLInputElement = event.target as HTMLInputElement;
     if (target.files) {
@@ -219,9 +233,12 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
               </div>
             </div>
             <Button
-              disabled={false}
-              className="text-md block w-full cursor-pointer rounded bg-sky-500 px-8 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none"
+              disabled={!userInfo.country || !userInfo.profilePicture}
+              className={`text-md block w-full cursor-pointer rounded bg-sky-500 px-8 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none ${
+                !userInfo.country || !userInfo.profilePicture ? 'cursor-not-allowed' : 'cursor-pointer'
+              }`}
               label="SIGNUP"
+              onClick={onRegisterUser}
             />
           </div>
         )}
