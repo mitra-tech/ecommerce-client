@@ -12,6 +12,7 @@ import { countriesList } from 'src/shared/utils/utils.service';
 import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service';
 import { useAuthSchema } from '../hooks/useAuthSchema';
 import { registerUserSchema } from '../schemas/auth.schema';
+import { useSignUpMutation } from '../services/auth.service';
 import { IResponse } from 'src/shared/shared.interface';
 
 const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement => {
@@ -19,8 +20,9 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
   const [passwordType, setPasswordType] = useState<string>('password');
   const [profileImage, setProfileImage] = useState<string>('https://placehold.co/330x220?text=Profile+Image');
   const [showImageSelect, setShowImageSelect] = useState<boolean>(false);
-
+  const [signUp, { isLoading }] = useSignUpMutation();
   const [step, setStep] = useState<number>(1);
+
   const [userInfo, setUserInfo] = useState<ISignUpPayload>({
     username: '',
     password: '',
@@ -37,7 +39,9 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
     try {
       const isValid: boolean = await schemaValidation();
       if (isValid) {
-        console.log(isValid);
+        // unwrap(): unwraps whatever the response returns
+        const result: IResponse = await signUp(userInfo).unwrap();
+        console.log(result);
       }
     } catch (error) {
       console.log(error);
@@ -237,7 +241,7 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
               className={`text-md block w-full cursor-pointer rounded bg-sky-500 px-8 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none ${
                 !userInfo.country || !userInfo.profilePicture ? 'cursor-not-allowed' : 'cursor-pointer'
               }`}
-              label="SIGNUP"
+              label={`${isLoading ? 'Signup In Progress...' : 'Signup'}`}
               onClick={onRegisterUser}
             />
           </div>
