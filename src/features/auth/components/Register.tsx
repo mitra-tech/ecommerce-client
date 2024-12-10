@@ -8,7 +8,7 @@ import ModalBg from '../../../shared/modals/ModalBg';
 import { ISignUpPayload } from '../interfaces/auth.interface';
 import { ChangeEvent } from 'react';
 import Dropdown from 'src/shared/dropdowns/Dropdown';
-import { countriesList } from 'src/shared/utils/utils.service';
+import { countriesList, saveToSessionStorage } from 'src/shared/utils/utils.service';
 import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service';
 import { useAuthSchema } from '../hooks/useAuthSchema';
 import { registerUserSchema } from '../schemas/auth.schema';
@@ -61,10 +61,9 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
         // unwrap(): unwraps whatever the response returns
         const result: IResponse = await signUp(userInfo).unwrap();
         console.log(result);
-
         setAlertMessage('');
         dispatch(addAuthUser({ authInfo: result.user }));
-
+        saveToSessionStorage(JSON.stringify(true), JSON.stringify(result.user?.username));
       }
     } catch (error) {
       setAlertMessage(error?.data.message);

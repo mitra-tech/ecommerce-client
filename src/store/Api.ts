@@ -18,7 +18,7 @@ const baseQueryWithReAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
   const result = await baseQuery(args, api, extraOptions);
   // error 401: the token has been expired
   if (result.error && result.error.status === 401) {
-    // get username from local storage
+    // get username from sessionstorage
     const loggedInUsername: string = '';
     await baseQuery(`/auth/refresh-token/${loggedInUsername}`, api, extraOptions);
   }
