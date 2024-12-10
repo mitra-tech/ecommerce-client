@@ -16,6 +16,7 @@ import { useSignUpMutation } from '../services/auth.service';
 import { IResponse } from 'src/shared/shared.interface';
 import { useAppDispatch } from 'src/store/Store';
 import { addAuthUser } from '../reducers/auth.reducer';
+import { updateLogout } from '../reducers/logout.reducer';
 
 const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement => {
   const [country, setCountry] = useState<string>('Select Country');
@@ -63,6 +64,8 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
         console.log(result);
         setAlertMessage('');
         dispatch(addAuthUser({ authInfo: result.user }));
+        dispatch(updateLogout(false));
+
         saveToSessionStorage(JSON.stringify(true), JSON.stringify(result.user?.username));
       }
     } catch (error) {

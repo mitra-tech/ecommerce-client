@@ -6,6 +6,7 @@ import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } fro
 import storage from 'redux-persist/lib/storage';
 import { api } from './Api';
 import authReducer from 'src/features/auth/reducers/auth.reducer';
+import logoutReducer from 'src/features/auth/reducers/logout.reducer';
 
 const persistConfig = {
   key: 'root',
@@ -15,7 +16,8 @@ const persistConfig = {
 
 export const combineReducer = combineReducers({
   [api.reducerPath]: api.reducer,
-  authUser: authReducer
+  authUser: authReducer,
+  logout: logoutReducer
 });
 
 export const rootReducers: Reducer<RootState> = (state, action) => {

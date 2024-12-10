@@ -1,13 +1,53 @@
-import { FC, ReactElement, useState } from 'react';
+import { ChangeEvent, FC, ReactElement, useState } from 'react';
 import { FaEye, FaEyeSlash, FaTimes } from 'react-icons/fa';
 import Button from '../../../shared/button/Button';
 import TextInput from '../../../shared/input/TextInput';
 import { IModalBgProps } from '../../../shared/modals/interfaces/modal.interface';
 import ModalBg from '../../../shared/modals/ModalBg';
 import Alert from 'src/shared/alerts/Alert';
+import { ISignInPayload } from '../interfaces/auth.interface';
+import { useAppDispatch } from 'src/store/Store';
+import { useAuthSchema } from '../hooks/useAuthSchema';
+import { loginUserSchema } from '../schemas/auth.schema';
+import { useNavigate } from 'react-router-dom';
+import { useSignInMutation } from '../services/auth.service';
+import { IResponse } from 'src/shared/shared.interface';
+import { addAuthUser } from '../reducers/auth.reducer';
+import { updateLogout } from '../reducers/logout.reducer';
+import { saveToSessionStorage } from 'src/shared/utils/utils.service';
 
 const LoginModal: FC<IModalBgProps> = ({ onClose, onToggle, onTogglePassword }): ReactElement => {
   const [passwordType, setPasswordType] = useState<string>('password');
+  const [alertMessage, setAlertMessage] = useState<string>('');
+  const [userInfo, setUserInfo] = useState<ISignInPayload>({
+    username: '',
+    password: '',
+    browserName: '',
+    deviceType: ''
+  });
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [schemaValidation] = useAuthSchema({ schema: loginUserSchema, userInfo });
+  const [signIn, { isLoading }] = useSignInMutation();
+
+  const onLoginUser = async (): Promise<void> => {
+    try {
+      const isValid: boolean = await schemaValidation();
+      if (isValid) {
+        const result: IResponse = await signIn(userInfo).unwrap();
+        if (result && (result.browserName || result.deviceType)) {
+          navigate('/verify_otp');
+        } else {
+          setAlertMessage('');
+          dispatch(addAuthUser({ authInfo: result.user }));
+          dispatch(updateLogout(false));
+          saveToSessionStorage(JSON.stringify(true), JSON.stringify(result.user?.username));
+        }
+      }
+    } catch (error) {
+      setAlertMessage(error?.data.message);
+    }
+  };
 
   return (
     <ModalBg>
@@ -23,7 +63,7 @@ const LoginModal: FC<IModalBgProps> = ({ onClose, onToggle, onTogglePassword }):
               onClick={onClose}
             />
           </div>
-          <Alert type="error" message="Warning" />
+          {alertMessage && <Alert type="error" message={alertMessage} />}
           <div>
             <Button
               testId="closeModal"
@@ -41,8 +81,12 @@ const LoginModal: FC<IModalBgProps> = ({ onClose, onToggle, onTogglePassword }):
               id="username"
               name="username"
               type="text"
+              value={userInfo.username}
               className="mb-5 mt-2 flex h-10 w-full items-center rounded border border-gray-300 pl-3 text-sm font-normal text-gray-600 focus:border focus:border-sky-500/50 focus:outline-none"
               placeholder="Enter email or username"
+              onChange={(event: ChangeEvent) => {
+                setUserInfo({ ...userInfo, username: (event.target as HTMLInputElement).value });
+              }}
             />
           </div>
           <div>
@@ -61,8 +105,12 @@ const LoginModal: FC<IModalBgProps> = ({ onClose, onToggle, onTogglePassword }):
                 id="password"
                 name="password"
                 type={passwordType}
+                value={userInfo.password}
                 className="flex h-10 w-full items-center rounded border border-gray-300 pl-3 text-sm font-normal text-gray-600 focus:border focus:border-sky-500/50 focus:outline-none"
                 placeholder="Enter password"
+                onChange={(event: ChangeEvent) => {
+                  setUserInfo({ ...userInfo, password: (event.target as HTMLInputElement).value });
+                }}
               />
             </div>
           </div>
@@ -78,7 +126,19 @@ const LoginModal: FC<IModalBgProps> = ({ onClose, onToggle, onTogglePassword }):
               Forgot Password?
             </div>
           </div>
-          <div className="flex w-full items-center justify-center"></div>
+          <div className="flex w-full items-center justify-center">
+            <div className="flex w-full items-center justify-center">
+              <Button
+                testId="submit"
+                disabled={!userInfo.username || !userInfo.password}
+                className={`text-md block w-full cursor-pointer rounded bg-sky-500 px-8 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none ${
+                  !userInfo.username || !userInfo.password ? 'cursor-not-allowed' : 'cursor-pointer'
+                }`}
+                label={`${isLoading ? 'LOGIN IN PROGRESS...' : 'LOGIN'}`}
+                onClick={onLoginUser}
+              />
+            </div>
+          </div>
         </div>
         <hr />
         <div className="px-5 py-4">

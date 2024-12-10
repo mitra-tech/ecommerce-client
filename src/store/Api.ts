@@ -1,4 +1,5 @@
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
+import { getDataFromSessionStorage } from 'src/shared/utils/utils.service';
 
 const BASE_ENDPOINT = 'http://localhost:4000';
 
@@ -19,7 +20,7 @@ const baseQueryWithReAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
   // error 401: the token has been expired
   if (result.error && result.error.status === 401) {
     // get username from sessionstorage
-    const loggedInUsername: string = '';
+    const loggedInUsername: string = getDataFromSessionStorage('loggedInuser');
     await baseQuery(`/auth/refresh-token/${loggedInUsername}`, api, extraOptions);
   }
   return result;
