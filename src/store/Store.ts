@@ -5,6 +5,7 @@ import { Reducer } from 'redux';
 import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { api } from './Api';
+import authReducer from 'src/features/auth/reducers/auth.reducer';
 
 const persistConfig = {
   key: 'root',
@@ -13,7 +14,8 @@ const persistConfig = {
 };
 
 export const combineReducer = combineReducers({
-  [api.reducerPath]: api.reducer
+  [api.reducerPath]: api.reducer,
+  authUser: authReducer
 });
 
 export const rootReducers: Reducer<RootState> = (state, action) => {

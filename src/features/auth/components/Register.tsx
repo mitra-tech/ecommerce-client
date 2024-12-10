@@ -14,6 +14,8 @@ import { useAuthSchema } from '../hooks/useAuthSchema';
 import { registerUserSchema } from '../schemas/auth.schema';
 import { useSignUpMutation } from '../services/auth.service';
 import { IResponse } from 'src/shared/shared.interface';
+import { useAppDispatch } from 'src/store/Store';
+import { addAuthUser } from '../reducers/auth.reducer';
 
 const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement => {
   const [country, setCountry] = useState<string>('Select Country');
@@ -24,6 +26,7 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
 
   const [signUp, { isLoading }] = useSignUpMutation();
   const [step, setStep] = useState<number>(1);
+  const dispatch = useAppDispatch();
 
   const [userInfo, setUserInfo] = useState<ISignUpPayload>({
     username: '',
@@ -58,7 +61,10 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
         // unwrap(): unwraps whatever the response returns
         const result: IResponse = await signUp(userInfo).unwrap();
         console.log(result);
+
         setAlertMessage('');
+        dispatch(addAuthUser({ authInfo: result.user }));
+
       }
     } catch (error) {
       setAlertMessage(error?.data.message);
