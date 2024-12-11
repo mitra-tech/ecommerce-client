@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, Suspense } from 'react';
 import { useRoutes, RouteObject } from 'react-router-dom';
 import AppPage from './features/AppPage';
 import Home from './features/home/Home';
@@ -11,8 +11,12 @@ const AppRouter: FC = () => {
       element: <AppPage />
     },
     {
-      path: '/reset_password',
-      element: <ResetPassword />
+      path: 'reset_password',
+      element: (
+        <Suspense>
+          <ResetPassword />
+        </Suspense>
+      )
     },
     {
       path: '/',
