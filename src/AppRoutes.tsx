@@ -3,6 +3,7 @@ import { useRoutes, RouteObject } from 'react-router-dom';
 import AppPage from './features/AppPage';
 import Home from './features/home/Home';
 import ResetPassword from './features/auth/components/ResetPassword';
+import ConfirmEmail from './features/auth/components/ConfirmEmail';
 
 const AppRouter: FC = () => {
   const routes: RouteObject[] = [
@@ -15,6 +16,14 @@ const AppRouter: FC = () => {
       element: (
         <Suspense>
           <ResetPassword />
+        </Suspense>
+      )
+    },
+    {
+      path: 'confirm_email',
+      element: (
+        <Suspense>
+          <ConfirmEmail />
         </Suspense>
       )
     },
