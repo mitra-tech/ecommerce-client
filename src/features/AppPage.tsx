@@ -1,7 +1,7 @@
 import { FC, ReactElement, useCallback, useEffect, useState } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import HomeHeader from 'src/shared/header/components/HomeHeader';
-import { getDataFromLocalStorage, saveToSessionStorage } from '../shared/utils/utils.service';
+import { applicationLogout, saveToSessionStorage } from '../shared/utils/utils.service';
 import { useAppDispatch, useAppSelector } from '../store/Store';
 import { IReduxState } from '../store/Store.interface';
 import { addAuthUser } from './auth/reducers/auth.reducer';
@@ -16,6 +16,7 @@ const AppPage: FC = (): ReactElement => {
   const [tokenIsValid, setTokenIsValid] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { data: currentUserData, isError } = useCheckCurrentUserQuery(undefined, { skip: authUser.id === null });
+  const navigate: NavigateFunction = useNavigate();
 
   const checkUser = useCallback(async () => {
     try {
@@ -23,7 +24,6 @@ const AppPage: FC = (): ReactElement => {
         setTokenIsValid(true);
         dispatch(addAuthUser({ authInfo: currentUserData.user }));
         saveToSessionStorage(JSON.stringify(true), JSON.stringify(authUser.username));
-
         // dispatch buyer info
         // dispatch seller info
 
@@ -36,9 +36,17 @@ const AppPage: FC = (): ReactElement => {
     }
   }, [currentUserData, dispatch, appLogout, authUser.username]);
 
+  const logoutUser = useCallback(async () => {
+    if ((!currentUserData && appLogout) || isError) {
+      setTokenIsValid(false);
+      applicationLogout(dispatch, navigate);
+    }
+  }, [currentUserData, dispatch, navigate, appLogout, isError]);
+
   useEffect(() => {
     checkUser();
-  }, [checkUser]);
+    logoutUser();
+  }, [checkUser, logoutUser]);
 
   if (authUser) {
     return !tokenIsValid && !authUser.id ? (
