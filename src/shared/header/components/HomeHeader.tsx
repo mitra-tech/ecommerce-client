@@ -128,7 +128,7 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
                       className="relative flex gap-2 px-3 text-base font-medium"
                       label={
                         <>
-                          <img src="" alt="profile" className="h-7 w-7 rounded-full object-cover" />
+                          <img src={`${authUser.profilePicture}`} alt="profile" className="h-7 w-7 rounded-full object-cover" />
                           <span className="flex self-center">{authUser.username}</span>
                         </>
                       }
