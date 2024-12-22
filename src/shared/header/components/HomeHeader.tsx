@@ -6,24 +6,45 @@ import { Transition } from '@headlessui/react';
 import { FC, ReactElement, useRef } from 'react';
 import { categories, replaceSpacesWithDash } from 'src/shared/utils/utils.service';
 import { v4 as uuidv4 } from 'uuid';
-import { useAppSelector } from 'src/store/Store';
+import { useAppDispatch, useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
+import Banner from 'src/shared/banner/Banner';
+import { useResendEmailMutation } from 'src/features/auth/services/auth.service';
+import { IResponse } from 'src/shared/shared.interface';
+import { addAuthUser } from 'src/features/auth/reducers/auth.reducer';
 
 const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
+  const logout = useAppSelector((state: IReduxState) => state.logout);
   const settingsDropdownRef = useRef<HTMLDivElement | null>(null);
   const messageDropdownRef = useRef<HTMLDivElement | null>(null);
   const notificationDropdownRef = useRef<HTMLDivElement | null>(null);
   const orderDropdownRef = useRef<HTMLDivElement | null>(null);
   const navElement = useRef<HTMLDivElement | null>(null);
+  const dispatch = useAppDispatch();
+
+  const [resendEmail] = useResendEmailMutation();
+
   const isSettingsDropdown = false;
   const isMessageDropdownOpen = false;
   const isNotificationDropdownOpen = false;
   const isOrderDropdownOpen = false;
 
+  const onResendEmail = async (): Promise<void> => {
+    try {
+      const result: IResponse = await resendEmail({ userId: authUser.id as number, email: authUser.email as string }).unwrap();
+      dispatch(addAuthUser({ authInfo: result.user }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <header>
       <nav className="navbar peer-checked:navbar-active relative z-[120] w-full border-b bg-white shadow-2xl shadow-gray-600/5 backdrop-blur dark:shadow-none">
+        {!logout && authUser && !authUser.emailVerified && (
+          <Banner bgColor="bg-warning" showLink={true} linkText="Resend Email" text="Please verify your email address." onClick={onResendEmail} />
+        )}
         <div className="m-auto px-6 xl:container md:px-12 lg:px-6">
           <div className="flex flex-wrap items-center justify-between gap-6 md:gap-0 md:py-3 lg:py-5">
             <div className="flex w-full gap-x-4 lg:w-6/12">
