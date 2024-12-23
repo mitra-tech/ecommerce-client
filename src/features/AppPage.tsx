@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../store/Store';
 import { IReduxState } from '../store/Store.interface';
 import { addAuthUser } from './auth/reducers/auth.reducer';
 import { useCheckCurrentUserQuery } from './auth/services/auth.service';
-import Home from '../features/home/Home';
+import Home from './../features/home/components/Home';
 import Index from './index/Index';
 
 const AppPage: FC = (): ReactElement => {
