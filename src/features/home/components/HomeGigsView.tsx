@@ -1,8 +1,7 @@
 import { FC, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
-import { ISellerGig } from '../../gigs/interfaces/gig.interface';
+import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
 import { replaceSpacesWithDash } from 'src/shared/utils/utils.service';
-
 import { v4 as uuidv4 } from 'uuid';
 
 import { IHomeProps } from '../interfaces/home.interfaces';
@@ -16,7 +15,9 @@ const HomeGigsView: FC<IHomeProps> = ({ gigs, title, subTitle, category }): Reac
             <h2 className="flex self-center text-base font-bold md:text-lg lg:text-2xl">{title}</h2>
             {category && (
               <span className="flex self-center text-base font-bold cursor-pointer text-sky-500 md:text-lg lg:text-2xl hover:text-sky-400 hover:underline">
-                <Link to={`/categories/${replaceSpacesWithDash(category)}`}>{category}</Link>
+                <Link to={`/categories/${replaceSpacesWithDash(category)}`}>
+                  {category}
+                </Link>
               </span>
             )}
           </div>
@@ -25,8 +26,8 @@ const HomeGigsView: FC<IHomeProps> = ({ gigs, title, subTitle, category }): Reac
       </div>
       <div className="flex w-full flex-nowrap items-center justify-center overflow-x-hidden px-6 md:overflow-x-auto lg:overflow-x-hidden">
         <div className="grid justify-center gap-x-8 pt-3 sm:h-full sm:w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {gigs.map((gig: ISellerGig) => (
-            <div>gigs</div>
+          {[...gigs, 1,2,3,4,5].map(() => (
+            <div key={uuidv4()} ></div>
           ))}
         </div>
       </div>
