@@ -1,5 +1,5 @@
 import { IResponse } from 'src/shared/shared.interface';
-import { api } from '../../../store/Api';
+import { api } from '../../../store/api';
 
 import { ISignInPayload, ISignUpPayload } from '../interfaces/auth.interface';
 

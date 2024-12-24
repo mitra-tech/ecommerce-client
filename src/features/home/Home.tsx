@@ -1,5 +1,5 @@
 import { FC, ReactElement } from 'react';
-import HomeSlider from './HomeSlider';
+import HomeSlider from './components/HomeSlider';
 
 
 const Home: FC = (): ReactElement => {

@@ -4,7 +4,7 @@ import enLocale from 'i18n-iso-countries/langs/en.json';
 import { NavigateFunction } from 'react-router-dom';
 import { logout } from 'src/features/auth/reducers/logout.reducer';
 import { authApi } from 'src/features/auth/services/auth.service';
-import { api } from 'src/store/Api';
+import { api } from 'src/store/api';
 
 countries.registerLocale(enLocale);
 

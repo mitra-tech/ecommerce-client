@@ -1,4 +1,7 @@
+import { ISellerGig } from "src/features/gigs/interfaces/gig.interface";
+
 export interface IHomeProps {
+  gigs: ISellerGig[];
   title: string;
   subTitle?: string;
   category?: string;
