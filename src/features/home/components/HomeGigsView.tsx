@@ -1,6 +1,5 @@
 import { FC, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
-import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
 import { replaceSpacesWithDash } from 'src/shared/utils/utils.service';
 import { v4 as uuidv4 } from 'uuid';
 
