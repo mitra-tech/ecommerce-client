@@ -1,11 +1,20 @@
-import { FC, Suspense } from 'react';
+import { FC, ReactNode, Suspense } from 'react';
 import { useRoutes, RouteObject } from 'react-router-dom';
 import AppPage from './features/AppPage';
-import Home from './features/home/Home';
+import Home from './features/home/components/Home';
 import ResetPassword from './features/auth/components/ResetPassword';
 import ConfirmEmail from './features/auth/components/ConfirmEmail';
 import ProtectedRoute from './features/ProtectedRoute';
 import Error from './features/error/Error';
+import BuyerDashboard from './features/buyer/components/Dashboard';
+
+
+const Layout = ({ backgroundColor = '#fff', children }: { backgroundColor: string; children: ReactNode }): JSX.Element => (
+  <div style={{ backgroundColor }} className="flex flex-grow">
+    {children}
+  </div>
+);
+
 
 const AppRouter: FC = () => {
   const routes: RouteObject[] = [
@@ -31,11 +40,27 @@ const AppRouter: FC = () => {
     },
     {
       path: '/',
-      element: <Suspense>
-        <ProtectedRoute>
-          <Home/>
-        </ProtectedRoute>
-      </Suspense>
+      element: (
+        <Suspense>
+         <ProtectedRoute>
+         <Layout backgroundColor="#ffffff">
+              <Home />
+            </Layout>
+          </ProtectedRoute>
+        </Suspense>
+      )
+    },
+    {
+      path: '/users/:username/:buyerId/orders',
+      element: (
+        <Suspense>
+         <ProtectedRoute>
+         <Layout backgroundColor="#ffffff">
+              <BuyerDashboard />
+            </Layout>
+          </ProtectedRoute>
+        </Suspense>
+      )
     },
     {
       path: '*',

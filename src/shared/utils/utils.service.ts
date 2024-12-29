@@ -5,6 +5,7 @@ import { NavigateFunction } from 'react-router-dom';
 import { logout } from 'src/features/auth/reducers/logout.reducer';
 import { authApi } from 'src/features/auth/services/auth.service';
 import { api } from 'src/store/api';
+import millify from 'millify';
 
 countries.registerLocale(enLocale);
 
@@ -89,4 +90,11 @@ export const applicationLogout = (dispatch: Dispatch, navigate: NavigateFunction
   saveToSessionStorage(JSON.stringify(false), JSON.stringify(''));
   deleteFromLocalStorage('becomeASeller');
   navigate('/');
+};
+
+export const shortenLargeNumbers = (data: number | undefined): string => {
+  if (data === undefined) {
+    return '0';
+  }
+  return millify(data, { precision: 0 });
 };
