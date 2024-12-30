@@ -2,22 +2,26 @@ import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { ChangeEvent, CSSProperties, Dispatch, KeyboardEvent, ReactNode, SetStateAction } from 'react';
 import { IAuthDocument, IResetPassword, ISignInPayload, ISignUpPayload } from 'src/features/auth/interfaces/auth.interface';
+import { IBuyerDocument } from 'src/features/buyer/interfaces/buyer.interface';
+import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
 
 export type validationErrorsType = ISignInPayload | ISignUpPayload | IResetPassword;
 
 export interface IQueryResponse {
   error: FetchBaseQueryError | SerializedError;
 }
-
 export interface IResponse {
-  user?: IAuthDocument;
   message?: string;
   token?: string;
+  user?: IAuthDocument;
+  buyer?: IBuyerDocument;
   total?: number;
   sortItems?: string[];
   conversationId?: string;
   clientSecret?: string;
   paymentIntentId?: string;
+  order?: IOrderDocument;
+  orders?: IOrderDocument[];
   browserName?: string;
   deviceType?: string;
 }
