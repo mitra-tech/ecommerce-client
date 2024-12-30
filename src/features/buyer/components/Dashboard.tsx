@@ -1,5 +1,8 @@
 import { FC, ReactElement, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import BuyerTable from './BuyerTable';
+import { orderTypes } from 'src/shared/utils/utils.service';
+import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
 
 const BuyerDashboard: FC = (): ReactElement => {
   const BUYER_GIG_STATUS = {
@@ -10,7 +13,7 @@ const BuyerDashboard: FC = (): ReactElement => {
     DELIVERED: 'delivered'
   };
   const [type, setType] = useState<string>(BUYER_GIG_STATUS.ACTIVE);
-
+  const orders: IOrderDocument[] = [];
   return (
     <div className="container mx-auto mt-8 px-6 md:px-12 lg:px-6">
       <div className="flex flex-col flex-wrap">
@@ -49,6 +52,16 @@ const BuyerDashboard: FC = (): ReactElement => {
             </li>
           </ul>
         </div>
+        // IN_PROGRESS : BECAUSE WE SAVE IT IN THE DB AS 'IN PROGRESS' AND NOT 'ACTIVE'
+        {type === BUYER_GIG_STATUS.ACTIVE && (
+          <BuyerTable type="active" orders={orders} orderTypes={orderTypes(BUYER_GIG_STATUS.IN_PROGRESS, orders)} />
+        )}
+        {type === BUYER_GIG_STATUS.COMPLETED && (
+          <BuyerTable type="completed" orders={orders} orderTypes={orderTypes(BUYER_GIG_STATUS.COMPLETED, orders)} />
+        )}
+        {type === BUYER_GIG_STATUS.CANCELLED && (
+          <BuyerTable type="cancelled" orders={orders} orderTypes={orderTypes(BUYER_GIG_STATUS.CANCELLED, orders)} />
+        )}
       </div>
     </div>
   );

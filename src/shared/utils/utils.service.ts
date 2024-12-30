@@ -6,6 +6,8 @@ import { logout } from 'src/features/auth/reducers/logout.reducer';
 import { authApi } from 'src/features/auth/services/auth.service';
 import { api } from 'src/store/api';
 import millify from 'millify';
+import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
+import { filter } from 'lodash';
 
 countries.registerLocale(enLocale);
 
@@ -97,4 +99,9 @@ export const shortenLargeNumbers = (data: number | undefined): string => {
     return '0';
   }
   return millify(data, { precision: 0 });
+};
+
+export const orderTypes = (status: string, orders: IOrderDocument[]): number => {
+  const orderList: IOrderDocument[] = filter(orders, (order: IOrderDocument) => lowerCase(order.status) === lowerCase(status));
+  return orderList.length;
 };
