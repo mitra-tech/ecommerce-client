@@ -4,8 +4,10 @@ import contact from 'src/assets/contact.png';
 import create from 'src/assets/create.png';
 import { IAuthUser } from 'src/features/auth/interfaces/auth.interface';
 import { ISliderImagesText } from '../shared.interface';
+import { IBuyerDocument } from 'src/features/buyer/interfaces/buyer.interface';
+import { ICategory } from 'src/features/home/interfaces/home.interfaces';
 
-export const categories: any[] = [
+export const categories: ICategory[] = [
   {
     name: 'Programming & Tech',
     icon: create
@@ -69,3 +71,14 @@ export const sliderImages: string[] = [
   'https://fiverr-res.cloudinary.com/image/upload/w_430/q_auto,f_auto/v1/attachments/generic_asset/asset/10f680cb84a2f3ef4473ecfdede3a1ba-1593438129320/business%20logo%20design-fiverr%20guide.jpg',
   'https://fiverr-res.cloudinary.com/image/upload/w_430/f_auto,q_auto/v1/attachments/generic_asset/asset/b9495125dbb3432bf13275690d91a4f8-1656002118855/how%20to%20make%20a%20logo.jpg'
 ];
+
+export const emptyBuyerData: IBuyerDocument = {
+  _id: '',
+  username: '',
+  email: '',
+  profilePicture: '',
+  country: '',
+  isSeller: false,
+  purchasedGigs: [],
+  createdAt: ''
+};
