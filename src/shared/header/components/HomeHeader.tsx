@@ -43,7 +43,13 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
     <header>
       <nav className="navbar peer-checked:navbar-active relative z-[120] w-full border-b bg-white shadow-2xl shadow-gray-600/5 backdrop-blur dark:shadow-none">
         {!logout && authUser && !authUser.emailVerified && (
-          <Banner bgColor="bg-warning" showLink={true} linkText="Resend Email" text="Please verify your email address." onClick={onResendEmail} />
+          <Banner
+            bgColor="bg-warning"
+            showLink={true}
+            linkText="Resend Email"
+            text="Please verify your email address."
+            onClick={onResendEmail}
+          />
         )}
         <div className="m-auto px-6 xl:container md:px-12 lg:px-6">
           <div className="flex flex-wrap items-center justify-between gap-6 md:gap-0 md:py-3 lg:py-5">
@@ -116,10 +122,11 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
                   </li>
                   <li className="relative z-50 flex cursor-pointer items-center">
                     <Button
-                      className="px-3"
+                      className="relative px-4"
                       label={
                         <>
-                          <span>Orders</span>
+                          <FaRegEnvelope />
+                          <span className="absolute -top-1 right-0 mr-2 inline-flex h-[6px] w-[6px] items-center justify-center rounded-full bg-[#ff62ab]"></span>
                         </>
                       }
                     />
@@ -133,17 +140,35 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
                       leaveFrom="opacity-100 translate-y-0"
                       leaveTo="opacity-0 translate-y-1"
                     >
-                      <div className="absolute right-0 mt-5 w-96"></div>
+                      <div className="absolute right-0 mt-5 w-96">
+                        {/*      {/* TODO: Mesage Dropdown */}
+                      </div>
                     </Transition>
                   </li>
-                  <li className="relative flex items-center">
-                    <Link
-                      to="/seller_onboarding"
-                      className="relative ml-auto flex h-9 items-center justify-center rounded-full bg-sky-500 text-white font-bold sm:px-6 hover:bg-sky-400"
-                    >
-                      <span>Become a Seller</span>
-                    </Link>
-                  </li>
+                  <li className="relative z-50 flex cursor-pointer items-center">
+                      <Button
+                        className="px-3"
+                        label={
+                          <>
+                            <span>Orders</span>
+                          </>
+                        }
+                      />
+                      <Transition
+                        ref={orderDropdownRef}
+                        show={isOrderDropdownOpen}
+                        enter="transition ease-out duration-200"
+                        enterFrom="opacity-0 translate-y-1"
+                        enterTo="opacity-100 translate-y-0"
+                        leave="transition ease-in duration-150"
+                        leaveFrom="opacity-100 translate-y-0"
+                        leaveTo="opacity-0 translate-y-1"
+                      >
+                        <div className="absolute right-0 mt-5 w-96">
+                          {/* TODO: Order Dropdown */}
+                        </div>
+                      </Transition>
+                    </li>
                   <li className="relative z-50 flex cursor-pointer items-center">
                     <Button
                       className="relative flex gap-2 px-3 text-base font-medium"

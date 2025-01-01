@@ -1,6 +1,6 @@
 import { FC, ReactElement } from 'react';
-import HomeSlider from './components/HomeSlider';
-import HomeGigsView from './components/HomeGigsView';
+import HomeSlider from '../components/HomeSlider';
+import HomeGigsView from '../components/HomeGigsView';
 
 const Home: FC = (): ReactElement => {
   return (
