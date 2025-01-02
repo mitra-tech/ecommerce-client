@@ -7,6 +7,7 @@ import ConfirmEmail from './features/auth/components/ConfirmEmail';
 import ProtectedRoute from './features/ProtectedRoute';
 import Error from './features/error/Error';
 import BuyerDashboard from './features/buyer/components/Dashboard';
+import AddSeller from './features/sellers/components/add/AddSeller';
 
 
 const Layout = ({ backgroundColor = '#fff', children }: { backgroundColor: string; children: ReactNode }): JSX.Element => (
@@ -57,6 +58,18 @@ const AppRouter: FC = () => {
          <ProtectedRoute>
          <Layout backgroundColor="#ffffff">
               <BuyerDashboard />
+            </Layout>
+          </ProtectedRoute>
+        </Suspense>
+      )
+    },
+    {
+      path: '/seller_onboarding',
+      element: (
+        <Suspense>
+         <ProtectedRoute>
+         <Layout backgroundColor="#ffffff">
+              <AddSeller />
             </Layout>
           </ProtectedRoute>
         </Suspense>
