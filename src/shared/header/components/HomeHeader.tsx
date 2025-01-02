@@ -153,6 +153,7 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
                       </div>
                     </Transition>
                   </li>
+
                   <li className="relative z-50 flex cursor-pointer items-center">
                       <Button
                         className="px-3"
@@ -177,6 +178,16 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
                         </div>
                       </Transition>
                     </li>
+                    {buyer && !buyer.isSeller && (
+                      <li className="relative flex items-center">
+                        <Link
+                          to="/seller_onboarding"
+                          className="relative ml-auto flex h-9 items-center justify-center rounded-full bg-sky-500 text-white font-bold sm:px-6 hover:bg-sky-400"
+                        >
+                          <span>Become a Seller</span>
+                        </Link>
+                      </li>
+                    )}
                   <li className="relative z-50 flex cursor-pointer items-center">
                     <Button
                       className="relative flex gap-2 px-3 text-base font-medium"
