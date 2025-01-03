@@ -86,3 +86,44 @@ export interface IEducationProps {
   setShowEducationAddForm?: Dispatch<SetStateAction<boolean>>;
   setShowEducationEditForm?: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface ICertificate {
+  [key: string]: string | number | undefined;
+  _id?: string;
+  name: string;
+  from: string;
+  year: number | string;
+}
+
+export interface ILanguage {
+  [key: string]: string | number | undefined;
+  _id?: string;
+  language: string;
+  level: string;
+}
+export interface ILanguageProps {
+  languageEdit?: ILanguage;
+  languageFields?: ILanguage[];
+  languagesErrors?: ILanguage[];
+  setLanguageFields?: Dispatch<SetStateAction<ILanguage[]>>;
+  setShowLanguageEditForm?: Dispatch<SetStateAction<boolean>>;
+  setShowLanguageAddForm?: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface ICertificateProps {
+  selectedField?: ICertificate;
+  certificatesFields?: ICertificate[];
+  setCertificatesFields?: Dispatch<SetStateAction<ICertificate[]>>;
+  setShowCertificateAddForm?: Dispatch<SetStateAction<boolean>>;
+  setShowCertificateEditForm?: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface ISkillProps {
+  type?: string;
+  selectedField?: string[];
+  skillsFields?: string[];
+  skillsErrors?: string[];
+  setSkillsFields?: Dispatch<SetStateAction<string[]>>;
+  setShowSkillEditForm?: Dispatch<SetStateAction<boolean>>;
+  setShowSkillAddForm?: Dispatch<SetStateAction<boolean>>;
+}
