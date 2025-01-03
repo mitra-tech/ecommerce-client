@@ -49,3 +49,21 @@ export interface IPersonalInfoProps {
   setPersonalInfo: Dispatch<SetStateAction<IPersonalInfoData>>;
   personalInfoErrors: IPersonalInfoData[];
 }
+export interface IExperience {
+  [key: string]: string | number | boolean | undefined;
+  _id?: string;
+  company: string;
+  title: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  currentlyWorkingHere: boolean | undefined;
+}
+export interface IExperienceProps {
+  selectedField?: IExperience;
+  experienceFields?: IExperience[];
+  experienceErrors?: IExperience[];
+  setExperienceFields?: Dispatch<SetStateAction<IExperience[]>>;
+  setShowExperienceAddForm?: Dispatch<SetStateAction<boolean>>;
+  setShowExperienceEditForm?: Dispatch<SetStateAction<boolean>>;
+}
