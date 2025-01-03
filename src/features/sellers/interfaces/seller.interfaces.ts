@@ -127,3 +127,10 @@ export interface ISkillProps {
   setShowSkillEditForm?: Dispatch<SetStateAction<boolean>>;
   setShowSkillAddForm?: Dispatch<SetStateAction<boolean>>;
 }
+export interface ISocialLinksProps {
+  socialFields?: string[];
+  type?: string;
+  setSocialFields?: Dispatch<SetStateAction<string[]>>;
+  setShowSocialLinksAddForm?: Dispatch<SetStateAction<boolean>>;
+  setShowSocialLinksEditForm?: Dispatch<SetStateAction<boolean>>;
+}

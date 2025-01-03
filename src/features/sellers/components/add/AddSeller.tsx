@@ -5,13 +5,15 @@ import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 import { deleteFromLocalStorage } from 'src/shared/utils/utils.service';
 import { useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
-import { ICertificate, IEducation, IExperience, IPersonalInfoData } from '../../interfaces/seller.interfaces';
+import { ICertificate, IEducation, IExperience, ILanguage, IPersonalInfoData } from '../../interfaces/seller.interfaces';
 
 import PersonalInfo from './components/PersonalInfo';
 import SellerCertificateFields from './components/SellerCertificateFields';
 import SellerEducationFields from './components/SellerEducationFields';
 import SellerExperienceFields from './components/SellerExperienceFields';
 import SellerSkillField from './components/SellerSkillFields';
+import SellerLanguageFields from './components/SellerLanguageFields';
+import SellerSocialLinksFields from './components/SellerSocialLinksFields';
 
 const AddSeller: FC = (): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
@@ -42,6 +44,7 @@ const AddSeller: FC = (): ReactElement => {
     }
   ]);
   const [skillsFields, setSkillsFields] = useState<string[]>(['']);
+  const [socialFields, setSocialFields] = useState<string[]>(['']);
 
   const [certificateFields, setCertificateFields] = useState<ICertificate[]>([
     {
@@ -51,6 +54,12 @@ const AddSeller: FC = (): ReactElement => {
     }
   ]);
 
+  const [languageFields, setLanguageFields] = useState<ILanguage[]>([
+    {
+      language: '',
+      level: 'Level'
+    }
+  ]);
   const onCreateSeller = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
   };
@@ -77,11 +86,12 @@ const AddSeller: FC = (): ReactElement => {
           <div className="text-red-400">Todo: errors</div>
 
           <PersonalInfo personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} personalInfoErrors={[]} />
-          <SellerExperienceFields experienceFields={experienceFields} setExperienceFields={setExperienceFields} />
-          <SellerEducationFields educationFields={educationFields} setEducationFields={setEducationFields} />
+          <SellerExperienceFields experienceFields={experienceFields} setExperienceFields={setExperienceFields} experienceErrors={[]} />
+          <SellerEducationFields educationFields={educationFields} setEducationFields={setEducationFields} educationErrors={[]} />
           <SellerSkillField skillsFields={skillsFields} setSkillsFields={setSkillsFields} skillsErrors={[]} />
-
+          <SellerLanguageFields languageFields={languageFields} setLanguageFields={setLanguageFields} languagesErrors={[]} />
           <SellerCertificateFields certificatesFields={certificateFields} setCertificatesFields={setCertificateFields} />
+          <SellerSocialLinksFields socialFields={socialFields} setSocialFields={setSocialFields} />
 
           <div className="flex justify-end p-6">
             <Button
