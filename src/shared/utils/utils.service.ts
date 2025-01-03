@@ -106,6 +106,7 @@ export const orderTypes = (status: string, orders: IOrderDocument[]): number => 
   return orderList.length;
 };
 
+// set maxoffset to 10 and we get the last current 10 years
 export const yearsList = (maxOffset: number): string[] => {
   const years: string[] = [];
   const currentYear: number = new Date().getFullYear();
@@ -114,4 +115,12 @@ export const yearsList = (maxOffset: number): string[] => {
     years.push(`${year}`);
   }
   return years;
+};
+
+export const degreeList = (): string[] => {
+  return ['Associate', 'B.A.', 'B.Sc.', 'M.A.', 'M.B.A.', 'M.Sc.', 'J.D.', 'M.D.', 'Ph.D.', 'LLB', 'Certificate', 'Other'];
+};
+
+export const languageLevel = (): string[] => {
+  return ['Basic', 'Conversational', 'Fluent', 'Native'];
 };
