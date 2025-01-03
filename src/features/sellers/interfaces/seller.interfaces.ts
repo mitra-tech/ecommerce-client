@@ -67,3 +67,22 @@ export interface IExperienceProps {
   setShowExperienceAddForm?: Dispatch<SetStateAction<boolean>>;
   setShowExperienceEditForm?: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface IEducation {
+  [key: string]: string | number | undefined;
+  _id?: string;
+  country: string;
+  university: string;
+  title: string;
+  major: string;
+  year: string;
+}
+
+export interface IEducationProps {
+  selectedField?: IEducation;
+  educationFields?: IEducation[];
+  educationErrors?: IEducation[];
+  setEducationFields?: Dispatch<SetStateAction<IEducation[]>>;
+  setShowEducationAddForm?: Dispatch<SetStateAction<boolean>>;
+  setShowEducationEditForm?: Dispatch<SetStateAction<boolean>>;
+}
