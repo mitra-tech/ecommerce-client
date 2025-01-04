@@ -6,6 +6,17 @@ import { Dispatch, SetStateAction } from "react";
 // The nice part is that you still have the autocompletion for the defined properties
 export type SellerType = string | string[] | number | Date | unknown | undefined;
 
+export interface IRatingCategoryItem {
+  value: number;
+  count: number;
+}
+export interface IRatingCategories {
+  five: IRatingCategoryItem;
+  four: IRatingCategoryItem;
+  three: IRatingCategoryItem;
+  two: IRatingCategoryItem;
+  one: IRatingCategoryItem;
+}
 export interface ISellerDocument extends Record<string, SellerType> {
   _id?: string;
   profilePublicId?: string;
@@ -19,14 +30,14 @@ export interface ISellerDocument extends Record<string, SellerType> {
   skills: string[];
   ratingsCount?: number;
   ratingSum?: number;
-  ratingCategories?: '';
-  languages: '';
+  ratingCategories?: IRatingCategories;
+  languages: ILanguage[];
   responseTime: number;
   recentDelivery?: Date | string;
-  experience: '';
-  education: '';
+  experience: IExperience[];
+  education: IEducation[];
   socialLinks: string[];
-  certificates: '';
+  certificates: ICertificate[];
   ongoingJobs?: number;
   completedJobs?: number;
   cancelledJobs?: number;
@@ -86,7 +97,10 @@ export interface IEducationProps {
   setShowEducationAddForm?: Dispatch<SetStateAction<boolean>>;
   setShowEducationEditForm?: Dispatch<SetStateAction<boolean>>;
 }
-
+export interface IReduxSeller {
+  type?: string;
+  payload: ISellerDocument;
+}
 export interface ICertificate {
   [key: string]: string | number | undefined;
   _id?: string;

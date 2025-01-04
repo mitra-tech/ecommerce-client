@@ -6,6 +6,7 @@ import { IAuthUser } from 'src/features/auth/interfaces/auth.interface';
 import { ISliderImagesText } from '../shared.interface';
 import { IBuyerDocument } from 'src/features/buyer/interfaces/buyer.interface';
 import { ICategory } from 'src/features/home/interfaces/home.interfaces';
+import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
 
 export const categories: ICategory[] = [
   {
@@ -80,5 +81,41 @@ export const emptyBuyerData: IBuyerDocument = {
   country: '',
   isSeller: false,
   purchasedGigs: [],
+  createdAt: ''
+};
+
+export const emptySellerData: ISellerDocument = {
+  _id: '',
+  profilePublicId: '',
+  fullName: '',
+  profilePicture: '',
+  username: '',
+  email: '',
+  description: '',
+  country: '',
+  oneliner: '',
+  skills: [],
+  ratingsCount: 0,
+  ratingSum: 0,
+  ratingCategories: {
+    five: { value: 0, count: 0 },
+    four: { value: 0, count: 0 },
+    three: { value: 0, count: 0 },
+    two: { value: 0, count: 0 },
+    one: { value: 0, count: 0 }
+  },
+  recentDelivery: '',
+  languages: [],
+  responseTime: 0,
+  experience: [],
+  education: [],
+  socialLinks: [],
+  certificates: [],
+  ongoingJobs: 0,
+  completedJobs: 0,
+  cancelledJobs: 0,
+  totalEarnings: 0,
+  totalGigs: 0,
+  paypal: '',
   createdAt: ''
 };
