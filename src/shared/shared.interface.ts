@@ -4,6 +4,7 @@ import { ChangeEvent, CSSProperties, Dispatch, KeyboardEvent, ReactNode, SetStat
 import { IAuthDocument, IResetPassword, ISignInPayload, ISignUpPayload } from 'src/features/auth/interfaces/auth.interface';
 import { IBuyerDocument } from 'src/features/buyer/interfaces/buyer.interface';
 import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
+import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
 
 export type validationErrorsType = ISignInPayload | ISignUpPayload | IResetPassword;
 
@@ -15,6 +16,7 @@ export interface IResponse {
   token?: string;
   user?: IAuthDocument;
   buyer?: IBuyerDocument;
+  seller?: ISellerDocument;
   total?: number;
   sortItems?: string[];
   conversationId?: string;
