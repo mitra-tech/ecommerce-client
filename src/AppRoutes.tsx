@@ -8,6 +8,7 @@ import ProtectedRoute from './features/ProtectedRoute';
 import Error from './features/error/Error';
 import BuyerDashboard from './features/buyer/components/Dashboard';
 import AddSeller from './features/sellers/components/add/AddSeller';
+import CurrentSellerProfile from './features/sellers/components/profile/CurrentSellerProfile';
 
 
 const Layout = ({ backgroundColor = '#fff', children }: { backgroundColor: string; children: ReactNode }): JSX.Element => (
@@ -70,6 +71,18 @@ const AppRouter: FC = () => {
          <ProtectedRoute>
          <Layout backgroundColor="#ffffff">
               <AddSeller />
+            </Layout>
+          </ProtectedRoute>
+        </Suspense>
+      )
+    },
+    {
+      path: '/seller_profile/:username/:sellerId/edit',
+      element: (
+        <Suspense>
+         <ProtectedRoute>
+         <Layout backgroundColor="#ffffff">
+              <CurrentSellerProfile />
             </Layout>
           </ProtectedRoute>
         </Suspense>
