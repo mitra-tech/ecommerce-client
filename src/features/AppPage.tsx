@@ -10,6 +10,8 @@ import Home from './home/components/Home';
 import Index from './index/Index';
 import { useGetCurrentBuyerByUsernameQuery } from './buyer/services/buyer.service';
 import { addBuyer } from './buyer/reducers/buyer.reducer';
+import { useGetSellerByUsernameQuery } from './sellers/services/seller.service';
+import { addSeller } from './sellers/reducers/seller.reducer';
 
 const AppPage: FC = (): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
@@ -17,9 +19,21 @@ const AppPage: FC = (): ReactElement => {
   const showCategoryContainer = useAppSelector((state: IReduxState) => state.showCategoryContainer);
   const [tokenIsValid, setTokenIsValid] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const { data: currentUserData, isError } = useCheckCurrentUserQuery(undefined, { skip: authUser.id === null });
-  const { data: buyerData } = useGetCurrentBuyerByUsernameQuery();
   const navigate: NavigateFunction = useNavigate();
+  const { data: currentUserData, isError } = useCheckCurrentUserQuery(undefined, { skip: authUser.id === null });
+  const { data: buyerData } = useGetCurrentBuyerByUsernameQuery(undefined, { skip: authUser.id === null });
+
+  // in case there is a network issue, and there is no data for username in authuser(e.g. authuser is not loaded yet), we are going to get an error, therefore we need to skip the query from automatically running (if authUser.id === null(default value in Redux store) => skip the authUser query)
+  const { data: sellerData } = useGetSellerByUsernameQuery(`${authUser.username}`, {
+    skip: authUser.id === null
+  });
+
+  const logoutUser = useCallback(async () => {
+    if ((!currentUserData && appLogout) || isError) {
+      setTokenIsValid(false);
+      applicationLogout(dispatch, navigate);
+    }
+  }, [currentUserData, dispatch, navigate, appLogout, isError]);
 
   const checkUser = useCallback(async () => {
     try {
@@ -27,6 +41,7 @@ const AppPage: FC = (): ReactElement => {
         setTokenIsValid(true);
         dispatch(addAuthUser({ authInfo: currentUserData.user }));
         dispatch(addBuyer(buyerData?.buyer));
+        dispatch(addSeller(sellerData?.seller));
 
         saveToSessionStorage(JSON.stringify(true), JSON.stringify(authUser.username));
 
@@ -39,14 +54,7 @@ const AppPage: FC = (): ReactElement => {
     } catch (error) {
       console.log(error);
     }
-  }, [currentUserData, dispatch, appLogout, authUser.username, buyerData]);
-
-  const logoutUser = useCallback(async () => {
-    if ((!currentUserData && appLogout) || isError) {
-      setTokenIsValid(false);
-      applicationLogout(dispatch, navigate);
-    }
-  }, [currentUserData, dispatch, navigate, appLogout, isError]);
+  }, [currentUserData, dispatch, appLogout, authUser.username, buyerData, sellerData]);
 
   useEffect(() => {
     checkUser();
