@@ -1,7 +1,7 @@
 // By extending ISellerDocument with the Record<string, any> we allow an object to contain other
 // string keys with any values along with those defined in the interface.
 
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from 'react';
 
 // The nice part is that you still have the autocompletion for the defined properties
 export type SellerType = string | string[] | number | Date | unknown | undefined;
@@ -164,4 +164,9 @@ export interface ISellerProfileItem {
 export interface IShowEditItem {
   fullname: boolean;
   oneliner: boolean;
+}
+
+export interface IProfileTabsProps {
+  type: string;
+  setType?: Dispatch<SetStateAction<string>>;
 }
