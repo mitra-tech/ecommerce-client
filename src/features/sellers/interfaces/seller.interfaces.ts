@@ -148,3 +148,20 @@ export interface ISocialLinksProps {
   setShowSocialLinksAddForm?: Dispatch<SetStateAction<boolean>>;
   setShowSocialLinksEditForm?: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface IProfileHeaderProps {
+  showHeaderInfo?: boolean;
+  showEditIcons: boolean;
+  sellerProfile?: ISellerDocument;
+  setSellerProfile?: Dispatch<SetStateAction<ISellerDocument>>;
+}
+
+export interface ISellerProfileItem {
+  fullname: string;
+  oneliner: string;
+}
+
+export interface IShowEditItem {
+  fullname: boolean;
+  oneliner: boolean;
+}
