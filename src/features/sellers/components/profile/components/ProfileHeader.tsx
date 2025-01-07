@@ -1,15 +1,15 @@
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import { ChangeEvent, FC, ReactElement, useEffect, useState } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { IGigInfo } from 'src/features/gigs/interfaces/gig.interface';
 import { IProfileHeaderProps, ISellerProfileItem, IShowEditItem } from 'src/features/sellers/interfaces/seller.interfaces';
 import Button from 'src/shared/button/Button';
 import TextInput from 'src/shared/input/TextInput';
-import { lowerCase, shortenLargeNumbers } from 'src/shared/utils/utils.service';
-import { IGigInfo } from 'src/features/gigs/interfaces/gig.interface';
+import StarRating from 'src/shared/rating/StarRating';
+import { lowerCase, rating, shortenLargeNumbers } from 'src/shared/utils/utils.service';
 import { v4 as uuidv4 } from 'uuid';
-
 
 const ProfileHeader: FC<IProfileHeaderProps> = ({ sellerProfile, showHeaderInfo, showEditIcons, setSellerProfile }): ReactElement => {
   const [showItemEdit, setShowItemEdit] = useState<IShowEditItem>({
@@ -20,13 +20,6 @@ const ProfileHeader: FC<IProfileHeaderProps> = ({ sellerProfile, showHeaderInfo,
     fullname: `${sellerProfile?.fullName}`,
     oneliner: `${sellerProfile?.oneliner}`
   });
-
-  useEffect(() => {
-    if (sellerProfile) {
-      setSellerProfileItem({ ...sellerProfile, fullname: `${sellerProfile.fullName}`, oneliner: `${sellerProfile.oneliner}` });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sellerProfile?.fullName, sellerProfile?.oneliner]);
   const gridInfo: IGigInfo[] = [
     {
       total: shortenLargeNumbers(sellerProfile?.totalGigs),
@@ -174,16 +167,16 @@ const ProfileHeader: FC<IProfileHeaderProps> = ({ sellerProfile, showHeaderInfo,
             </div>
             <div className="flex w-full gap-x-1 self-center">
               <div className="mt-1 w-20 gap-x-2">
-                {/* {sellerProfile?.ratingSum && sellerProfile.ratingsCount ? (
+                {sellerProfile?.ratingSum && sellerProfile.ratingsCount ? (
                   <StarRating value={rating(sellerProfile?.ratingSum / sellerProfile.ratingsCount)} size={14} />
                 ) : (
                   <StarRating value={0} size={14} />
-                )} */}
+                )}
               </div>
 
               {sellerProfile?.ratingSum && sellerProfile.ratingsCount ? (
                 <div className="ml-2 mt-[3px] flex gap-1 rounded bg-orange-400 px-1 text-xs">
-                  <span className="font-bold text-white">{/* Rating to be added */}</span>
+                  <span className="font-bold text-white">{rating(sellerProfile?.ratingSum / sellerProfile.ratingsCount)}</span>
                 </div>
               ) : (
                 <div className="ml-2 mt-[3px] flex gap-1 rounded px-1 text-xs">
@@ -195,7 +188,8 @@ const ProfileHeader: FC<IProfileHeaderProps> = ({ sellerProfile, showHeaderInfo,
         </div>
       )}
 
-      <div className="grid grid-cols-4 font-bold text-white">{gridInfo.map((info: IGigInfo) => (
+      <div className="grid grid-cols-4 font-bold text-white">
+        {gridInfo.map((info: IGigInfo) => (
           <div
             key={uuidv4()}
             style={{ backgroundColor: `${info.bgColor}` }}
@@ -206,7 +200,8 @@ const ProfileHeader: FC<IProfileHeaderProps> = ({ sellerProfile, showHeaderInfo,
               <span className="truncate text-center text-sm lg:text-base">{info.title}</span>
             </div>
           </div>
-        ))}</div>
+        ))}
+      </div>
     </>
   );
 };

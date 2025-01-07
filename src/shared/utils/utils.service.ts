@@ -124,3 +124,10 @@ export const degreeList = (): string[] => {
 export const languageLevel = (): string[] => {
   return ['Basic', 'Conversational', 'Fluent', 'Native'];
 };
+
+export const rating = (num: number): number => {
+  if (num) {
+    return Math.round(num * 10) / 10;
+  }
+  return 0.0;
+};
