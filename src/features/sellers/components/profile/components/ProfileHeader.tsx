@@ -6,7 +6,10 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { IProfileHeaderProps, ISellerProfileItem, IShowEditItem } from 'src/features/sellers/interfaces/seller.interfaces';
 import Button from 'src/shared/button/Button';
 import TextInput from 'src/shared/input/TextInput';
-import { lowerCase } from 'src/shared/utils/utils.service';
+import { lowerCase, shortenLargeNumbers } from 'src/shared/utils/utils.service';
+import { IGigInfo } from 'src/features/gigs/interfaces/gig.interface';
+import { v4 as uuidv4 } from 'uuid';
+
 
 const ProfileHeader: FC<IProfileHeaderProps> = ({ sellerProfile, showHeaderInfo, showEditIcons, setSellerProfile }): ReactElement => {
   const [showItemEdit, setShowItemEdit] = useState<IShowEditItem>({
@@ -17,6 +20,35 @@ const ProfileHeader: FC<IProfileHeaderProps> = ({ sellerProfile, showHeaderInfo,
     fullname: `${sellerProfile?.fullName}`,
     oneliner: `${sellerProfile?.oneliner}`
   });
+
+  useEffect(() => {
+    if (sellerProfile) {
+      setSellerProfileItem({ ...sellerProfile, fullname: `${sellerProfile.fullName}`, oneliner: `${sellerProfile.oneliner}` });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sellerProfile?.fullName, sellerProfile?.oneliner]);
+  const gridInfo: IGigInfo[] = [
+    {
+      total: shortenLargeNumbers(sellerProfile?.totalGigs),
+      title: 'Total Gigs',
+      bgColor: '#50b5ff'
+    },
+    {
+      total: shortenLargeNumbers(sellerProfile?.completedJobs),
+      title: 'Completed Orders',
+      bgColor: '#f7b124'
+    },
+    {
+      total: shortenLargeNumbers(sellerProfile?.ongoingJobs),
+      title: 'Ongoing Orders',
+      bgColor: '#8553ee'
+    },
+    {
+      total: shortenLargeNumbers(sellerProfile?.ratingsCount),
+      title: 'Ratings & Reviews',
+      bgColor: '#ff8b7b'
+    }
+  ];
 
   useEffect(() => {
     if (sellerProfile) {
@@ -163,7 +195,18 @@ const ProfileHeader: FC<IProfileHeaderProps> = ({ sellerProfile, showHeaderInfo,
         </div>
       )}
 
-      <div className="grid grid-cols-4 font-bold text-white">// To be added</div>
+      <div className="grid grid-cols-4 font-bold text-white">{gridInfo.map((info: IGigInfo) => (
+          <div
+            key={uuidv4()}
+            style={{ backgroundColor: `${info.bgColor}` }}
+            className="col-span-4 flex items-center justify-center p-8 sm:col-span-2 md:col-span-1"
+          >
+            <div className="flex flex-col">
+              <span className="text-center text-base lg:text-xl">{info.total}</span>
+              <span className="truncate text-center text-sm lg:text-base">{info.title}</span>
+            </div>
+          </div>
+        ))}</div>
     </>
   );
 };
