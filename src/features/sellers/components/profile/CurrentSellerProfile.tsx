@@ -1,15 +1,12 @@
 import { FC, ReactElement, useEffect, useState } from 'react';
 import equal from 'react-fast-compare';
 import { useParams } from 'react-router-dom';
-import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
-
 import Breadcrumb from 'src/shared/breadcrumbs/Breadcrumbs';
 import Button from 'src/shared/button/Button';
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 import { IResponse } from 'src/shared/shared.interface';
 import { useAppDispatch, useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
-import { v4 as uuidv4 } from 'uuid';
 
 import { ISellerDocument } from '../../interfaces/seller.interfaces';
 import { addSeller } from '../../reducers/seller.reducer';
@@ -77,7 +74,9 @@ const CurrentSellerProfile: FC = (): ReactElement => {
           </div>
 
           <div className="flex flex-wrap bg-white">
-            <div className="grid gap-x-6 pt-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"></div>
+            {type === 'Overview' && <div>Overview</div>}
+            {type === 'Active Gigs' && <div>Active Gigs</div>}
+            {type === 'Ratings & Reviews' && <div>Ratings & Reviews</div>}
           </div>
         </div>
       )}

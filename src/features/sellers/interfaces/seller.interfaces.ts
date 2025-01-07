@@ -170,3 +170,9 @@ export interface IProfileTabsProps {
   type: string;
   setType?: Dispatch<SetStateAction<string>>;
 }
+
+export interface ISellerContext {
+  showEditIcons: boolean;
+  sellerProfile: ISellerDocument;
+  setSellerProfile?: Dispatch<SetStateAction<ISellerDocument>>;
+}
