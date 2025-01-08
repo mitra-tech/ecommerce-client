@@ -13,6 +13,7 @@ import { addSeller } from '../../reducers/seller.reducer';
 import { useUpdateSellerMutation } from '../../services/seller.service';
 import ProfileHeader from './components/ProfileHeader';
 import ProfileTabs from './components/ProfileTabs';
+import SellerOverview from './components/SellerOverview';
 
 const CurrentSellerProfile: FC = (): ReactElement => {
   const seller = useAppSelector((state: IReduxState) => state.seller);
@@ -74,7 +75,9 @@ const CurrentSellerProfile: FC = (): ReactElement => {
           </div>
 
           <div className="flex flex-wrap bg-white">
-            {type === 'Overview' && <div>Overview</div>}
+            {type === 'Overview' && (
+              <SellerOverview sellerProfile={sellerProfile} setSellerProfile={setSellerProfile} showEditIcons={true} />
+            )}
             {type === 'Active Gigs' && <div>Active Gigs</div>}
             {type === 'Ratings & Reviews' && <div>Ratings & Reviews</div>}
           </div>
