@@ -183,3 +183,10 @@ export interface ILanguageEditFieldsProps {
   setShowLanguageEditForm?: Dispatch<SetStateAction<boolean>>;
   setShowLanguageAddForm?: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface ISocialEditLinksProps {
+  type: string;
+  selectedLink?: string;
+  setShowSocialLinksAddForm?: Dispatch<SetStateAction<boolean>>;
+  setShowSocialLinksEditForm?: Dispatch<SetStateAction<boolean>>;
+}
