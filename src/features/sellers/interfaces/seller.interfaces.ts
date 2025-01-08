@@ -176,3 +176,10 @@ export interface ISellerContext {
   sellerProfile: ISellerDocument;
   setSellerProfile?: Dispatch<SetStateAction<ISellerDocument>>;
 }
+
+export interface ILanguageEditFieldsProps {
+  type: string;
+  selectedLanguage?: ILanguage;
+  setShowLanguageEditForm?: Dispatch<SetStateAction<boolean>>;
+  setShowLanguageAddForm?: Dispatch<SetStateAction<boolean>>;
+}
