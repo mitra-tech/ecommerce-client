@@ -197,3 +197,10 @@ export interface ICertificateEditProps {
   setShowCertificateAddForm?: Dispatch<SetStateAction<boolean>>;
   setShowCertificateEditForm?: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface ISkillEditProps {
+  type: string;
+  selectedSkill?: string;
+  setShowSkillEditForm?: Dispatch<SetStateAction<boolean>>;
+  setShowSkillAddForm?: Dispatch<SetStateAction<boolean>>;
+}
