@@ -190,3 +190,10 @@ export interface ISocialEditLinksProps {
   setShowSocialLinksAddForm?: Dispatch<SetStateAction<boolean>>;
   setShowSocialLinksEditForm?: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface ICertificateEditProps {
+  type: string;
+  selectedCertificate?: ICertificate;
+  setShowCertificateAddForm?: Dispatch<SetStateAction<boolean>>;
+  setShowCertificateEditForm?: Dispatch<SetStateAction<boolean>>;
+}
