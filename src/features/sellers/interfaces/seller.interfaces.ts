@@ -204,3 +204,10 @@ export interface ISkillEditProps {
   setShowSkillEditForm?: Dispatch<SetStateAction<boolean>>;
   setShowSkillAddForm?: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface IExperienceEditProps {
+  type: string;
+  selectedExperience?: IExperience;
+  setShowExperienceAddForm?: Dispatch<SetStateAction<boolean>>;
+  setShowExperienceEditForm?: Dispatch<SetStateAction<boolean>>;
+}
