@@ -3,7 +3,7 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { SellerContext } from 'src/features/sellers/context/SellerContext';
 import { v4 as uuidv4 } from 'uuid';
 
-import SocialLinksEditField from './SocialLinksEditField';
+import SocialLinksEditField from './SocialLinksEditFields';
 
 const SocialLinks: FC = (): ReactElement => {
   const [showSocialLinkAddForm, setShowSocialLinkAddForm] = useState<boolean>(false);
