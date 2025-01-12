@@ -14,6 +14,7 @@ import { useUpdateSellerMutation } from '../../services/seller.service';
 import ProfileHeader from './components/ProfileHeader';
 import ProfileTabs from './components/ProfileTabs';
 import SellerOverview from './components/SellerOverview';
+import { showErrorToast, showSuccessToast } from 'src/shared/utils/utils.service';
 
 const CurrentSellerProfile: FC = (): ReactElement => {
   const seller = useAppSelector((state: IReduxState) => state.seller);
@@ -30,9 +31,9 @@ const CurrentSellerProfile: FC = (): ReactElement => {
       dispatch(addSeller(response.seller));
       setSellerProfile(response.seller as ISellerDocument);
       setShowEdit(false);
-      console.log('Seller profile updated successfully.');
+      showSuccessToast('Seller profile updated successfully.');
     } catch (error) {
-      console.log('Error updating profile.');
+      showErrorToast('Error updating profile.');
     }
   };
 

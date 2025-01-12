@@ -1,6 +1,6 @@
 import { FC, ReactElement } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { ToastContainer } from 'node_modules/react-toastify/dist/components';
+import { ToastContainer} from 'react-toastify';
 
 import AppRouter from './AppRoutes';
 
