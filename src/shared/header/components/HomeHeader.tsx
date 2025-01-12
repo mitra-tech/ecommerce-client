@@ -4,7 +4,7 @@ import { FaAngleLeft, FaAngleRight, FaBars, FaRegBell, FaRegEnvelope } from 'rea
 import { Link } from 'react-router-dom';
 import { Transition } from '@headlessui/react';
 import { FC, ReactElement, useRef } from 'react';
-import { categories, replaceSpacesWithDash } from 'src/shared/utils/utils.service';
+import { categories, replaceSpacesWithDash, showErrorToast, showSuccessToast } from 'src/shared/utils/utils.service';
 import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch, useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
@@ -14,12 +14,12 @@ import { IResponse } from 'src/shared/shared.interface';
 import { addAuthUser } from 'src/features/auth/reducers/auth.reducer';
 import useDetectOutsideClick from 'src/shared/hooks/UseDetectOutSideClick';
 import SettingsDropdown from './SettingsDropdown';
-import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
 
 const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
   const logout = useAppSelector((state: IReduxState) => state.logout);
   const buyer = useAppSelector((state: IReduxState) => state.buyer);
+  const seller = useAppSelector((state: IReduxState) => state.seller);
   const settingsDropdownRef = useRef<HTMLDivElement | null>(null);
   const messageDropdownRef = useRef<HTMLDivElement | null>(null);
   const notificationDropdownRef = useRef<HTMLDivElement | null>(null);
@@ -36,12 +36,14 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
 
   const onResendEmail = async (): Promise<void> => {
     try {
-      const result: IResponse = await resendEmail({ userId: authUser.id as number, email: authUser.email as string }).unwrap();
+      const result: IResponse = await resendEmail({ userId: authUser.id as number, email: `${authUser.email}` }).unwrap();
       dispatch(addAuthUser({ authInfo: result.user }));
+      showSuccessToast('Email sent successfully.');
     } catch (error) {
-      console.error(error);
+      showErrorToast('Error sending email.');
     }
   };
+
 
   const toggleDropdown = (): void => {
     setIsSettingsDropdown(!isSettingsDropdown);
@@ -148,46 +150,42 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
                       leaveFrom="opacity-100 translate-y-0"
                       leaveTo="opacity-0 translate-y-1"
                     >
-                      <div className="absolute right-0 mt-5 w-96">
-                        {/*      {/* TODO: Mesage Dropdown */}
-                      </div>
+                      <div className="absolute right-0 mt-5 w-96">{/*      {/* TODO: Mesage Dropdown */}</div>
                     </Transition>
                   </li>
 
                   <li className="relative z-50 flex cursor-pointer items-center">
-                      <Button
-                        className="px-3"
-                        label={
-                          <>
-                            <span>Orders</span>
-                          </>
-                        }
-                      />
-                      <Transition
-                        ref={orderDropdownRef}
-                        show={isOrderDropdownOpen}
-                        enter="transition ease-out duration-200"
-                        enterFrom="opacity-0 translate-y-1"
-                        enterTo="opacity-100 translate-y-0"
-                        leave="transition ease-in duration-150"
-                        leaveFrom="opacity-100 translate-y-0"
-                        leaveTo="opacity-0 translate-y-1"
+                    <Button
+                      className="px-3"
+                      label={
+                        <>
+                          <span>Orders</span>
+                        </>
+                      }
+                    />
+                    <Transition
+                      ref={orderDropdownRef}
+                      show={isOrderDropdownOpen}
+                      enter="transition ease-out duration-200"
+                      enterFrom="opacity-0 translate-y-1"
+                      enterTo="opacity-100 translate-y-0"
+                      leave="transition ease-in duration-150"
+                      leaveFrom="opacity-100 translate-y-0"
+                      leaveTo="opacity-0 translate-y-1"
+                    >
+                      <div className="absolute right-0 mt-5 w-96">{/* TODO: Order Dropdown */}</div>
+                    </Transition>
+                  </li>
+                  {buyer && !buyer.isSeller && (
+                    <li className="relative flex items-center">
+                      <Link
+                        to="/seller_onboarding"
+                        className="relative ml-auto flex h-9 items-center justify-center rounded-full bg-sky-500 text-white font-bold sm:px-6 hover:bg-sky-400"
                       >
-                        <div className="absolute right-0 mt-5 w-96">
-                          {/* TODO: Order Dropdown */}
-                        </div>
-                      </Transition>
+                        <span>Become a Seller</span>
+                      </Link>
                     </li>
-                    {buyer && !buyer.isSeller && (
-                      <li className="relative flex items-center">
-                        <Link
-                          to="/seller_onboarding"
-                          className="relative ml-auto flex h-9 items-center justify-center rounded-full bg-sky-500 text-white font-bold sm:px-6 hover:bg-sky-400"
-                        >
-                          <span>Become a Seller</span>
-                        </Link>
-                      </li>
-                    )}
+                  )}
                   <li className="relative z-50 flex cursor-pointer items-center">
                     <Button
                       className="relative flex gap-2 px-3 text-base font-medium"
@@ -211,13 +209,13 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
                     >
                       <div className="absolute -right-48 z-50 mt-5 w-96">
                         <SettingsDropdown
-                          seller={{} as ISellerDocument}
+                          seller={seller}
                           buyer={buyer}
                           authUser={authUser}
-                          type='buyer'
+                          type="buyer"
                           setIsDropdownOpen={setIsSettingsDropdown}
                         />
-                        </div>
+                      </div>
                     </Transition>
                   </li>
                 </ul>

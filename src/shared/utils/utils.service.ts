@@ -8,6 +8,7 @@ import { api } from 'src/store/api';
 import millify from 'millify';
 import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
 import { filter } from 'lodash';
+import { toast } from 'react-toastify';
 
 countries.registerLocale(enLocale);
 
@@ -130,4 +131,32 @@ export const rating = (num: number): number => {
     return Math.round(num * 10) / 10;
   }
   return 0.0;
+};
+
+// Toast success messages
+export const showSuccessToast = (message: string): void => {
+  toast.success(message, {
+    position: 'bottom-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: 'colored'
+  });
+};
+
+// Toast error messages
+export const showErrorToast = (message: string): void => {
+  toast.error(message, {
+    position: 'bottom-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: 'colored'
+  });
 };
