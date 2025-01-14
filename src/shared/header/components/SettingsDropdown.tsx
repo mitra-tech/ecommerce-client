@@ -4,6 +4,8 @@ import { applicationLogout, lowerCase } from 'src/shared/utils/utils.service';
 import { useAppDispatch } from '../../../store/Store';
 
 import { IHomeHeaderProps } from '../interfaces/header.interface';
+import { updateCategoryContainer } from '../reducers/category.reducer';
+import { updateHeader } from '../reducers/header.reducer';
 
 const SettingsDropdown: FC<IHomeHeaderProps> = ({ seller, authUser, buyer, type, setIsDropdownOpen }): ReactElement => {
   const navigate: NavigateFunction = useNavigate();
@@ -27,6 +29,7 @@ const SettingsDropdown: FC<IHomeHeaderProps> = ({ seller, authUser, buyer, type,
                 if (setIsDropdownOpen) {
                   setIsDropdownOpen(false);
                 }
+                dispatch(updateCategoryContainer(true));
               }}
               className="block w-full cursor-pointer rounded bg-sky-500 px-4s py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none"
             >
@@ -58,6 +61,8 @@ const SettingsDropdown: FC<IHomeHeaderProps> = ({ seller, authUser, buyer, type,
                 if (setIsDropdownOpen) {
                   setIsDropdownOpen(false);
                 }
+                dispatch(updateHeader('home'));
+                dispatch(updateCategoryContainer(true));
               }}
             >
               Dashboard
@@ -73,6 +78,8 @@ const SettingsDropdown: FC<IHomeHeaderProps> = ({ seller, authUser, buyer, type,
                 if (setIsDropdownOpen) {
                   setIsDropdownOpen(false);
                 }
+                dispatch(updateHeader('home'));
+                dispatch(updateCategoryContainer(true));
               }}
             >
               Profile
@@ -87,7 +94,8 @@ const SettingsDropdown: FC<IHomeHeaderProps> = ({ seller, authUser, buyer, type,
               if (setIsDropdownOpen) {
                 setIsDropdownOpen(false);
               }
-
+              dispatch(updateHeader('home'));
+              dispatch(updateCategoryContainer(false));
             }}
           >
             Settings

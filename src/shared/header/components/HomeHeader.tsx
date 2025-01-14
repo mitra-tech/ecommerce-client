@@ -14,6 +14,8 @@ import { IResponse } from 'src/shared/shared.interface';
 import { addAuthUser } from 'src/features/auth/reducers/auth.reducer';
 import useDetectOutsideClick from 'src/shared/hooks/UseDetectOutSideClick';
 import SettingsDropdown from './SettingsDropdown';
+import { updateCategoryContainer } from '../reducers/category.reducer';
+import { updateHeader } from '../reducers/header.reducer';
 
 const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
@@ -43,7 +45,6 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
       showErrorToast('Error sending email.');
     }
   };
-
 
   const toggleDropdown = (): void => {
     setIsSettingsDropdown(!isSettingsDropdown);
@@ -75,8 +76,12 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
                   <Link
                     to="/"
                     className="relative z-10 flex cursor-pointer justify-center self-center text-2xl font-semibold text-black lg:text-3xl"
+                    onClick={() => {
+                      dispatch(updateHeader('home'));
+                      dispatch(updateCategoryContainer(true));
+                    }}
                   >
-                    Ecommerce
+                    Jobber
                   </Link>
                 </div>
               </div>

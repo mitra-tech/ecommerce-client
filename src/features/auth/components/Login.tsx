@@ -15,6 +15,8 @@ import { IResponse } from 'src/shared/shared.interface';
 import { addAuthUser } from '../reducers/auth.reducer';
 import { updateLogout } from '../reducers/logout.reducer';
 import { saveToSessionStorage } from 'src/shared/utils/utils.service';
+import { updateCategoryContainer } from 'src/shared/header/reducers/category.reducer';
+import { updateHeader } from 'src/shared/header/reducers/header.reducer';
 
 const LoginModal: FC<IModalBgProps> = ({ onClose, onToggle, onTogglePassword }): ReactElement => {
   const [passwordType, setPasswordType] = useState<string>('password');
@@ -41,6 +43,8 @@ const LoginModal: FC<IModalBgProps> = ({ onClose, onToggle, onTogglePassword }):
           setAlertMessage('');
           dispatch(addAuthUser({ authInfo: result.user }));
           dispatch(updateLogout(false));
+          dispatch(updateHeader('home'));
+          dispatch(updateCategoryContainer(true));
           saveToSessionStorage(JSON.stringify(true), JSON.stringify(result.user?.username));
         }
       }

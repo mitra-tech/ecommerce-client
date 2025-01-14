@@ -3,6 +3,7 @@
 
 import { Dispatch, SetStateAction } from 'react';
 
+
 // The nice part is that you still have the autocompletion for the defined properties
 export type SellerType = string | string[] | number | Date | unknown | undefined;
 

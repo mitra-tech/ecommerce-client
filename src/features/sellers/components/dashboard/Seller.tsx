@@ -14,7 +14,7 @@ const Seller: FC = (): ReactElement => {
   if (isSuccess) {
     seller = data?.seller as ISellerDocument;
   }
-
+  // We are using the Outlet to render the child routes of the Header component. therefor we dont need to set the dashboard header in the component.
   return (
     <div className="relative w-screen">
       <DashboardHeader />
