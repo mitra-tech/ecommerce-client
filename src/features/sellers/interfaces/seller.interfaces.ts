@@ -2,7 +2,10 @@
 // string keys with any values along with those defined in the interface.
 
 import { Dispatch, SetStateAction } from 'react';
+import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
+import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
 
+export type SellerContextType = { gigs: ISellerGig[]; pausedGigs: ISellerGig[]; orders: IOrderDocument[]; seller: ISellerDocument | null };
 
 // The nice part is that you still have the autocompletion for the defined properties
 export type SellerType = string | string[] | number | Date | unknown | undefined;

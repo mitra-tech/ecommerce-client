@@ -29,6 +29,7 @@ const SettingsDropdown: FC<IHomeHeaderProps> = ({ seller, authUser, buyer, type,
                 if (setIsDropdownOpen) {
                   setIsDropdownOpen(false);
                 }
+                dispatch(updateHeader('sellerDashboard'));
                 dispatch(updateCategoryContainer(true));
               }}
               className="block w-full cursor-pointer rounded bg-sky-500 px-4s py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none"
@@ -46,7 +47,8 @@ const SettingsDropdown: FC<IHomeHeaderProps> = ({ seller, authUser, buyer, type,
                 if (setIsDropdownOpen) {
                   setIsDropdownOpen(false);
                 }
-              }}
+                dispatch(updateHeader('home'));
+                dispatch(updateCategoryContainer(true));              }}
             >
               Add a new gig
             </Link>
