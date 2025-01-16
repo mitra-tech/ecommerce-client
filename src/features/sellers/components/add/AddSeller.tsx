@@ -7,7 +7,7 @@ import Breadcrumb from 'src/shared/breadcrumbs/Breadcrumbs';
 import Button from 'src/shared/button/Button';
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 import { IResponse } from 'src/shared/shared.interface';
-import { deleteFromLocalStorage, lowerCase} from 'src/shared/utils/utils.service';
+import { deleteFromLocalStorage, lowerCase, showErrorToast } from 'src/shared/utils/utils.service';
 import { useAppDispatch, useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
 
@@ -114,7 +114,7 @@ const AddSeller: FC = (): ReactElement => {
         navigate(`/seller_profile/${lowerCase(`${authUser.username}`)}/${response.seller?._id}/edit`);
       }
     } catch (error) {
-      console.log('Error creating seller profile.');
+      showErrorToast('Error creating seller profile.');
     }
   };
 

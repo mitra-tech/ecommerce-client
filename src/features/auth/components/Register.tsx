@@ -63,7 +63,6 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
       if (isValid) {
         // unwrap(): unwraps whatever the response returns
         const result: IResponse = await signUp(userInfo).unwrap();
-        console.log(result);
         setAlertMessage('');
         dispatch(addAuthUser({ authInfo: result.user }));
         dispatch(updateLogout(false));
@@ -73,7 +72,6 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
       }
     } catch (error) {
       setAlertMessage(error?.data.message);
-      console.log(error);
     }
   };
   return (

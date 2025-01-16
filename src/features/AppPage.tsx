@@ -1,7 +1,7 @@
 import { FC, ReactElement, useCallback, useEffect, useState } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import HomeHeader from 'src/shared/header/components/HomeHeader';
-import { applicationLogout, saveToSessionStorage } from '../shared/utils/utils.service';
+import { applicationLogout, getDataFromLocalStorage, saveToSessionStorage } from '../shared/utils/utils.service';
 import { useAppDispatch, useAppSelector } from '../store/Store';
 import { IReduxState } from '../store/Store.interface';
 import { addAuthUser } from './auth/reducers/auth.reducer';
@@ -12,6 +12,7 @@ import { useGetCurrentBuyerByUsernameQuery } from './buyer/services/buyer.servic
 import { addBuyer } from './buyer/reducers/buyer.reducer';
 import { useGetSellerByUsernameQuery } from './sellers/services/seller.service';
 import { addSeller } from './sellers/reducers/seller.reducer';
+import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 
 const AppPage: FC = (): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
@@ -21,10 +22,11 @@ const AppPage: FC = (): ReactElement => {
   const dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();
   const { data: currentUserData, isError } = useCheckCurrentUserQuery(undefined, { skip: authUser.id === null });
-  const { data: buyerData } = useGetCurrentBuyerByUsernameQuery(undefined, { skip: authUser.id === null });
+
+  const { data: buyerData, isLoading: isBuyerLoading } = useGetCurrentBuyerByUsernameQuery(undefined, { skip: authUser.id === null });
 
   // in case there is a network issue, and there is no data for username in authuser(e.g. authuser is not loaded yet), we are going to get an error, therefore we need to skip the query from automatically running (if authUser.id === null(default value in Redux store) => skip the authUser query)
-  const { data: sellerData } = useGetSellerByUsernameQuery(`${authUser.username}`, {
+  const { data: sellerData, isLoading: isSellerLoading } = useGetSellerByUsernameQuery(`${authUser.username}`, {
     skip: authUser.id === null
   });
 
@@ -44,17 +46,18 @@ const AppPage: FC = (): ReactElement => {
         dispatch(addSeller(sellerData?.seller));
 
         saveToSessionStorage(JSON.stringify(true), JSON.stringify(authUser.username));
-
-        // dispatch seller info
-
+        const becomeASeller = getDataFromLocalStorage('becomeASeller');
+        if (becomeASeller) {
+          navigate('/seller_onboarding');
+        }
         if (authUser.username !== null) {
-          console.log('add socket');
+          console.log('loggedInUsers', authUser.username);
         }
       }
     } catch (error) {
       console.log(error);
     }
-  }, [currentUserData, dispatch, appLogout, authUser.username, buyerData, sellerData]);
+  }, [currentUserData, navigate, dispatch, appLogout, authUser.username, buyerData, sellerData]);
 
   useEffect(() => {
     checkUser();
@@ -66,10 +69,14 @@ const AppPage: FC = (): ReactElement => {
       <Index />
     ) : (
       <>
-        <>
-          <HomeHeader showCategoryContainer={showCategoryContainer} />
-          <Home />
-        </>
+        {isBuyerLoading && isSellerLoading ? (
+          <CircularPageLoader />
+        ) : (
+          <>
+            <HomeHeader showCategoryContainer={showCategoryContainer} />
+            <Home />
+          </>
+        )}
       </>
     );
   } else {
