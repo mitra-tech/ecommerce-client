@@ -3,6 +3,7 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { ChangeEvent, CSSProperties, Dispatch, KeyboardEvent, ReactNode, SetStateAction } from 'react';
 import { IAuthDocument, IResetPassword, ISignInPayload, ISignUpPayload } from 'src/features/auth/interfaces/auth.interface';
 import { IBuyerDocument } from 'src/features/buyer/interfaces/buyer.interface';
+import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
 import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
 import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
 
@@ -17,6 +18,9 @@ export interface IResponse {
   user?: IAuthDocument;
   buyer?: IBuyerDocument;
   seller?: ISellerDocument;
+  sellers?: ISellerDocument[];
+  gig?: ISellerGig;
+  gigs?: ISellerGig[];
   total?: number;
   sortItems?: string[];
   conversationId?: string;
@@ -27,7 +31,6 @@ export interface IResponse {
   browserName?: string;
   deviceType?: string;
 }
-
 export interface IBannerProps {
   bgColor: string;
   text: string;

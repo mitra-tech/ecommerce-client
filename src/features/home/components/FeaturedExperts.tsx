@@ -1,12 +1,11 @@
 import { FC, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
-import { ISellerDocument } from '../../sellers/interfaces/seller.interfaces';
-import { lowerCase } from 'src/shared/utils/utils.service';
-import { v4 as uuidv4 } from 'uuid';
+import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
 import StarRating from 'src/shared/rating/StarRating';
+import { lowerCase, rating } from 'src/shared/utils/utils.service';
+import { v4 as uuidv4 } from 'uuid';
 
 import { IFeaturedExpertProps } from '../interfaces/home.interfaces';
-
 
 const FeaturedExperts: FC<IFeaturedExpertProps> = ({ sellers }): ReactElement => {
   return (
@@ -25,12 +24,12 @@ const FeaturedExperts: FC<IFeaturedExpertProps> = ({ sellers }): ReactElement =>
                 <span className="text-sm w-[90%] mb-1 text-gray-500 text-center dark:text-gray-500">{seller.oneliner}</span>
                 <div className="flex justify-center w-full gap-x-1 self-center h-6">
                   <div className="mt-1 w-20 gap-x-2">
-                    <StarRating value={5} size={14} />
+                    <StarRating value={rating(parseInt(`${seller.ratingSum}`) / parseInt(`${seller.ratingsCount}`))} size={14} />
                   </div>
                   {parseInt(`${seller.ratingsCount}`) > 0 && (
                     <div className="ml-2 flex self-center gap-1 rounded bg-orange-400 px-1 text-xs">
                       <span className="font-bold text-white">
-                        // To be updated
+                        {rating(parseInt(`${seller.ratingSum}`) / parseInt(`${seller.ratingsCount}`))}
                       </span>
                     </div>
                   )}
