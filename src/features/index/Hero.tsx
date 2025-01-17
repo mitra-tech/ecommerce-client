@@ -1,9 +1,9 @@
 import { ChangeEvent, FC, FormEvent, ReactElement, RefObject, useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { createSearchParams, NavigateFunction, useNavigate } from 'react-router-dom';
-import Button from '../../shared/button/Button';
+import Button from 'src/shared/button/Button';
 import TextInput from '../../shared/input/TextInput';
-import { replaceSpacesWithDash } from '../../shared/utils/utils.service';
+import { replaceSpacesWithDash } from 'src/shared/utils/utils.service';
 import Typed from 'typed.js';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -15,7 +15,7 @@ const Hero: FC = (): ReactElement => {
   const navigate: NavigateFunction = useNavigate();
 
   const navigateToSearchPage = (): void => {
-    const url = `/products/search?${createSearchParams({ query: searchTerm.trim() })}`;
+    const url = `/gigs/search?${createSearchParams({ query: searchTerm.trim() })}`;
     navigate(url);
   };
 
