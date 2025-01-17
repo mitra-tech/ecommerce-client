@@ -1,5 +1,6 @@
-import { ChangeEvent, FC, ReactElement, useState } from 'react';
+import { ChangeEvent, FC, ReactElement, useRef, useState } from 'react';
 import { FaCamera } from 'react-icons/fa';
+import ReactQuill, { UnprivilegedEditor } from 'react-quill';
 
 import BreadCrumb from 'src/shared/breadcrumbs/Breadcrumbs';
 import Button from 'src/shared/button/Button';
@@ -8,7 +9,8 @@ import TextAreaInput from 'src/shared/input/TextAreaInput';
 import TextInput from 'src/shared/input/TextInput';
 import { useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
-import { ICreateGig } from '../../interfaces/gig.interface';
+import { GIG_MAX_LENGTH, ICreateGig } from '../../interfaces/gig.interface';
+import { reactQuillUtils } from 'src/shared/utils/utils.service';
 
 const defaultGigInfo: ICreateGig = {
   title: '',
@@ -26,6 +28,9 @@ const defaultGigInfo: ICreateGig = {
 const AddGig: FC = (): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
   const [gigInfo, setGigInfo] = useState<ICreateGig>(defaultGigInfo);
+
+  // We want to delete the character count for the description field if they exceed the max length.
+  const reactQuillRef = useRef<ReactQuill | null>(null);
 
   return (
     <>
@@ -105,7 +110,30 @@ const AddGig: FC = (): ReactElement => {
                 Full description<sup className="top-[-0.3em] text-base text-red-500">*</sup>
               </div>
               <div className="col-span-4 md:w-11/12 lg:w-8/12">
-                {/* <!-- ReactQuill --> */}
+                <ReactQuill
+                  theme="snow"
+                  value={gigInfo.description}
+                  className="border-grey  rounded border"
+                  modules={reactQuillUtils().modules}
+                  formats={reactQuillUtils().formats}
+                  ref={(element: ReactQuill | null) =>{
+                    reactQuillRef.current = element;
+                    // we get accsess to some of the methods of the editor
+                    const ReactQuillEditor = reactQuillRef.current?.getEditor();
+                    // listen to the text-change event
+                    ReactQuillEditor?.on('text-change', () => {
+                      // get the length of the characters in the input text
+                      if (ReactQuillEditor.getLength() > GIG_MAX_LENGTH.fullDescription) {
+                        ReactQuillEditor.deleteText(GIG_MAX_LENGTH.fullDescription, ReactQuillEditor.getLength());
+                      }
+                    });
+                  }}
+                  onChange={(event: string, _, __, editor: UnprivilegedEditor) => {
+                    setGigInfo({ ...gigInfo, description: event });
+                    const counter: number = GIG_MAX_LENGTH.fullDescription - editor.getText().length;
+                    console.log(counter);
+                  }}
+                />
                 <span className="flex justify-end text-xs text-[#95979d]">120 Characters</span>
               </div>
             </div>

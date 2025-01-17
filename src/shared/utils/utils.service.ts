@@ -166,3 +166,15 @@ export const sellerOrderList = (status: string, orders: IOrderDocument[]): IOrde
   const orderList: IOrderDocument[] = filter(orders, (order: IOrderDocument) => lowerCase(order.status) === lowerCase(status));
   return orderList;
 };
+
+// Quill editor utils
+export const reactQuillUtils = () => {
+  const modules = {
+    toolbar: [
+      ['bold', 'italic'],
+      [{ list: 'ordered' }, { list: 'bullet' }]
+    ]
+  };
+  const formats: string[] = ['bold', 'italic', 'list', 'bullet'];
+  return { modules, formats };
+};
