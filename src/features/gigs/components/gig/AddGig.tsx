@@ -10,7 +10,7 @@ import TextInput from 'src/shared/input/TextInput';
 import { useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
 import { GIG_MAX_LENGTH, ICreateGig } from '../../interfaces/gig.interface';
-import { reactQuillUtils } from 'src/shared/utils/utils.service';
+import { categories, reactQuillUtils } from 'src/shared/utils/utils.service';
 
 const defaultGigInfo: ICreateGig = {
   title: '',
@@ -116,7 +116,7 @@ const AddGig: FC = (): ReactElement => {
                   className="border-grey  rounded border"
                   modules={reactQuillUtils().modules}
                   formats={reactQuillUtils().formats}
-                  ref={(element: ReactQuill | null) =>{
+                  ref={(element: ReactQuill | null) => {
                     reactQuillRef.current = element;
                     // we get accsess to some of the methods of the editor
                     const ReactQuillEditor = reactQuillRef.current?.getEditor();
@@ -142,7 +142,15 @@ const AddGig: FC = (): ReactElement => {
                 Category<sup className="top-[-0.3em] text-base text-red-500">*</sup>
               </div>
               <div className="relative col-span-4 md:w-11/12 lg:w-8/12">
-                <Dropdown text="" maxHeight="300" mainClassNames="absolute bg-white" values={[]} />
+                <Dropdown
+                  text={gigInfo.categories}
+                  maxHeight="300"
+                  mainClassNames="absolute bg-white"
+                  values={categories()}
+                  onClick={(item: string) => {
+                    setGigInfo({ ...gigInfo, categories: item });
+                  }}
+                />
               </div>
             </div>
             {/*
@@ -160,7 +168,11 @@ const AddGig: FC = (): ReactElement => {
                   className="border-grey mb-1 w-full rounded border p-3.5 text-sm font-normal text-gray-600 focus:outline-none"
                   placeholder="Enter minimum price"
                   name="price"
-                  value=""
+                  value={`${gigInfo.price}`}
+                  onChange={(event: ChangeEvent) => {
+                    const value: string = (event.target as HTMLInputElement).value;
+                    setGigInfo({ ...gigInfo, price: parseInt(value) > 0 ? parseInt(value) : 0 });
+                  }}
                 />
               </div>
             </div>
