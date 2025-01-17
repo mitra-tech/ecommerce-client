@@ -10,7 +10,7 @@ import TextInput from 'src/shared/input/TextInput';
 import { useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
 import { GIG_MAX_LENGTH, ICreateGig } from '../../interfaces/gig.interface';
-import { categories, reactQuillUtils } from 'src/shared/utils/utils.service';
+import { categories, reactQuillUtils, expectedGigDelivery } from 'src/shared/utils/utils.service';
 
 const defaultGigInfo: ICreateGig = {
   title: '',
@@ -181,8 +181,15 @@ const AddGig: FC = (): ReactElement => {
                 Expected delivery<sup className="top-[-0.3em] text-base text-red-500">*</sup>
               </div>
               <div className="relative col-span-4 md:w-11/12 lg:w-8/12">
-                <Dropdown text="" maxHeight="300" mainClassNames="absolute bg-white z-40" values={[]} />
-              </div>
+              <Dropdown
+                  text={gigInfo.expectedDelivery}
+                  maxHeight="300"
+                  mainClassNames="absolute bg-white z-40"
+                  values={expectedGigDelivery()}
+                  onClick={(item: string) => {
+                    setGigInfo({ ...gigInfo, expectedDelivery: item });
+                  }}
+                />              </div>
             </div>
             <div className="mb-6 grid md:grid-cols-5">
               <div className="mt-6 pb-2 text-base font-medium lg:mt-0">
