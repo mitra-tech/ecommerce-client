@@ -9,9 +9,10 @@ import TextAreaInput from 'src/shared/input/TextAreaInput';
 import TextInput from 'src/shared/input/TextInput';
 import { useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
-import { GIG_MAX_LENGTH, IAllowedGigItem, ICreateGig } from '../../interfaces/gig.interface';
+import { GIG_MAX_LENGTH, IAllowedGigItem, ICreateGig, IShowGigModal } from '../../interfaces/gig.interface';
 import { categories, reactQuillUtils, expectedGigDelivery } from 'src/shared/utils/utils.service';
 import TagsInput from './components/TagsInput';
+import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service';
 
 const defaultGigInfo: ICreateGig = {
   title: '',
@@ -35,12 +36,29 @@ const AddGig: FC = (): ReactElement => {
   const [tagsInput, setTagsInput] = useState<string>('');
   // We want to delete the character count for the description field if they exceed the max length.
   const reactQuillRef = useRef<ReactQuill | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   const [allowedGigItemLength, setAllowedGigItemLength] = useState<IAllowedGigItem>({
     gigTitle: '80/80',
     basicTitle: '40/40',
     basicDescription: '100/100',
     descriptionCharacters: '1200/1200'
   });
+  const [showGigModal, setShowGigModal] = useState<IShowGigModal>({
+    image: false,
+    cancel: false
+  });
+  const handleFileChange = async (event: ChangeEvent): Promise<void> => {
+    const target: HTMLInputElement = event.target as HTMLInputElement;
+    if (target.files) {
+      const file: File = target.files[0];
+      const isValid = checkImage(file, 'image');
+      if (isValid) {
+        const dataImage: string | ArrayBuffer | null = await readAsBase64(file);
+        setGigInfo({ ...gigInfo, coverImage: `${dataImage}` });
+      }
+      setShowGigModal({ ...showGigModal, image: false });
+    }
+  };
   return (
     <>
       <div className="relative w-screen">
@@ -73,7 +91,7 @@ const AddGig: FC = (): ReactElement => {
                     setAllowedGigItemLength({ ...allowedGigItemLength, gigTitle: `${counter}/80` });
                   }}
                 />
-                <span className="flex justify-end text-xs text-[#95979d]">{allowedGigItemLength.gigTitle}  Characters</span>
+                <span className="flex justify-end text-xs text-[#95979d]">{allowedGigItemLength.gigTitle} Characters</span>
               </div>
             </div>
             <div className="mb-6 grid md:grid-cols-5">
@@ -146,7 +164,8 @@ const AddGig: FC = (): ReactElement => {
                   onChange={(event: string, _, __, editor: UnprivilegedEditor) => {
                     setGigInfo({ ...gigInfo, description: event });
                     const counter: number = GIG_MAX_LENGTH.fullDescription - editor.getText().length;
-                    setAllowedGigItemLength({ ...allowedGigItemLength, descriptionCharacters: `${counter}/1200` });                  }}
+                    setAllowedGigItemLength({ ...allowedGigItemLength, descriptionCharacters: `${counter}/1200` });
+                  }}
                 />
                 <span className="flex justify-end text-xs text-[#95979d]">{allowedGigItemLength.descriptionCharacters} Characters</span>
               </div>
@@ -218,7 +237,7 @@ const AddGig: FC = (): ReactElement => {
                 Expected delivery<sup className="top-[-0.3em] text-base text-red-500">*</sup>
               </div>
               <div className="relative col-span-4 md:w-11/12 lg:w-8/12">
-              <Dropdown
+                <Dropdown
                   text={gigInfo.expectedDelivery}
                   maxHeight="300"
                   mainClassNames="absolute bg-white z-40"
@@ -226,22 +245,36 @@ const AddGig: FC = (): ReactElement => {
                   onClick={(item: string) => {
                     setGigInfo({ ...gigInfo, expectedDelivery: item });
                   }}
-                />              </div>
+                />{' '}
+              </div>
             </div>
             <div className="mb-6 grid md:grid-cols-5">
               <div className="mt-6 pb-2 text-base font-medium lg:mt-0">
                 Cover image<sup className="top-[-0.3em] text-base text-red-500">*</sup>
               </div>
-              <div className="relative col-span-4 cursor-pointer md:w-11/12 lg:w-8/12">
-                <img
-                  src="https://placehold.co/330x220?text=Profile+Image"
-                  alt="Cover Image"
-                  className="left-0 top-0 h-[220px] w-[320px] bg-white object-cover"
-                />
-                <div className="left-0 top-0 flex h-[220px] w-[320px] cursor-pointer justify-center bg-[#dee1e7]"></div>
-                <div className="absolute left-0 top-0 flex h-[220px] w-[320px] cursor-pointer justify-center bg-[#dee1e7]">
-                  <FaCamera className="flex self-center" />
-                </div>
+              <div
+                className="relative col-span-4 cursor-pointer md:w-11/12 lg:w-8/12"
+                onMouseEnter={() => {
+                  setShowGigModal((item) => ({ ...item, image: !item.image }));
+                }}
+                onMouseLeave={() => {
+                  setShowGigModal((item) => ({ ...item, image: false }));
+                }}
+              >
+                {gigInfo.coverImage && (
+                  <img src={gigInfo.coverImage} alt="Cover Image" className="left-0 top-0 h-[220px] w-[320px] bg-white object-cover" />
+                )}
+                {!gigInfo.coverImage && (
+                  <div className="left-0 top-0 flex h-[220px] w-[320px] cursor-pointer justify-center bg-[#dee1e7]"></div>
+                )}
+                {showGigModal.image && (
+                  <div
+                    onClick={() => fileRef.current?.click()}
+                    className="absolute left-0 top-0 flex h-[220px] w-[320px] cursor-pointer justify-center bg-[#dee1e7]"
+                  >
+                    <FaCamera className="flex self-center" />
+                  </div>
+                )}
                 <TextInput name="image" type="file" />
               </div>
             </div>
