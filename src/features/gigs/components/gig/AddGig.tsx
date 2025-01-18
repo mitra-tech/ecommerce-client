@@ -9,7 +9,7 @@ import TextAreaInput from 'src/shared/input/TextAreaInput';
 import TextInput from 'src/shared/input/TextInput';
 import { useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
-import { GIG_MAX_LENGTH, ICreateGig } from '../../interfaces/gig.interface';
+import { GIG_MAX_LENGTH, IAllowedGigItem, ICreateGig } from '../../interfaces/gig.interface';
 import { categories, reactQuillUtils, expectedGigDelivery } from 'src/shared/utils/utils.service';
 import TagsInput from './components/TagsInput';
 
@@ -35,7 +35,12 @@ const AddGig: FC = (): ReactElement => {
   const [tagsInput, setTagsInput] = useState<string>('');
   // We want to delete the character count for the description field if they exceed the max length.
   const reactQuillRef = useRef<ReactQuill | null>(null);
-
+  const [allowedGigItemLength, setAllowedGigItemLength] = useState<IAllowedGigItem>({
+    gigTitle: '80/80',
+    basicTitle: '40/40',
+    basicDescription: '100/100',
+    descriptionCharacters: '1200/1200'
+  });
   return (
     <>
       <div className="relative w-screen">
@@ -64,9 +69,11 @@ const AddGig: FC = (): ReactElement => {
                   onChange={(event: ChangeEvent) => {
                     const gigTitleValue = (event.target as HTMLInputElement).value;
                     setGigInfo({ ...gigInfo, title: gigTitleValue });
+                    const counter: number = GIG_MAX_LENGTH.gigTitle - gigTitleValue.length;
+                    setAllowedGigItemLength({ ...allowedGigItemLength, gigTitle: `${counter}/80` });
                   }}
                 />
-                <span className="flex justify-end text-xs text-[#95979d]">100 Characters</span>
+                <span className="flex justify-end text-xs text-[#95979d]">{allowedGigItemLength.gigTitle}  Characters</span>
               </div>
             </div>
             <div className="mb-6 grid md:grid-cols-5">
@@ -84,9 +91,11 @@ const AddGig: FC = (): ReactElement => {
                   onChange={(event: ChangeEvent) => {
                     const basicTitleValue = (event.target as HTMLInputElement).value;
                     setGigInfo({ ...gigInfo, basicTitle: basicTitleValue });
+                    const counter: number = GIG_MAX_LENGTH.basicTitle - basicTitleValue.length;
+                    setAllowedGigItemLength({ ...allowedGigItemLength, basicTitle: `${counter}/40` });
                   }}
                 />
-                <span className="flex justify-end text-xs text-[#95979d]">100 Characters</span>
+                <span className="flex justify-end text-xs text-[#95979d]">{allowedGigItemLength.basicTitle} Characters</span>
               </div>
             </div>
             <div className="mb-6 grid md:grid-cols-5">
@@ -104,9 +113,11 @@ const AddGig: FC = (): ReactElement => {
                   onChange={(event: ChangeEvent) => {
                     const basicDescriptionValue = (event.target as HTMLInputElement).value;
                     setGigInfo({ ...gigInfo, basicDescription: basicDescriptionValue });
+                    const counter: number = GIG_MAX_LENGTH.basicDescription - basicDescriptionValue.length;
+                    setAllowedGigItemLength({ ...allowedGigItemLength, basicDescription: `${counter}/100` });
                   }}
                 />
-                <span className="flex justify-end text-xs text-[#95979d]">100 Characters</span>
+                <span className="flex justify-end text-xs text-[#95979d]">{allowedGigItemLength.basicDescription} Characters</span>
               </div>
             </div>
             <div className="mb-6 grid md:grid-cols-5">
@@ -135,10 +146,9 @@ const AddGig: FC = (): ReactElement => {
                   onChange={(event: string, _, __, editor: UnprivilegedEditor) => {
                     setGigInfo({ ...gigInfo, description: event });
                     const counter: number = GIG_MAX_LENGTH.fullDescription - editor.getText().length;
-                    console.log(counter);
-                  }}
+                    setAllowedGigItemLength({ ...allowedGigItemLength, descriptionCharacters: `${counter}/1200` });                  }}
                 />
-                <span className="flex justify-end text-xs text-[#95979d]">120 Characters</span>
+                <span className="flex justify-end text-xs text-[#95979d]">{allowedGigItemLength.descriptionCharacters} Characters</span>
               </div>
             </div>
             <div className="mb-12 grid md:grid-cols-5">
