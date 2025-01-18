@@ -38,20 +38,28 @@ const TagsInput: FC<ITagsInputProps> = (props): ReactElement => {
         setGigInfo({ ...gigInfo, [`${itemName}`]: [...gigInfoList, trimmedInput] });
       }
     }
+    // if user presses backspace and the input field is empty
     if (key === 'Backspace' && !input.length && tagsList.length && isKeyReleased) {
+      // create a copy of the tags array
       const tagsCopy: string[] = [...tagsList];
+      // the tag that user wants to remove (pop the last item)
       const poppedTag: string = tagsCopy.pop() as string;
       event.preventDefault();
+      // set the new array without the last item
       setItem(tagsCopy);
+      // we put that removed item back to the input field
       setItemInput(poppedTag);
+
       setGigInfo({ ...gigInfo, [`${itemName}`]: [...tagsCopy] });
     }
     setIsKeyReleased(false);
   };
 
   const deleteTag = (index: number): void => {
+    // filter the item based on the index is passed (remove the item that user wants to delete)
     setItem((prevState: string[]) => prevState.filter((_, i: number) => i !== index));
     const gigInfoList: string[] = gigInfo[`${itemName}`] as string[];
+    // filter on the gigInfoList based on the index is passed
     setGigInfo({ ...gigInfo, [`${itemName}`]: gigInfoList.filter((_, i: number) => i !== index) });
   };
 

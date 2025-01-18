@@ -11,6 +11,7 @@ import { useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
 import { GIG_MAX_LENGTH, ICreateGig } from '../../interfaces/gig.interface';
 import { categories, reactQuillUtils, expectedGigDelivery } from 'src/shared/utils/utils.service';
+import TagsInput from './components/TagsInput';
 
 const defaultGigInfo: ICreateGig = {
   title: '',
@@ -28,7 +29,10 @@ const defaultGigInfo: ICreateGig = {
 const AddGig: FC = (): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
   const [gigInfo, setGigInfo] = useState<ICreateGig>(defaultGigInfo);
-
+  const [subCategory, setSubCategory] = useState<string[]>([]);
+  const [subCategoryInput, setSubCategoryInput] = useState<string>('');
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagsInput, setTagsInput] = useState<string>('');
   // We want to delete the character count for the description field if they exceed the max length.
   const reactQuillRef = useRef<ReactQuill | null>(null);
 
@@ -153,11 +157,34 @@ const AddGig: FC = (): ReactElement => {
                 />
               </div>
             </div>
-            {/*
-            <!-- TagsInput -->
 
-            <!-- TagsInput --> */}
+            <TagsInput
+              title="SubCategory"
+              placeholder="E.g. Website development, Mobile apps"
+              gigInfo={gigInfo}
+              setGigInfo={setGigInfo}
+              tags={subCategory}
+              itemInput={subCategoryInput}
+              itemName="subCategories"
+              counterText="Subcategories"
+              inputErrorMessage={false}
+              setItem={setSubCategory}
+              setItemInput={setSubCategoryInput}
+            />
 
+            <TagsInput
+              title="Tags"
+              placeholder="Enter search terms for your gig"
+              gigInfo={gigInfo}
+              setGigInfo={setGigInfo}
+              tags={tags}
+              itemInput={tagsInput}
+              itemName="tags"
+              counterText="Tags"
+              inputErrorMessage={false}
+              setItem={setTags}
+              setItemInput={setTagsInput}
+            />
             <div className="mb-6 grid md:grid-cols-5">
               <div className="pb-2 text-base font-medium">
                 Price<sup className="top-[-0.3em] text-base text-red-500">*</sup>
