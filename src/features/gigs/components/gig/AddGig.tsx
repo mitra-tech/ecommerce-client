@@ -275,7 +275,18 @@ const AddGig: FC = (): ReactElement => {
                     <FaCamera className="flex self-center" />
                   </div>
                 )}
-                <TextInput name="image" type="file" />
+                <TextInput
+                  name="image"
+                  ref={fileRef}
+                  type="file"
+                  style={{ display: 'none' }}
+                  onClick={() => {
+                    if (fileRef.current) {
+                      fileRef.current.value = '';
+                    }
+                  }}
+                  onChange={handleFileChange}
+                />
               </div>
             </div>
             <div className="grid xs:grid-cols-1 md:grid-cols-5">
