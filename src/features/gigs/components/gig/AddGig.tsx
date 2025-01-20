@@ -1,6 +1,7 @@
 import { ChangeEvent, FC, ReactElement, useRef, useState } from 'react';
 import { FaCamera } from 'react-icons/fa';
 import ReactQuill, { UnprivilegedEditor } from 'react-quill';
+import equal from 'react-fast-compare';
 
 import Quill from 'quill';
 import BreadCrumb from 'src/shared/breadcrumbs/Breadcrumbs';
@@ -11,11 +12,14 @@ import TextInput from 'src/shared/input/TextInput';
 import { useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
 import { GIG_MAX_LENGTH, IAllowedGigItem, ICreateGig, IShowGigModal } from '../../interfaces/gig.interface';
-import { categories, reactQuillUtils, expectedGigDelivery, showErrorToast } from 'src/shared/utils/utils.service';
+import { categories, reactQuillUtils, expectedGigDelivery, showErrorToast, lowerCase } from 'src/shared/utils/utils.service';
 import TagsInput from './components/TagsInput';
 import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service';
 import { useGigSchema } from '../../hooks/useGigSchema';
 import { gigInfoSchema } from '../../schemas/gig.schema';
+import { IApprovalModalContent } from 'src/shared/modals/interfaces/modal.interface';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
+import ApprovalModal from 'src/shared/modals/ApprovalModal';
 
 const defaultGigInfo: ICreateGig = {
   title: '',
@@ -37,6 +41,11 @@ const AddGig: FC = (): ReactElement => {
   const [subCategoryInput, setSubCategoryInput] = useState<string>('');
   const [tags, setTags] = useState<string[]>([]);
   const [tagsInput, setTagsInput] = useState<string>('');
+  // We want to keep the initial state of the gigInfo object.
+  const gigInfoRef = useRef<ICreateGig>(defaultGigInfo);
+  const { sellerId } = useParams();
+  const [approvalModalContent, setApprovalModalContent] = useState<IApprovalModalContent>();
+  const navigate: NavigateFunction = useNavigate();
   // We want to delete the character count for the description field if they exceed the max length.
   const reactQuillRef = useRef<ReactQuill | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -87,9 +96,18 @@ const AddGig: FC = (): ReactElement => {
       showErrorToast('Error creating gig');
     }
   };
-
+  const onCancelCreate = (): void => {
+    navigate(`/seller_profile/${lowerCase(`${authUser.username}/${sellerId}/edit`)}`);
+  };
   return (
     <>
+      {showGigModal.cancel && (
+        <ApprovalModal
+          approvalModalContent={approvalModalContent}
+          onClose={() => setShowGigModal({ ...showGigModal, cancel: false })}
+          onClick={onCancelCreate}
+        />
+      )}
       <div className="relative w-screen">
         <BreadCrumb breadCrumbItems={['Seller', 'Create new gig']} />
         <div className="container relative mx-auto my-5 px-2 pb-12 md:px-0">
@@ -331,6 +349,20 @@ const AddGig: FC = (): ReactElement => {
                   disabled={false}
                   className="rounded bg-red-500 px-8 py-3 text-center text-sm font-bold text-white hover:bg-red-400 focus:outline-none md:py-3 md:text-base"
                   label="Cancel"
+                  onClick={() => {
+                    const isEqual: boolean = equal(gigInfo, gigInfoRef.current);
+                    if (!isEqual) {
+                      setApprovalModalContent({
+                        header: 'Cancel Gig Creation',
+                        body: 'Are you sure you want to cancel?',
+                        btnText: 'Yes, Cancel',
+                        btnColor: 'bg-red-500 hover:bg-red-400'
+                      });
+                      setShowGigModal({ ...showGigModal, cancel: true });
+                    } else {
+                      onCancelCreate();
+                    }
+                  }}
                 />
               </div>
             </div>
