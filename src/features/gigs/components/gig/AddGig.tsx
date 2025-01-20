@@ -2,6 +2,7 @@ import { ChangeEvent, FC, ReactElement, useRef, useState } from 'react';
 import { FaCamera } from 'react-icons/fa';
 import ReactQuill, { UnprivilegedEditor } from 'react-quill';
 
+import Quill from 'quill';
 import BreadCrumb from 'src/shared/breadcrumbs/Breadcrumbs';
 import Button from 'src/shared/button/Button';
 import Dropdown from 'src/shared/dropdowns/Dropdown';
@@ -10,9 +11,11 @@ import TextInput from 'src/shared/input/TextInput';
 import { useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
 import { GIG_MAX_LENGTH, IAllowedGigItem, ICreateGig, IShowGigModal } from '../../interfaces/gig.interface';
-import { categories, reactQuillUtils, expectedGigDelivery } from 'src/shared/utils/utils.service';
+import { categories, reactQuillUtils, expectedGigDelivery, showErrorToast } from 'src/shared/utils/utils.service';
 import TagsInput from './components/TagsInput';
 import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service';
+import { useGigSchema } from '../../hooks/useGigSchema';
+import { gigInfoSchema } from '../../schemas/gig.schema';
 
 const defaultGigInfo: ICreateGig = {
   title: '',
@@ -47,6 +50,8 @@ const AddGig: FC = (): ReactElement => {
     image: false,
     cancel: false
   });
+  const [schemaValidation] = useGigSchema({ schema: gigInfoSchema, gigInfo });
+
   const handleFileChange = async (event: ChangeEvent): Promise<void> => {
     const target: HTMLInputElement = event.target as HTMLInputElement;
     if (target.files) {
@@ -59,6 +64,30 @@ const AddGig: FC = (): ReactElement => {
       setShowGigModal({ ...showGigModal, image: false });
     }
   };
+
+  const onCreateGig = async (): Promise<void> => {
+    try {
+      // Removing <p> tags from the description field
+      const editor: Quill | undefined = reactQuillRef?.current?.editor;
+      // In React, it is not recommended to mutate objects directly. It is better to update with useState method.
+      // The reason it is not recommended is because if the object is mutated directly,
+      // 1) React is not able to keep track of the change
+      // 2) There will be no re-renderng of the component.
+      // In our case, we don't care about the above reasons because we update a property, validate and send to the backend.
+      // The updated properly is not reflected in the component and we don't need to keep track of the object.
+      // We are not using the useState method inside useEffect because it causes too many rerender errors.
+      // Also, we are not updating the property inside the onChange method because editor?.getText() causes too many rerender errors.
+      // The only option we have right now is to directly mutate the gigInfo useState object.
+      gigInfo.description = editor?.getText().trim() as string;
+      const isValid: boolean = await schemaValidation();
+      if (isValid) {
+        console.log(isValid);
+      }
+    } catch (error) {
+      showErrorToast('Error creating gig');
+    }
+  };
+
   return (
     <>
       <div className="relative w-screen">
@@ -296,6 +325,7 @@ const AddGig: FC = (): ReactElement => {
                   disabled={false}
                   className="rounded bg-sky-500 px-8 py-3 text-center text-sm font-bold text-white hover:bg-sky-400 focus:outline-none md:py-3 md:text-base"
                   label="Create Gig"
+                  onClick={onCreateGig}
                 />
                 <Button
                   disabled={false}

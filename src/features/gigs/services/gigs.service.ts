@@ -10,7 +10,7 @@ export const gigsApi = api.injectEndpoints({
       providesTags: ['Gigs']
     }),
     getGigsBySellerId: build.query<IResponse, string>({
-      query: (sellerId: string) => `/seller/${sellerId}`,
+      query: (sellerId: string) => `gig/seller/${sellerId}`,
       providesTags: ['Gigs']
     }),
     getSellerPausedGigs: build.query<IResponse, string>({
