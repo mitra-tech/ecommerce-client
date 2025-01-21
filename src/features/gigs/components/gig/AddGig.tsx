@@ -12,7 +12,14 @@ import TextInput from 'src/shared/input/TextInput';
 import { useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
 import { GIG_MAX_LENGTH, IAllowedGigItem, ICreateGig, IShowGigModal } from '../../interfaces/gig.interface';
-import { categories, reactQuillUtils, expectedGigDelivery, showErrorToast, lowerCase } from 'src/shared/utils/utils.service';
+import {
+  categories,
+  reactQuillUtils,
+  expectedGigDelivery,
+  showErrorToast,
+  lowerCase,
+  replaceSpacesWithDash
+} from 'src/shared/utils/utils.service';
 import TagsInput from './components/TagsInput';
 import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service';
 import { useGigSchema } from '../../hooks/useGigSchema';
@@ -20,6 +27,12 @@ import { gigInfoSchema } from '../../schemas/gig.schema';
 import { IApprovalModalContent } from 'src/shared/modals/interfaces/modal.interface';
 import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import ApprovalModal from 'src/shared/modals/ApprovalModal';
+import { useCreateGigMutation } from '../../services/gigs.service';
+import { IResponse } from 'src/shared/shared.interface';
+import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
+import { addSeller } from 'src/features/sellers/reducers/seller.reducer';
+import { useDispatch } from 'react-redux';
+import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 
 const defaultGigInfo: ICreateGig = {
   title: '',
@@ -41,6 +54,9 @@ const AddGig: FC = (): ReactElement => {
   const [subCategoryInput, setSubCategoryInput] = useState<string>('');
   const [tags, setTags] = useState<string[]>([]);
   const [tagsInput, setTagsInput] = useState<string>('');
+  const dispatch = useDispatch();
+  const seller = useAppSelector((state: IReduxState) => state.seller);
+
   // We want to keep the initial state of the gigInfo object.
   const gigInfoRef = useRef<ICreateGig>(defaultGigInfo);
   const { sellerId } = useParams();
@@ -60,7 +76,7 @@ const AddGig: FC = (): ReactElement => {
     cancel: false
   });
   const [schemaValidation] = useGigSchema({ schema: gigInfoSchema, gigInfo });
-
+  const [createGig, { isLoading }] = useCreateGigMutation();
   const handleFileChange = async (event: ChangeEvent): Promise<void> => {
     const target: HTMLInputElement = event.target as HTMLInputElement;
     if (target.files) {
@@ -76,7 +92,6 @@ const AddGig: FC = (): ReactElement => {
 
   const onCreateGig = async (): Promise<void> => {
     try {
-      // Removing <p> tags from the description field
       const editor: Quill | undefined = reactQuillRef?.current?.editor;
       // In React, it is not recommended to mutate objects directly. It is better to update with useState method.
       // The reason it is not recommended is because if the object is mutated directly,
@@ -90,12 +105,31 @@ const AddGig: FC = (): ReactElement => {
       gigInfo.description = editor?.getText().trim() as string;
       const isValid: boolean = await schemaValidation();
       if (isValid) {
-        console.log(isValid);
+        const gig: ICreateGig = {
+          profilePicture: `${authUser.profilePicture}`,
+          sellerId,
+          title: gigInfo.title,
+          categories: gigInfo.categories,
+          description: gigInfo.description,
+          subCategories: subCategory,
+          tags,
+          price: gigInfo.price,
+          coverImage: gigInfo.coverImage,
+          expectedDelivery: gigInfo.expectedDelivery,
+          basicTitle: gigInfo.basicTitle,
+          basicDescription: gigInfo.basicDescription
+        };
+        const response: IResponse = await createGig(gig).unwrap();
+        const updatedSeller: ISellerDocument = { ...seller, totalGigs: (seller.totalGigs as number) + 1 };
+        dispatch(addSeller(updatedSeller));
+        const title: string = replaceSpacesWithDash(gig.title);
+        navigate(`/gig/${lowerCase(`${authUser.username}`)}/${title}/${response?.gig?.sellerId}/${response?.gig?.id}/view`);
       }
     } catch (error) {
       showErrorToast('Error creating gig');
     }
   };
+  // Cancel the gig creation
   const onCancelCreate = (): void => {
     navigate(`/seller_profile/${lowerCase(`${authUser.username}/${sellerId}/edit`)}`);
   };
@@ -111,7 +145,7 @@ const AddGig: FC = (): ReactElement => {
       <div className="relative w-screen">
         <BreadCrumb breadCrumbItems={['Seller', 'Create new gig']} />
         <div className="container relative mx-auto my-5 px-2 pb-12 md:px-0">
-          {/* <!-- CircularPageLoader --> */}
+          {isLoading && <CircularPageLoader />}
           {authUser && !authUser.emailVerified && (
             <div className="absolute left-0 top-0 z-[80] flex h-full w-full justify-center bg-white/[0.8] text-sm font-bold md:text-base lg:text-xl">
               <span className="mt-40">Please verify your email.</span>
@@ -340,13 +374,13 @@ const AddGig: FC = (): ReactElement => {
               <div className="pb-2 text-base font-medium lg:mt-0"></div>
               <div className="col-span-4 flex gap-x-4 md:w-11/12 lg:w-8/12">
                 <Button
-                  disabled={false}
+                  disabled={isLoading}
                   className="rounded bg-sky-500 px-8 py-3 text-center text-sm font-bold text-white hover:bg-sky-400 focus:outline-none md:py-3 md:text-base"
                   label="Create Gig"
                   onClick={onCreateGig}
                 />
                 <Button
-                  disabled={false}
+                  disabled={isLoading}
                   className="rounded bg-red-500 px-8 py-3 text-center text-sm font-bold text-white hover:bg-red-400 focus:outline-none md:py-3 md:text-base"
                   label="Cancel"
                   onClick={() => {
