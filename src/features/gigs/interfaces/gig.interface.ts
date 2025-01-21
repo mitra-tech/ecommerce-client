@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { IRatingCategories } from 'src/features/sellers/interfaces/seller.interfaces';
-
+import { IRatingCategories, ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
 
 export interface ITagsInputProps {
   title: string;
@@ -109,9 +108,6 @@ export interface ISelectedBudget {
   maxPrice: string;
 }
 
-
-
-
 export interface IGigInfo {
   total: number | string;
   title: string;
@@ -131,4 +127,11 @@ export interface IGigTopProps {
   category?: string;
   width: string;
   type: string;
+}
+
+export interface IGigContext {
+  gig: ISellerGig;
+  seller: ISellerDocument;
+  isSuccess?: boolean;
+  isLoading?: boolean;
 }

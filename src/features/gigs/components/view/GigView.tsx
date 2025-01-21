@@ -7,11 +7,11 @@ import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 import StarRating from 'src/shared/rating/StarRating';
 import { emptyGigData, emptySellerData } from 'src/shared/utils/static.data';
 import { rating } from 'src/shared/utils/utils.service';
+import { GigContext } from '../../context/GigContext';
 
 import { shortenLargeNumbers } from '../../../../shared/utils/utils.service';
 import { ISellerGig } from '../../interfaces/gig.interface';
 import { useGetGigByIdQuery, useGetMoreGigsLikeThisQuery } from '../../services/gigs.service';
-
 
 const GigView: FC = (): ReactElement => {
   const { gigId, sellerId } = useParams<string>();
@@ -66,26 +66,18 @@ const GigView: FC = (): ReactElement => {
             </>
           </div>
 
+          <GigContext.Provider value={{ gig: gig.current, seller: seller.current, isSuccess: isGigDataSuccess, isLoading: isGigLoading }}>
             <div className="flex flex-wrap">
-              <div className="order-last w-full p-4 lg:order-first lg:w-2/3">
-              {/* Gig Left View */}
-              </div>
+              <div className="order-last w-full p-4 lg:order-first lg:w-2/3">{/* <GigViewLeft /> */}</div>
 
               <div className="w-full p-4 lg:w-1/3 ">
                 <StickyBox offsetTop={10} offsetBottom={10}>
-            {/* Gig Right View */}
-
+                  {/* <GigViewRight /> */}
                 </StickyBox>
               </div>
             </div>
-
-          {moreGigs.current.length > 0 ? (
-            <div className="m-auto px-6 xl:container md:px-12 lg:px-6">
-              {/* Top Gigs View */}
-            </div>
-          ) : (
-            <></>
-          )}
+          </GigContext.Provider>
+          {moreGigs.current.length > 0 ? <div className="m-auto px-6 xl:container md:px-12 lg:px-6">{/* <TopGigsView/> */}</div> : <></>}
         </main>
       )}
     </>
