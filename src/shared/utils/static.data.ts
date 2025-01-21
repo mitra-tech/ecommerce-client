@@ -7,6 +7,7 @@ import { ISliderImagesText } from '../shared.interface';
 import { IBuyerDocument } from 'src/features/buyer/interfaces/buyer.interface';
 import { ICategory } from 'src/features/home/interfaces/home.interfaces';
 import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
+import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
 
 export const categories: ICategory[] = [
   {
@@ -117,5 +118,35 @@ export const emptySellerData: ISellerDocument = {
   totalEarnings: 0,
   totalGigs: 0,
   paypal: '',
+  createdAt: ''
+};
+
+export const emptyGigData: ISellerGig = {
+  _id: '',
+  id: '',
+  sellerId: '',
+  title: '',
+  username: '',
+  profilePicture: '',
+  email: '',
+  description: '',
+  basicDescription: '',
+  basicTitle: '',
+  expectedDelivery: '',
+  active: true,
+  categories: '',
+  subCategories: [],
+  tags: [],
+  ratingsCount: 0,
+  ratingSum: 0,
+  ratingCategories: {
+    five: { value: 0, count: 0 },
+    four: { value: 0, count: 0 },
+    three: { value: 0, count: 0 },
+    two: { value: 0, count: 0 },
+    one: { value: 0, count: 0 }
+  },
+  price: 0,
+  coverImage: '',
   createdAt: ''
 };

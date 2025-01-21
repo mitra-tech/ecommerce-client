@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import { IRatingCategories } from 'src/features/sellers/interfaces/seller.interfaces';
 
 
 export interface ITagsInputProps {
@@ -93,6 +94,7 @@ export interface ISellerGig {
   tags: string[];
   ratingsCount?: number;
   ratingSum?: number;
+  ratingCategories?: IRatingCategories;
   expectedDelivery: string;
   basicTitle: string;
   basicDescription: string;
