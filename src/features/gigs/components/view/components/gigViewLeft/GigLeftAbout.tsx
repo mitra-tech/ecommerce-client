@@ -1,5 +1,6 @@
 import { FC, ReactElement, useContext } from 'react';
 import { GigContext } from 'src/features/gigs/context/GigContext';
+// import HtmlParser from 'src/shared/html-parser/HtmlParser';
 import { v4 as uuidv4 } from 'uuid';
 
 const GigLeftAbout: FC = (): ReactElement => {
@@ -8,7 +9,11 @@ const GigLeftAbout: FC = (): ReactElement => {
   return (
     <>
       <div className="font-semibold text-lg mt-10 pb-6">About This Gig</div>
-      <div className="pb-6">{gig.description}</div>
+      <div className="pb-6">
+        {/* since we have used getText().trim() in the AddGig componet it doesnt show the tag, therefore this line can;t be useful here and was just added for testing */}
+        {/* <HtmlParser input={gig.description} /> */}
+        {gig.description}
+      </div>
       <hr className="border-grey my-3" />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-4">
         <div className="flex flex-col">
