@@ -12,6 +12,8 @@ import { GigContext } from '../../context/GigContext';
 import { shortenLargeNumbers } from '../../../../shared/utils/utils.service';
 import { ISellerGig } from '../../interfaces/gig.interface';
 import { useGetGigByIdQuery, useGetMoreGigsLikeThisQuery } from '../../services/gigs.service';
+import GigViewLeft from './components/GigViewLeft';
+import GigViewRight from './components/GigViewRight';
 
 const GigView: FC = (): ReactElement => {
   const { gigId, sellerId } = useParams<string>();
@@ -68,11 +70,13 @@ const GigView: FC = (): ReactElement => {
 
           <GigContext.Provider value={{ gig: gig.current, seller: seller.current, isSuccess: isGigDataSuccess, isLoading: isGigLoading }}>
             <div className="flex flex-wrap">
-              <div className="order-last w-full p-4 lg:order-first lg:w-2/3">{/* <GigViewLeft /> */}</div>
+              <div className="order-last w-full p-4 lg:order-first lg:w-2/3">
+                <GigViewLeft />
+              </div>
 
               <div className="w-full p-4 lg:w-1/3 ">
                 <StickyBox offsetTop={10} offsetBottom={10}>
-                  {/* <GigViewRight /> */}
+                  <GigViewRight />
                 </StickyBox>
               </div>
             </div>
