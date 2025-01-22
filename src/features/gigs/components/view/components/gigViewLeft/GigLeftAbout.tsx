@@ -10,7 +10,8 @@ const GigLeftAbout: FC = (): ReactElement => {
     <>
       <div className="font-semibold text-lg mt-10 pb-6">About This Gig</div>
       <div className="pb-6">
-        {/* since we have used getText().trim() in the AddGig componet it doesnt show the tag, therefore this line can;t be useful here and was just added for testing */}
+        {/* since we have used getText().trim() in the AddGig componet it doesnt show the tag, therefore this line cant be useful here and was just added for testing */}
+
         {/* <HtmlParser input={gig.description} /> */}
         {gig.description}
       </div>

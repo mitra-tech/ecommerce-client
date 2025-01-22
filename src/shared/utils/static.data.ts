@@ -64,8 +64,8 @@ export const initialAuthUserValues: IAuthUser = {
 export const sliderImagesText: ISliderImagesText[] = [
   { header: 'Leading the Way to Excellence', subHeader: 'Your Journey, Our Expertise' },
   { header: 'Turning Ideas into Impactful Content', subHeader: 'Innovate. Create. Elevate.' },
-  { header: 'Turning Magic into Results', subHeader: 'Spelling Success, One Task at a Time' },
-]
+  { header: 'Turning Magic into Results', subHeader: 'Spelling Success, One Task at a Time' }
+];
 
 export const sliderImages: string[] = [
   'https://fiverr-res.cloudinary.com/q_auto,f_auto,w_1400,dpr_1.0/v1/attachments/generic_asset/asset/50218c41d277f7d85feeaf3efb4549bd-1599072608122/bg-signup-1400-x1.png',
