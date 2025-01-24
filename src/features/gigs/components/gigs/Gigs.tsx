@@ -1,8 +1,10 @@
 import { FC } from 'react';
 
 import { IGigsProps } from '../../interfaces/gig.interface';
+import BudgetDropdown from './components/BudgetDropdown';
+import DeliveryTimeDropdown from './components/DeliveryTimeDropdown';
 
-const Gigs: FC<IGigsProps> = () => {
+const Gigs: FC<IGigsProps> = ({ type }) => {
   return (
     <>
       <div className="container mx-auto items-center p-5">
@@ -11,8 +13,8 @@ const Gigs: FC<IGigsProps> = () => {
           <strong className="text-black">category</strong>
         </h3>
         <div className="mb-4 flex gap-4">
-          {/* <!-- BudgetDropdown --> */}
-          {/* <!-- DeliveryTimeDropdown --> */}
+          <BudgetDropdown />
+          <DeliveryTimeDropdown />
         </div>
         <div className="my-5">
           <div className="">
