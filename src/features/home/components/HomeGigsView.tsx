@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { IHomeProps } from '../interfaces/home.interfaces';
 import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
+import GigCardDisplayItem from 'src/shared/gigs/GigCardDiplayItem';
 
 const HomeGigsView: FC<IHomeProps> = ({ gigs, title, subTitle, category }): ReactElement => {
   return (
@@ -25,15 +26,7 @@ const HomeGigsView: FC<IHomeProps> = ({ gigs, title, subTitle, category }): Reac
       <div className="flex w-full flex-nowrap items-center justify-center overflow-x-hidden px-6 md:overflow-x-auto lg:overflow-x-hidden">
         <div className="grid justify-center gap-x-8 pt-3 sm:h-full sm:w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {gigs.map((gig: ISellerGig) => (
-            // placeholder
-            <div key={uuidv4()} className="rounded">
-              <div className="mb-8 flex cursdor-pointer flex-col gap-2">
-                <img src={gig.coverImage} className="w-full rounded-lg" alt="Gig cover image" />
-                <div className="flex items-center gap-2 relative">
-                  <img src={gig.profilePicture} alt="Profile picture" className="h-7 w-8 rounded-full object-cover" />
-                </div>
-              </div>
-            </div>
+            <GigCardDisplayItem key={uuidv4()} gig={gig} linkTarget={false} showEditIcon={false} />
           ))}
         </div>
       </div>

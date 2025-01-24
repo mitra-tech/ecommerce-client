@@ -7,6 +7,7 @@ import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 import { IResponse } from 'src/shared/shared.interface';
 import { useAppDispatch, useAppSelector } from 'src/store/Store';
 import { IReduxState } from 'src/store/Store.interface';
+import { v4 as uuidv4 } from 'uuid';
 
 import { ISellerDocument } from '../../interfaces/seller.interfaces';
 import { addSeller } from '../../reducers/seller.reducer';
@@ -15,6 +16,9 @@ import ProfileHeader from './components/ProfileHeader';
 import ProfileTabs from './components/ProfileTabs';
 import SellerOverview from './components/SellerOverview';
 import { showErrorToast, showSuccessToast } from 'src/shared/utils/utils.service';
+import GigCardDisplayItem from 'src/shared/gigs/GigCardDiplayItem';
+import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
+import { useGetGigsBySellerIdQuery } from 'src/features/gigs/services/gigs.service';
 
 const CurrentSellerProfile: FC = (): ReactElement => {
   const seller = useAppSelector((state: IReduxState) => state.seller);
@@ -24,6 +28,9 @@ const CurrentSellerProfile: FC = (): ReactElement => {
   const { sellerId } = useParams();
   const dispatch = useAppDispatch();
   const [updateSeller, { isLoading }] = useUpdateSellerMutation();
+  const { data, isSuccess: isSellerGigSuccess, isLoading: isSellerGigLoading } = useGetGigsBySellerIdQuery(`${sellerId}`);
+
+  const isDataLoading: boolean = isSellerGigLoading && !isSellerGigSuccess;
 
   const onUpdateSeller = async (): Promise<void> => {
     try {
@@ -45,7 +52,7 @@ const CurrentSellerProfile: FC = (): ReactElement => {
   return (
     <div className="relative w-full pb-6">
       <Breadcrumb breadCrumbItems={['Seller', `${seller.username}`]} />
-      {isLoading ? (
+      {isLoading || isDataLoading ? (
         <CircularPageLoader />
       ) : (
         <div className="container mx-auto px-2 md:px-0">
@@ -79,7 +86,14 @@ const CurrentSellerProfile: FC = (): ReactElement => {
             {type === 'Overview' && (
               <SellerOverview sellerProfile={sellerProfile} setSellerProfile={setSellerProfile} showEditIcons={true} />
             )}
-            {type === 'Active Gigs' && <div>Active Gigs</div>}
+            {type === 'Active Gigs' && (
+              <div className="grid gap-x-6 pt-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                {data?.gigs &&
+                  data?.gigs.map((gig: ISellerGig) => (
+                    <GigCardDisplayItem key={uuidv4()} gig={gig} linkTarget={false} showEditIcon={true} />
+                  ))}
+              </div>
+            )}{' '}
             {type === 'Ratings & Reviews' && <div>Ratings & Reviews</div>}
           </div>
         </div>
