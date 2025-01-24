@@ -19,6 +19,7 @@ import { IGigsProps, ISellerGig } from '../../interfaces/gig.interface';
 import { useSearchGigsQuery } from '../../services/search.service';
 import BudgetDropdown from './components/BudgetDropdown';
 import DeliveryTimeDropdown from './components/DeliveryTimeDropdown';
+import GigPaginate from 'src/shared/gigs/GigPaginate';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -91,7 +92,16 @@ const Gigs: FC<IGigsProps> = ({ type }) => {
             />
           )}
           {isError && <PageMessage header="Services issue" body="A network issue occured. Try agin later." />}
-          {isSuccess && !filterApplied && data && data.gigs && data.gigs.length > 0 && <>{/* gig painate */}</>}
+          {isSuccess && !filterApplied && data && data.gigs && data.gigs.length > 0 && (
+            <GigPaginate
+              gigs={gigs.current}
+              totalGigs={totalGigs}
+              showNumbers={true}
+              itemsPerPage={ITEMS_PER_PAGE}
+              setItemFrom={setItemFrom}
+              setPaginationType={setPaginationType}
+            />
+          )}
         </div>
       )}
     </>
