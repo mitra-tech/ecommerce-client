@@ -1,7 +1,11 @@
 import { FC, ReactElement, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
+import { useGetGigsBySellerIdQuery } from 'src/features/gigs/services/gigs.service';
 import Breadcrumb from 'src/shared/breadcrumbs/Breadcrumbs';
+import GigCardDisplayItem from 'src/shared/gigs/GigCardDiplayItem';
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
+import { v4 as uuidv4 } from 'uuid';
 
 import { useGetSellerByIdQuery } from '../../services/seller.service';
 import ProfileHeader from './components/ProfileHeader';
@@ -11,7 +15,10 @@ import SellerOverview from './components/SellerOverview';
 const SellerProfile: FC = (): ReactElement => {
   const [type, setType] = useState<string>('Overview');
   const { sellerId } = useParams();
-  const { data: sellerData, isLoading } = useGetSellerByIdQuery(`${sellerId}`);
+  const { data: sellerData, isLoading: isSellerLoading, isSuccess: isSellerSuccess } = useGetSellerByIdQuery(`${sellerId}`);
+  const { data: gigData, isSuccess: isSellerGigSuccess, isLoading: isSellerGigLoading } = useGetGigsBySellerIdQuery(`${sellerId}`);
+
+  const isLoading: boolean = isSellerGigLoading && isSellerLoading && !isSellerSuccess && !isSellerGigSuccess;
 
   return (
     <div className="relative w-full pb-6">
@@ -27,9 +34,15 @@ const SellerProfile: FC = (): ReactElement => {
 
           <div className="flex flex-wrap bg-white">
             {type === 'Overview' && <SellerOverview sellerProfile={sellerData?.seller} showEditIcons={false} />}
-            {type === 'Active Gigs' && <div>Active Gigs</div>}
-            {type === 'Rating & Reviews' && <div>Rating & Reviews</div>}
-
+            {type === 'Active Gigs' && (
+              <div className="grid gap-x-6 pt-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                {gigData?.gigs &&
+                  gigData?.gigs.map((gig: ISellerGig) => (
+                    <GigCardDisplayItem key={uuidv4()} gig={gig} linkTarget={false} showEditIcon={false} />
+                  ))}
+              </div>
+            )}
+            {type === 'Ratings & Reviews' && <div>Ratings & reviews </div>}
           </div>
         </div>
       )}
