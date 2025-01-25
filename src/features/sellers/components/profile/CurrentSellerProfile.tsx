@@ -16,7 +16,7 @@ import ProfileHeader from './components/ProfileHeader';
 import ProfileTabs from './components/ProfileTabs';
 import SellerOverview from './components/SellerOverview';
 import { showErrorToast, showSuccessToast } from 'src/shared/utils/utils.service';
-import GigCardDisplayItem from 'src/shared/gigs/GigCardDiplayItem';
+import GigCardDisplayItem from 'src/shared/gigs/GigCardDisplayItem';
 import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
 import { useGetGigsBySellerIdQuery } from 'src/features/gigs/services/gigs.service';
 

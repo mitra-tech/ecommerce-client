@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { IHomeProps } from '../interfaces/home.interfaces';
 import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
-import GigCardDisplayItem from 'src/shared/gigs/GigCardDiplayItem';
+import GigCardDisplayItem from 'src/shared/gigs/GigCardDisplayItem';
 
 const HomeGigsView: FC<IHomeProps> = ({ gigs, title, subTitle, category }): ReactElement => {
   return (

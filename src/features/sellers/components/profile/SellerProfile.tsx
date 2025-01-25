@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
 import { useGetGigsBySellerIdQuery } from 'src/features/gigs/services/gigs.service';
 import Breadcrumb from 'src/shared/breadcrumbs/Breadcrumbs';
-import GigCardDisplayItem from 'src/shared/gigs/GigCardDiplayItem';
+import GigCardDisplayItem from 'src/shared/gigs/GigCardDisplayItem';
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 import { v4 as uuidv4 } from 'uuid';
 

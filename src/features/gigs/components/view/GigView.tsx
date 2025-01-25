@@ -14,6 +14,7 @@ import { ISellerGig } from '../../interfaces/gig.interface';
 import { useGetGigByIdQuery, useGetMoreGigsLikeThisQuery } from '../../services/gigs.service';
 import GigViewLeft from './components/GigViewLeft';
 import GigViewRight from './components/GigViewRight';
+import TopGigsView from 'src/shared/gigs/TopGigsView';
 
 const GigView: FC = (): ReactElement => {
   const { gigId, sellerId } = useParams<string>();
@@ -81,7 +82,13 @@ const GigView: FC = (): ReactElement => {
               </div>
             </div>
           </GigContext.Provider>
-          {moreGigs.current.length > 0 ? <div className="m-auto px-6 xl:container md:px-12 lg:px-6">{/* <TopGigsView/> */}</div> : <></>}
+          {moreGigs.current.length > 0 ? (
+            <div className="m-auto px-6 xl:container md:px-12 lg:px-6">
+              <TopGigsView gigs={moreGigs.current} title="Recommended for you" subTitle="" width="w-60" type="home" />
+            </div>
+          ) : (
+            <></>
+          )}
         </main>
       )}
     </>

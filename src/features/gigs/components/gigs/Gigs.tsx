@@ -1,7 +1,7 @@
 import { find } from 'lodash';
 import { FC, useRef, useState } from 'react';
 import { Location, useLocation, useParams, useSearchParams } from 'react-router-dom';
-import GigCardDisplayItem from 'src/shared/gigs/GigCardDiplayItem';
+import GigCardDisplayItem from 'src/shared/gigs/GigCardDisplayItem';
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 import PageMessage from 'src/shared/page-message/PageMessage';
 import {
