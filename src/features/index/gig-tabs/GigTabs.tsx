@@ -1,10 +1,23 @@
 import { FC, ReactElement, useState } from 'react';
-import { categories, replaceSpacesWithDash } from 'src/shared/utils/utils.service';
+import { useGetAuthGigsByCategoryQuery } from 'src/features/auth/services/auth.service';
+import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
+import TopGigsView from 'src/shared/gigs/TopGigsView';
+import { categories, lowerCase, replaceAmpersandAndDashWithSpace, replaceSpacesWithDash } from 'src/shared/utils/utils.service';
 import { v4 as uuidv4 } from 'uuid';
 
-const ProductTabs: FC = (): ReactElement => {
+const GigTabs: FC = (): ReactElement => {
   const [activeTab, setActiveTab] = useState<string>('Graphics & Design');
-  let categoryProducts = [];
+  const queryType = `query=${replaceAmpersandAndDashWithSpace(`${lowerCase(activeTab)}`)}`;
+  const { data, isSuccess } = useGetAuthGigsByCategoryQuery({
+    query: `${queryType}`,
+    from: '0',
+    size: '10',
+    type: 'forward'
+  });
+  let categoryGigs: ISellerGig[] = [];
+  if (isSuccess) {
+    categoryGigs = data.gigs as ISellerGig[];
+  }
 
   return (
     <div className="relative m-auto mt-8 w-screen px-6 xl:container md:px-12 lg:px-6">
@@ -27,7 +40,7 @@ const ProductTabs: FC = (): ReactElement => {
           </ul>
         </div>
         <div className="mt-4 h-full overflow-hidden border px-6 py-6">
-          {categoryProducts.length > 0 ? (
+          {categoryGigs.length > 0 ? (
             <>
               <a
                 className="mt-10 w-[10%] rounded border border-black px-6 py-3 text-center text-sm font-bold text-black hover:bg-gray-100 focus:outline-none md:px-4 md:py-2 md:text-base"
@@ -35,6 +48,7 @@ const ProductTabs: FC = (): ReactElement => {
               >
                 Explore
               </a>
+              <TopGigsView gigs={categoryGigs} width="w-72" type="index" />
             </>
           ) : (
             <div className="flex h-96 items-center justify-center text-lg">Information not available at the moment.</div>
@@ -45,4 +59,4 @@ const ProductTabs: FC = (): ReactElement => {
   );
 };
 
-export default ProductTabs;
+export default GigTabs;
