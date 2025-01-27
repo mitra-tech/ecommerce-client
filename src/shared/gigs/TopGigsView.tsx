@@ -5,7 +5,7 @@ import { IGigTopProps, ISellerGig } from 'src/features/gigs/interfaces/gig.inter
 import { v4 as uuidv4 } from 'uuid';
 
 import { replaceSpacesWithDash } from '../utils/utils.service';
-import GigCardDisplayItem from '././GigCardDisplayItem';
+import GigCardDisplayItem from './GigCardDisplayItem';
 
 interface IScrollProps {
   start: boolean;
@@ -69,7 +69,7 @@ const TopGigsView: FC<IGigTopProps> = ({ gigs, title, subTitle, category, width,
         <div className="relative flex gap-x-8 pt-3">
           {gigs.map((gig: ISellerGig) => (
             <div key={uuidv4()} className={`${width}`}>
-              {type === 'home' ? <GigCardDisplayItem gig={gig} linkTarget={false} showEditIcon={false} /> : <div>Gig Index </div>}
+              {type === 'home' ? <GigCardDisplayItem gig={gig} linkTarget={false} showEditIcon={false} /> : <div>Gig index item</div>}
             </div>
           ))}
         </div>
