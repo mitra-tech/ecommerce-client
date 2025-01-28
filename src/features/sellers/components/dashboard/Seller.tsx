@@ -1,25 +1,37 @@
 import { FC, ReactElement } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
+import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
+import { useGetGigsBySellerIdQuery, useGetSellerPausedGigsQuery } from 'src/features/gigs/services/gigs.service';
 import DashboardHeader from 'src/shared/header/components/DashboardHeader';
 
 import { ISellerDocument } from '../../interfaces/seller.interfaces';
 import { useGetSellerByIdQuery } from '../../services/seller.service';
 import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
-import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
 
 const Seller: FC = (): ReactElement => {
   const { sellerId } = useParams<string>();
   const { data, isSuccess } = useGetSellerByIdQuery(`${sellerId}`);
+  const { data: sellerGigs, isSuccess: isSellerGigsSuccess } = useGetGigsBySellerIdQuery(`${sellerId}`);
+  const { data: sellerPausedGigs, isSuccess: isSellerPausedGigsSuccess } = useGetSellerPausedGigsQuery(`${sellerId}`);
+  let gigs: ISellerGig[] = [];
   const orders: IOrderDocument[] = [];
-  const gigs: ISellerGig[] = [];
-  const pausedGigs: ISellerGig[] = [];
-
+  let pausedGigs: ISellerGig[] = [];
   let seller: ISellerDocument | undefined = undefined;
 
   if (isSuccess) {
     seller = data?.seller as ISellerDocument;
   }
-  // We are using the Outlet to render the child routes of the Header component. therefor we dont need to set the dashboard header in the component.
+
+  if (isSellerGigsSuccess) {
+    gigs = sellerGigs?.gigs as ISellerGig[];
+  }
+
+  if (isSellerPausedGigsSuccess) {
+    pausedGigs = sellerPausedGigs?.gigs as ISellerGig[];
+  }
+
+  // to do: seller order success
+
   return (
     <div className="relative w-screen">
       <DashboardHeader />
