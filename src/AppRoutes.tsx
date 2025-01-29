@@ -14,6 +14,7 @@ import Seller from './features/sellers/components/dashboard/Seller';
 import AddGig from './features/gigs/components/gig/AddGig';
 import GigView from './features/gigs/components/view/GigView';
 import Gigs from './features/gigs/components/gigs/Gigs';
+import Chat from './features/chat/components/Chat';
 
 const Layout = ({ backgroundColor = '#fff', children }: { backgroundColor: string; children: ReactNode }): JSX.Element => (
   <div style={{ backgroundColor }} className="flex flex-grow">
@@ -67,6 +68,7 @@ const AppRouter: FC = () => {
         </Suspense>
       )
     },
+    // seller routes
     {
       path: '/seller_onboarding',
       element: (
@@ -129,6 +131,7 @@ const AppRouter: FC = () => {
         }
       ]
     },
+    // Gig routes
     {
       path: '/manage_gigs/new/:sellerId',
       element: (
@@ -159,7 +162,7 @@ const AppRouter: FC = () => {
         <Suspense>
           <ProtectedRoute>
             <Layout backgroundColor="#ffffff">
-              <Gigs type='categories'/>
+              <Gigs type="categories" />
             </Layout>
           </ProtectedRoute>
         </Suspense>
@@ -171,7 +174,33 @@ const AppRouter: FC = () => {
         <Suspense>
           <ProtectedRoute>
             <Layout backgroundColor="#ffffff">
-              <Gigs type='search'/>
+              <Gigs type="search" />
+            </Layout>
+          </ProtectedRoute>
+        </Suspense>
+      )
+    },
+
+    // Chat routes
+    {
+      path: '/inbox',
+      element: (
+        <Suspense>
+          <ProtectedRoute>
+            <Layout backgroundColor="#ffffff">
+              <Chat />
+            </Layout>
+          </ProtectedRoute>
+        </Suspense>
+      )
+    },
+    {
+      path: '/inbox/:username/:conversationId',
+      element: (
+        <Suspense>
+          <ProtectedRoute>
+            <Layout backgroundColor="#ffffff">
+              <Chat />
             </Layout>
           </ProtectedRoute>
         </Suspense>
