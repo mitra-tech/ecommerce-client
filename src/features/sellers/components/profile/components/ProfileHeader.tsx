@@ -6,7 +6,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { IGigInfo } from 'src/features/gigs/interfaces/gig.interface';
 import { IProfileHeaderProps, ISellerProfileItem, IShowEditItem } from 'src/features/sellers/interfaces/seller.interfaces';
 import Button from 'src/shared/button/Button';
-import TextInput from 'src/shared/input/TextInput';
+import TextInput from 'src/shared/inputs/TextInput';
 import StarRating from 'src/shared/rating/StarRating';
 import { lowerCase, rating, shortenLargeNumbers } from 'src/shared/utils/utils.service';
 import { v4 as uuidv4 } from 'uuid';

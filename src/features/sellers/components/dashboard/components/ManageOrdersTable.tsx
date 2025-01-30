@@ -5,7 +5,7 @@ import Button from 'src/shared/button/Button';
 import { updateHeader } from 'src/shared/header/reducers/header.reducer';
 import { TimeAgo } from 'src/shared/utils/timeago.utils';
 import { lowerCase } from 'src/shared/utils/utils.service';
-import { useAppDispatch } from 'src/store/Store';
+import { useAppDispatch } from 'src/store/store';
 import { v4 as uuidv4 } from 'uuid';
 
 const ManageOrdersTable: FC<IOrderTableProps> = ({ type, orders, orderTypes }): ReactElement => {

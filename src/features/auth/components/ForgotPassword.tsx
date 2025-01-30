@@ -1,8 +1,8 @@
 import { ChangeEvent, FC, ReactElement, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import Alert from '../../../shared/alerts/Alert';
+import Alert from 'src/shared/alert/Alert';
 import Button from 'src/shared/button/Button';
-import TextInput from '../../../shared/input/TextInput';
+import TextInput from 'src/shared/inputs/TextInput';
 import { IModalBgProps } from 'src/shared/modals/interfaces/modal.interface';
 import ModalBg from 'src/shared/modals/ModalBg';
 import { IResponse } from 'src/shared/shared.interface';

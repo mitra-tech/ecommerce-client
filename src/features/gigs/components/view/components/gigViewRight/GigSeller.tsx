@@ -11,8 +11,8 @@ import { IApprovalModalContent } from 'src/shared/modals/interfaces/modal.interf
 import StarRating from 'src/shared/rating/StarRating';
 import { TimeAgo } from 'src/shared/utils/timeago.utils';
 import { lowerCase, rating, shortenLargeNumbers } from 'src/shared/utils/utils.service';
-import { useAppSelector } from 'src/store/Store';
-import { IReduxState } from 'src/store/Store.interface';
+import { useAppSelector } from 'src/store/store';
+import { IReduxState } from 'src/store/store.interface';
 import { v4 as uuidv4 } from 'uuid';
 
 const GigSeller: FC = (): ReactElement => {

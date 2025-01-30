@@ -4,7 +4,7 @@ import { FaChevronDown, FaChevronUp, FaTimes } from 'react-icons/fa';
 import { v4 as uuidv4 } from 'uuid';
 
 import Button from '../button/Button';
-import TextInput from '../input/TextInput';
+import TextInput from '../inputs/TextInput';
 import { IDropdownProps } from '../shared.interface';
 
 const Dropdown: FC<IDropdownProps> = ({

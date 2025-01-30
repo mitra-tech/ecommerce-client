@@ -3,7 +3,7 @@ import { ChangeEvent, FC, ReactElement, useContext, useState } from 'react';
 import { SellerContext } from 'src/features/sellers/context/SellerContext';
 import { ISkillEditProps } from 'src/features/sellers/interfaces/seller.interfaces';
 import Button from 'src/shared/button/Button';
-import TextInput from 'src/shared/input/TextInput';
+import TextInput from 'src/shared/inputs/TextInput';
 
 const SkillField: FC<ISkillEditProps> = ({ type, selectedSkill, setShowSkillAddForm, setShowSkillEditForm }): ReactElement => {
   const { sellerProfile, setSellerProfile } = useContext(SellerContext);

@@ -2,7 +2,7 @@ import { ChangeEvent, FC, FormEvent, ReactElement, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { createSearchParams, NavigateFunction, useNavigate } from 'react-router-dom';
 import Button from 'src/shared/button/Button';
-import TextInput from 'src/shared/input/TextInput';
+import TextInput from 'src/shared/inputs/TextInput';
 
 const HeaderSearchInput: FC = (): ReactElement => {
   const [searchTerm, setSearchTerm] = useState<string>('');

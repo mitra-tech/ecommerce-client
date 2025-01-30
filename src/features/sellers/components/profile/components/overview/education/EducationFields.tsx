@@ -3,10 +3,10 @@ import { ChangeEvent, FC, ReactElement, useContext, useState } from 'react';
 import { SellerContext } from 'src/features/sellers/context/SellerContext';
 import { IEducation, IEducationEditProps } from 'src/features/sellers/interfaces/seller.interfaces';
 import Button from 'src/shared/button/Button';
-import TextInput from 'src/shared/input/TextInput';
+import TextInput from 'src/shared/inputs/TextInput';
 import { countriesList, degreeList, yearsList } from 'src/shared/utils/utils.service';
 
-import Dropdown from 'src/shared/dropdowns/Dropdown';
+import Dropdown from 'src/shared/dropdown/Dropdown';
 
 const EducationFields: FC<IEducationEditProps> = ({
   type,

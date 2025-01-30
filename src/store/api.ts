@@ -19,6 +19,7 @@ const baseQueryWithReAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     const loggedInUsername: string = getDataFromSessionStorage('loggedInuser');
     await baseQuery(`/auth/refresh-token/${loggedInUsername}`, api, extraOptions);
   }
+  console.log(result, 'result');
   return result;
 };
 

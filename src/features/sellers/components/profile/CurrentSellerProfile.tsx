@@ -5,8 +5,8 @@ import Breadcrumb from 'src/shared/breadcrumbs/Breadcrumbs';
 import Button from 'src/shared/button/Button';
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 import { IResponse } from 'src/shared/shared.interface';
-import { useAppDispatch, useAppSelector } from 'src/store/Store';
-import { IReduxState } from 'src/store/Store.interface';
+import { useAppDispatch, useAppSelector } from 'src/store/store';
+import { IReduxState } from 'src/store/store.interface';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ISellerDocument } from '../../interfaces/seller.interfaces';

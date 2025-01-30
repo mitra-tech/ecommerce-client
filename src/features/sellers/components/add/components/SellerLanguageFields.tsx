@@ -1,10 +1,10 @@
 import { ChangeEvent, FC, ReactElement } from 'react';
 import { ILanguage, ILanguageProps } from 'src/features/sellers/interfaces/seller.interfaces';
 import Button from 'src/shared/button/Button';
-import TextInput from 'src/shared/input/TextInput';
+import TextInput from 'src/shared/inputs/TextInput';
 import { languageLevel } from 'src/shared/utils/utils.service';
 
-import Dropdown from '../../../../../shared/dropdowns/Dropdown';
+import Dropdown from '../../../../../shared/dropdown/Dropdown';
 
 const SellerLanguageFields: FC<ILanguageProps> = ({ languageFields, setLanguageFields }): ReactElement => {
   const addLanguageFields = (): void => {

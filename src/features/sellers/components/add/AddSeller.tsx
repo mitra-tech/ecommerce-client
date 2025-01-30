@@ -8,8 +8,8 @@ import Button from 'src/shared/button/Button';
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 import { IResponse } from 'src/shared/shared.interface';
 import { deleteFromLocalStorage, lowerCase, showErrorToast } from 'src/shared/utils/utils.service';
-import { useAppDispatch, useAppSelector } from 'src/store/Store';
-import { IReduxState } from 'src/store/Store.interface';
+import { useAppDispatch, useAppSelector } from 'src/store/store';
+import { IReduxState } from 'src/store/store.interface';
 
 import { useSellerSchema } from '../../hooks/useSellerSchema';
 import { ICertificate, IEducation, IExperience, ILanguage, IPersonalInfoData, ISellerDocument } from '../../interfaces/seller.interfaces';

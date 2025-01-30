@@ -6,9 +6,9 @@ import ReactQuill, { UnprivilegedEditor } from 'react-quill';
 import { NavigateFunction, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Breadcrumb from 'src/shared/breadcrumbs/Breadcrumbs';
 import Button from 'src/shared/button/Button';
-import Dropdown from 'src/shared/dropdowns/Dropdown';
-import TextAreaInput from 'src/shared/input/TextAreaInput';
-import TextInput from 'src/shared/input/TextInput';
+import Dropdown from 'src/shared/dropdown/Dropdown';
+import TextAreaInput from 'src/shared/inputs/TextAreaInput';
+import TextInput from 'src/shared/inputs/TextInput';
 import ApprovalModal from 'src/shared/modals/ApprovalModal';
 import { IApprovalModalContent } from 'src/shared/modals/interfaces/modal.interface';
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
@@ -23,8 +23,8 @@ import {
   showErrorToast,
   showSuccessToast
 } from 'src/shared/utils/utils.service';
-import { useAppSelector } from 'src/store/Store';
-import { IReduxState } from 'src/store/Store.interface';
+import { useAppSelector } from 'src/store/store';
+import { IReduxState } from 'src/store/store.interface';
 
 import { useGigSchema } from '../../hooks/useGigSchema';
 import { GIG_MAX_LENGTH, IAllowedGigItem, ICreateGig, ISellerGig, IShowGigModal } from '../../interfaces/gig.interface';

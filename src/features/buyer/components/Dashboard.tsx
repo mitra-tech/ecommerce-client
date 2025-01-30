@@ -1,5 +1,4 @@
-import { FC, ReactElement, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { FC, ReactElement, useState } from 'react';
 import BuyerTable from './BuyerTable';
 import { orderTypes } from 'src/shared/utils/utils.service';
 import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';

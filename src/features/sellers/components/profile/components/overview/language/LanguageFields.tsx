@@ -3,8 +3,8 @@ import { ChangeEvent, FC, ReactElement, useContext, useState } from 'react';
 import { SellerContext } from 'src/features/sellers/context/SellerContext';
 import { ILanguage, ILanguageEditFieldsProps } from 'src/features/sellers/interfaces/seller.interfaces';
 import Button from 'src/shared/button/Button';
-import Dropdown from 'src/shared/dropdowns/Dropdown';
-import TextInput from 'src/shared/input/TextInput';
+import Dropdown from 'src/shared/dropdown/Dropdown';
+import TextInput from 'src/shared/inputs/TextInput';
 import { languageLevel } from 'src/shared/utils/utils.service';
 
 const LanguageFields: FC<ILanguageEditFieldsProps> = ({

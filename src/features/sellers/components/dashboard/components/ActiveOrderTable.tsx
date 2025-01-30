@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { IActiveOrderProps, IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
 import { updateHeader } from 'src/shared/header/reducers/header.reducer';
 import { TimeAgo } from 'src/shared/utils/timeago.utils';
-import { useAppDispatch } from 'src/store/Store';
+import { useAppDispatch } from 'src/store/store';
 import { v4 as uuidv4 } from 'uuid';
 
 const ActiveOrderTable: FC<IActiveOrderProps> = ({ activeOrders }): ReactElement => {

@@ -3,8 +3,8 @@ import { FaPencilAlt, FaRegStar, FaStar } from 'react-icons/fa';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
 import { IGigCardItems } from 'src/features/gigs/interfaces/gig.interface';
-import { useAppSelector } from 'src/store/Store';
-import { IReduxState } from 'src/store/Store.interface';
+import { useAppSelector } from 'src/store/store';
+import { IReduxState } from 'src/store/store.interface';
 
 import { lowerCase, rating, replaceSpacesWithDash } from '../utils/utils.service';
 

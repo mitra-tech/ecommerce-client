@@ -1,5 +1,5 @@
 import { createSlice, Slice } from '@reduxjs/toolkit';
-import { emptySellerData } from 'src/shared/utils/static.data';
+import { emptySellerData } from 'src/shared/utils/static-data';
 
 import { IReduxSeller, ISellerDocument } from '../interfaces/seller.interfaces';
 

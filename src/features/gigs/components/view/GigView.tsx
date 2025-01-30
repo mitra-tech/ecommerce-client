@@ -5,7 +5,7 @@ import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfac
 import { useGetSellerByIdQuery } from 'src/features/sellers/services/seller.service';
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 import StarRating from 'src/shared/rating/StarRating';
-import { emptyGigData, emptySellerData } from 'src/shared/utils/static.data';
+import { emptyGigData, emptySellerData } from 'src/shared/utils/static-data';
 import { rating } from 'src/shared/utils/utils.service';
 import { GigContext } from '../../context/GigContext';
 

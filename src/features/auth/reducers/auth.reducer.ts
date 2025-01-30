@@ -1,5 +1,5 @@
 import { createSlice, Slice } from '@reduxjs/toolkit';
-import { initialAuthUserValues } from '../../../shared/utils/static.data';
+import { initialAuthUserValues } from 'src/shared/utils/static-data';
 
 import { IAuthUser, IReduxAddAuthUser } from '../interfaces/auth.interface';
 

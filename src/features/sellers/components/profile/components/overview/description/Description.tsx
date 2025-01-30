@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, ReactElement, useContext, useState } from 'react';
 import { SellerContext } from 'src/features/sellers/context/SellerContext';
 import Button from 'src/shared/button/Button';
-import TextAreaInput from 'src/shared/input/TextAreaInput';
+import TextAreaInput from 'src/shared/inputs/TextAreaInput';
 
 const Description: FC = (): ReactElement => {
   const { sellerProfile, setSellerProfile, showEditIcons } = useContext(SellerContext);

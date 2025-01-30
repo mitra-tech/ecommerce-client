@@ -1,6 +1,6 @@
 import { FC, ReactElement } from 'react';
 import { IProfileTabsProps } from 'src/features/sellers/interfaces/seller.interfaces';
-import Dropdown from 'src/shared/dropdowns/Dropdown';
+import Dropdown from 'src/shared/dropdown/Dropdown';
 
 const ProfileTabs: FC<IProfileTabsProps> = ({ type, setType }): ReactElement => {
   return (

@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, KeyboardEvent, ReactElement, useState } from 'react';
 import { ITagsInputProps } from 'src/features/gigs/interfaces/gig.interface';
-import TextInput from 'src/shared/input/TextInput';
+import TextInput from 'src/shared/inputs/TextInput';
 import { v4 as uuidv4 } from 'uuid';
 
 const TagsInput: FC<ITagsInputProps> = (props): ReactElement => {

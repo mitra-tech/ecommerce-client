@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, ReactElement } from 'react';
 import { ISocialLinksProps } from 'src/features/sellers/interfaces/seller.interfaces';
 import Button from 'src/shared/button/Button';
-import TextInput from 'src/shared/input/TextInput';
+import TextInput from 'src/shared/inputs/TextInput';
 
 const SellerSocialLinksFields: FC<ISocialLinksProps> = ({ socialFields, setSocialFields }): ReactElement => {
   const adSocialLinkFields = (): void => {

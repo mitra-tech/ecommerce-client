@@ -6,8 +6,8 @@ import { IOffer } from 'src/features/order/interfaces/order.interfaces';
 import Button from 'src/shared/button/Button';
 import ApprovalModal from 'src/shared/modals/ApprovalModal';
 import { IApprovalModalContent } from 'src/shared/modals/interfaces/modal.interface';
-import { useAppSelector } from 'src/store/Store';
-import { IReduxState } from 'src/store/Store.interface';
+import { useAppSelector } from 'src/store/store';
+import { IReduxState } from 'src/store/store.interface';
 
 const GigPackage: FC = (): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);

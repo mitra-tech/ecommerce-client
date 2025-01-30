@@ -5,8 +5,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Link } from 'react-router-dom';
 import Button from 'src/shared/button/Button';
 import { lowerCase } from 'src/shared/utils/utils.service';
-import { useAppSelector } from 'src/store/Store';
-import { IReduxState } from 'src/store/Store.interface';
+import { useAppSelector } from 'src/store/store';
+import { IReduxState } from 'src/store/store.interface';
 import SettingsDropdown from './SettingsDropdown';
 
 const DashboardHeader: FC = (): ReactElement => {

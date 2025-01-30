@@ -2,7 +2,7 @@ import { ChangeEvent, FC, ReactElement, useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaTimes } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import Button from 'src/shared/button/Button';
-import TextInput from 'src/shared/input/TextInput';
+import TextInput from 'src/shared/inputs/TextInput';
 import { saveToLocalStorage } from 'src/shared/utils/utils.service';
 import { v4 as uuidv4 } from 'uuid';
 

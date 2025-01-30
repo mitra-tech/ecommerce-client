@@ -1,26 +1,28 @@
 import { ChangeEvent, FC, ReactElement, useState } from 'react';
 import { FaEye, FaEyeSlash, FaTimes } from 'react-icons/fa';
-import Button from '../../../shared/button/Button';
-import TextInput from '../../../shared/input/TextInput';
-import { IModalBgProps } from '../../../shared/modals/interfaces/modal.interface';
-import ModalBg from '../../../shared/modals/ModalBg';
-import Alert from 'src/shared/alerts/Alert';
-import { ISignInPayload } from '../interfaces/auth.interface';
-import { useAppDispatch } from 'src/store/Store';
-import { useAuthSchema } from '../hooks/useAuthSchema';
-import { loginUserSchema } from '../schemas/auth.schema';
 import { useNavigate } from 'react-router-dom';
-import { useSignInMutation } from '../services/auth.service';
-import { IResponse } from 'src/shared/shared.interface';
-import { addAuthUser } from '../reducers/auth.reducer';
-import { updateLogout } from '../reducers/logout.reducer';
-import { saveToSessionStorage } from 'src/shared/utils/utils.service';
+import Alert from 'src/shared/alert/Alert';
+import Button from 'src/shared/button/Button';
 import { updateCategoryContainer } from 'src/shared/header/reducers/category.reducer';
 import { updateHeader } from 'src/shared/header/reducers/header.reducer';
+import TextInput from 'src/shared/inputs/TextInput';
+import { IModalBgProps } from 'src/shared/modals/interfaces/modal.interface';
+import ModalBg from 'src/shared/modals/ModalBg';
+import { IResponse } from 'src/shared/shared.interface';
+import { saveToSessionStorage } from 'src/shared/utils/utils.service';
+import { useAppDispatch } from 'src/store/store';
+
+import { useAuthSchema } from '../hooks/useAuthSchema';
+import { ISignInPayload } from '../interfaces/auth.interface';
+import { addAuthUser } from '../reducers/auth.reducer';
+import { updateLogout } from '../reducers/logout.reducer';
+import { loginUserSchema } from '../schemes/auth.schema';
+import { useSignInMutation } from '../services/auth.service';
 
 const LoginModal: FC<IModalBgProps> = ({ onClose, onToggle, onTogglePassword }): ReactElement => {
-  const [passwordType, setPasswordType] = useState<string>('password');
+
   const [alertMessage, setAlertMessage] = useState<string>('');
+  const [passwordType, setPasswordType] = useState<string>('password');
   const [userInfo, setUserInfo] = useState<ISignInPayload>({
     username: '',
     password: '',
@@ -68,15 +70,6 @@ const LoginModal: FC<IModalBgProps> = ({ onClose, onToggle, onTogglePassword }):
             />
           </div>
           {alertMessage && <Alert type="error" message={alertMessage} />}
-          <div>
-            <Button
-              testId="closeModal"
-              className="cursor-pointer rounded text-gray-400 hover:text-gray-600"
-              role="button"
-              label={<FaTimes className="icon icon-tabler icon-tabler-x" />}
-              onClick={onClose}
-            />
-          </div>
           <div>
             <label htmlFor="email or username" className="text-sm font-bold leading-tight tracking-normal text-gray-800">
               Email or username
@@ -131,17 +124,15 @@ const LoginModal: FC<IModalBgProps> = ({ onClose, onToggle, onTogglePassword }):
             </div>
           </div>
           <div className="flex w-full items-center justify-center">
-            <div className="flex w-full items-center justify-center">
-              <Button
-                testId="submit"
-                disabled={!userInfo.username || !userInfo.password}
-                className={`text-md block w-full cursor-pointer rounded bg-sky-500 px-8 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none ${
-                  !userInfo.username || !userInfo.password ? 'cursor-not-allowed' : 'cursor-pointer'
-                }`}
-                label={`${isLoading ? 'LOGIN IN PROGRESS...' : 'LOGIN'}`}
-                onClick={onLoginUser}
-              />
-            </div>
+            <Button
+              testId="submit"
+              disabled={!userInfo.username || !userInfo.password}
+              className={`text-md block w-full cursor-pointer rounded bg-sky-500 px-8 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none ${
+                !userInfo.username || !userInfo.password ? 'cursor-not-allowed' : 'cursor-pointer'
+              }`}
+              label={`${isLoading ? 'LOGIN IN PROGRESS...' : 'LOGIN'}`}
+              onClick={onLoginUser}
+            />
           </div>
         </div>
         <hr />

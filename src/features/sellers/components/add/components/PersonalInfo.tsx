@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, KeyboardEvent, ReactElement, useState } from 'react';
 import { IPersonalInfoProps } from 'src/features/sellers/interfaces/seller.interfaces';
-import TextAreaInput from 'src/shared/input/TextAreaInput';
-import TextInput from 'src/shared/input/TextInput';
+import TextAreaInput from 'src/shared/inputs/TextAreaInput';
+import TextInput from 'src/shared/inputs/TextInput';
 
 const PersonalInfo: FC<IPersonalInfoProps> = ({ personalInfo, setPersonalInfo }): ReactElement => {
   const [allowedInfoLength, setAllowedInfoLength] = useState({

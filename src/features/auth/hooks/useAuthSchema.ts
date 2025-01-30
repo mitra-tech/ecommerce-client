@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { validationErrorsType } from '../../../shared/shared.interface';
+import { validationErrorsType } from 'src/shared/shared.interface';
 
 import { IUseAuthSchema } from '../interfaces/auth.interface';
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, ReactElement } from 'react';
-import { categories } from '../../shared/utils/static.data';
+import { categories } from '../../shared/utils/static-data';
 import { v4 as uuidv4 } from 'uuid';
 
 const Categories: FC = (): ReactElement => {

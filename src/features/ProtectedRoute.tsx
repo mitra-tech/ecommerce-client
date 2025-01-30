@@ -2,8 +2,8 @@ import { FC, ReactElement, ReactNode, useCallback, useEffect, useState } from 'r
 import { Navigate, NavigateFunction, useNavigate } from 'react-router-dom';
 import HomeHeader from 'src/shared/header/components/HomeHeader';
 import { applicationLogout, saveToSessionStorage } from 'src/shared/utils/utils.service';
-import { useAppDispatch, useAppSelector } from '../store/Store';
-import { IReduxState } from '../store/Store.interface';
+import { useAppDispatch, useAppSelector } from '../store/store';
+import { IReduxState } from '../store/store.interface';
 
 import { addAuthUser } from './auth/reducers/auth.reducer';
 import { useCheckCurrentUserQuery } from './auth/services/auth.service';

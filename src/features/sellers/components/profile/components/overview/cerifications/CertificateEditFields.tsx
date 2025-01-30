@@ -3,8 +3,8 @@ import { ChangeEvent, FC, ReactElement, useContext, useState } from 'react';
 import { SellerContext } from 'src/features/sellers/context/SellerContext';
 import { ICertificate, ICertificateEditProps } from 'src/features/sellers/interfaces/seller.interfaces';
 import Button from 'src/shared/button/Button';
-import Dropdown from 'src/shared/dropdowns/Dropdown';
-import TextInput from 'src/shared/input/TextInput';
+import Dropdown from 'src/shared/dropdown/Dropdown';
+import TextInput from 'src/shared/inputs/TextInput';
 import { yearsList } from 'src/shared/utils/utils.service';
 
 const CertificateEditFields: FC<ICertificateEditProps> = ({

@@ -1,8 +1,8 @@
 import { ChangeEvent, FC, ReactElement } from 'react';
 import { IEducation, IEducationProps } from 'src/features/sellers/interfaces/seller.interfaces';
 import Button from 'src/shared/button/Button';
-import Dropdown from 'src/shared/dropdowns/Dropdown';
-import TextInput from 'src/shared/input/TextInput';
+import Dropdown from 'src/shared/dropdown/Dropdown';
+import TextInput from 'src/shared/inputs/TextInput';
 import { countriesList, degreeList, yearsList } from 'src/shared/utils/utils.service';
 
 const SellerEducationFields: FC<IEducationProps> = ({ educationFields, setEducationFields }): ReactElement => {

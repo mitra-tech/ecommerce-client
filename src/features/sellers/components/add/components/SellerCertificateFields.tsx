@@ -1,10 +1,10 @@
 import { ChangeEvent, FC, ReactElement } from 'react';
 import { ICertificate, ICertificateProps } from 'src/features/sellers/interfaces/seller.interfaces';
 import Button from 'src/shared/button/Button';
-import TextInput from 'src/shared/input/TextInput';
+import TextInput from 'src/shared/inputs/TextInput';
 import { yearsList } from 'src/shared/utils/utils.service';
 
-import Dropdown from '../../../../../shared/dropdowns/Dropdown';
+import Dropdown from '../../../../../shared/dropdown/Dropdown';
 
 const SellerCertificateFields: FC<ICertificateProps> = ({ certificatesFields, setCertificatesFields }): ReactElement => {
   const adCertificateFields = (): void => {

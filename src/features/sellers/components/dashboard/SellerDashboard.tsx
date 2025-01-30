@@ -2,7 +2,7 @@ import { FC, ReactElement } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import Button from 'src/shared/button/Button';
 import { updateHeader } from 'src/shared/header/reducers/header.reducer';
-import { useAppDispatch } from 'src/store/Store';
+import { useAppDispatch } from 'src/store/store';
 
 import { ISellerDocument, SellerContextType } from '../../interfaces/seller.interfaces';
 import ProfileHeader from '../profile/components/ProfileHeader';

@@ -1,12 +1,12 @@
-import { FC, ReactElement, useEffect } from 'react';
+import { FC, ReactElement } from 'react';
 import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
 import { useGetGigsByCategoryQuery, useGetTopRatedGigsByCategoryQuery } from 'src/features/gigs/services/gigs.service';
 import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
 import { useGetRandomSellersQuery } from 'src/features/sellers/services/seller.service';
 import TopGigsView from 'src/shared/gigs/TopGigsView';
 import { lowerCase } from 'src/shared/utils/utils.service';
-import { useAppSelector } from 'src/store/Store';
-import { IReduxState } from 'src/store/Store.interface';
+import { useAppSelector } from 'src/store/store';
+import { IReduxState } from 'src/store/store.interface';
 
 import FeaturedExperts from './FeaturedExperts';
 import HomeGigsView from './HomeGigsView';

@@ -1,14 +1,14 @@
 import { ChangeEvent, FC, FormEvent, ReactElement, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import Alert from '../../../shared/alerts/Alert';
+import Alert from 'src/shared/alert/Alert';
 import Button from 'src/shared/button/Button';
 import Header from 'src/shared/header/components/Header';
-import TextInput from '../../../shared/input/TextInput';
+import TextInput from 'src/shared/inputs/TextInput';
 import { IResponse } from 'src/shared/shared.interface';
 
 import { useAuthSchema } from '../hooks/useAuthSchema';
 import { AUTH_FETCH_STATUS, IResetPassword } from '../interfaces/auth.interface';
-import {resetPasswordSchema} from '../schemas/auth.schema'
+import { resetPasswordSchema } from '../schemes/auth.schema';
 import { useResetPasswordMutation } from '../services/auth.service';
 
 const ResetPassword: FC = (): ReactElement => {

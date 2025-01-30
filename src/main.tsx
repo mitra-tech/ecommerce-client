@@ -7,7 +7,7 @@ import { Persistor, persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import App from './App.tsx';
-import { store } from '../src/store/Store.ts';
+import { store } from './store/store.ts';
 
 const persistor: Persistor = persistStore(store);
 

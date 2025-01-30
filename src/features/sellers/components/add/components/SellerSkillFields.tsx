@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, ReactElement } from 'react';
 import { ISkillProps } from 'src/features/sellers/interfaces/seller.interfaces';
 import Button from 'src/shared/button/Button';
-import TextInput from 'src/shared/input/TextInput';
+import TextInput from 'src/shared/inputs/TextInput';
 
 const SellerSkillField: FC<ISkillProps> = ({ skillsFields, setSkillsFields }): ReactElement => {
   const addSkillFields = (): void => {

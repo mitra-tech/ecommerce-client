@@ -1,5 +1,5 @@
 import { Context, createContext } from 'react';
-import { emptySellerData } from 'src/shared/utils/static.data';
+import { emptySellerData } from 'src/shared/utils/static-data';
 
 import { ISellerContext } from '../interfaces/seller.interfaces';
 

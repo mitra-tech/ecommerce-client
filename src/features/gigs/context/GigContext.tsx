@@ -1,5 +1,5 @@
 import { Context, createContext } from 'react';
-import { emptyGigData, emptySellerData } from 'src/shared/utils/static.data';
+import { emptyGigData, emptySellerData } from 'src/shared/utils/static-data';
 
 import { IGigContext } from '../interfaces/gig.interface';
 

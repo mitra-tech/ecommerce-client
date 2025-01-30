@@ -1,6 +1,6 @@
 import { FC, ReactElement } from 'react';
 import { IChatBoxProps } from '../../interfaces/chat.interfaces';
-import TextInput from 'src/shared/input/TextInput';
+import TextInput from 'src/shared/inputs/TextInput';
 import { FaPaperPlane, FaTimes } from 'react-icons/fa';
 import Button from 'src/shared/button/Button';
 

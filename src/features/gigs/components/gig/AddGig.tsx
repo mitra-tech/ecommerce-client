@@ -6,11 +6,11 @@ import equal from 'react-fast-compare';
 import Quill from 'quill';
 import BreadCrumb from 'src/shared/breadcrumbs/Breadcrumbs';
 import Button from 'src/shared/button/Button';
-import Dropdown from 'src/shared/dropdowns/Dropdown';
-import TextAreaInput from 'src/shared/input/TextAreaInput';
-import TextInput from 'src/shared/input/TextInput';
-import { useAppSelector } from 'src/store/Store';
-import { IReduxState } from 'src/store/Store.interface';
+import Dropdown from 'src/shared/dropdown/Dropdown';
+import TextAreaInput from 'src/shared/inputs/TextAreaInput';
+import TextInput from 'src/shared/inputs/TextInput';
+import { useAppSelector } from 'src/store/store';
+import { IReduxState } from 'src/store/store.interface';
 import { GIG_MAX_LENGTH, IAllowedGigItem, ICreateGig, IShowGigModal } from '../../interfaces/gig.interface';
 import {
   categories,

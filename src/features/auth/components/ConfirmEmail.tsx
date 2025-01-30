@@ -1,8 +1,8 @@
 import { FC, ReactElement, useCallback, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import Alert from 'src/shared/alerts/Alert';
+import Alert from 'src/shared/alert/Alert';
 import { IResponse } from 'src/shared/shared.interface';
-import { useAppDispatch } from 'src/store/Store';
+import { useAppDispatch } from 'src/store/store';
 
 import { AUTH_FETCH_STATUS } from '../interfaces/auth.interface';
 import { addAuthUser } from '../reducers/auth.reducer';

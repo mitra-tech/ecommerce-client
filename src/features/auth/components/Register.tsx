@@ -1,36 +1,32 @@
-import { FC, ReactElement, useRef, useState } from 'react';
+import { ChangeEvent, FC, ReactElement, useRef, useState } from 'react';
 import { FaCamera, FaChevronLeft, FaEye, FaEyeSlash, FaTimes } from 'react-icons/fa';
-import Alert from '../../../shared/alerts/Alert';
-import Button from '../../../shared/button/Button';
-import TextInput from '../../../shared/input/TextInput';
-import { IModalBgProps } from '../../../shared/modals/interfaces/modal.interface';
-import ModalBg from '../../../shared/modals/ModalBg';
-import { ISignUpPayload } from '../interfaces/auth.interface';
-import { ChangeEvent } from 'react';
-import Dropdown from 'src/shared/dropdowns/Dropdown';
-import { countriesList, saveToSessionStorage } from 'src/shared/utils/utils.service';
-import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service';
-import { useAuthSchema } from '../hooks/useAuthSchema';
-import { registerUserSchema } from '../schemas/auth.schema';
-import { useSignUpMutation } from '../services/auth.service';
+import Alert from 'src/shared/alert/Alert';
+import Button from 'src/shared/button/Button';
+import Dropdown from 'src/shared/dropdown/Dropdown';
+import { updateCategoryContainer } from 'src/shared/header/reducers/category.reducer';
+import { updateHeader } from 'src/shared/header/reducers/header.reducer';
+import TextInput from 'src/shared/inputs/TextInput';
+import { IModalBgProps } from 'src/shared/modals/interfaces/modal.interface';
+import ModalBg from 'src/shared/modals/ModalBg';
 import { IResponse } from 'src/shared/shared.interface';
-import { useAppDispatch } from 'src/store/Store';
+import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service';
+import { countriesList, saveToSessionStorage } from 'src/shared/utils/utils.service';
+import { useAppDispatch } from 'src/store/store';
+
+import { useAuthSchema } from '../hooks/useAuthSchema';
+import { ISignUpPayload } from '../interfaces/auth.interface';
 import { addAuthUser } from '../reducers/auth.reducer';
 import { updateLogout } from '../reducers/logout.reducer';
-import { updateHeader } from 'src/shared/header/reducers/header.reducer';
-import { updateCategoryContainer } from 'src/shared/header/reducers/category.reducer';
+import { registerUserSchema } from '../schemes/auth.schema';
+import { useSignUpMutation } from '../services/auth.service';
 
 const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement => {
+  const [step, setStep] = useState<number>(1);
+  const [alertMessage, setAlertMessage] = useState<string>('');
   const [country, setCountry] = useState<string>('Select Country');
   const [passwordType, setPasswordType] = useState<string>('password');
   const [profileImage, setProfileImage] = useState<string>('https://placehold.co/330x220?text=Profile+Image');
   const [showImageSelect, setShowImageSelect] = useState<boolean>(false);
-  const [alertMessage, setAlertMessage] = useState<string>('');
-
-  const [signUp, { isLoading }] = useSignUpMutation();
-  const [step, setStep] = useState<number>(1);
-  const dispatch = useAppDispatch();
-
   const [userInfo, setUserInfo] = useState<ISignUpPayload>({
     username: '',
     password: '',
@@ -41,7 +37,9 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
     deviceType: ''
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const dispatch = useAppDispatch();
   const [schemaValidation] = useAuthSchema({ schema: registerUserSchema, userInfo });
+  const [signUp, { isLoading }] = useSignUpMutation();
 
   const handleFileChange = async (event: ChangeEvent): Promise<void> => {
     const target: HTMLInputElement = event.target as HTMLInputElement;
@@ -61,7 +59,6 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
     try {
       const isValid: boolean = await schemaValidation();
       if (isValid) {
-        // unwrap(): unwraps whatever the response returns
         const result: IResponse = await signUp(userInfo).unwrap();
         setAlertMessage('');
         dispatch(addAuthUser({ authInfo: result.user }));
@@ -74,6 +71,7 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
       setAlertMessage(error?.data.message);
     }
   };
+
   return (
     <ModalBg>
       <div className="relative top-[10%] mx-auto w-11/12 max-w-md rounded bg-white md:w-2/3">
@@ -87,7 +85,7 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
                 label={<FaChevronLeft className="icon icon-tabler icon-tabler-x" />}
               />
             )}
-            <h1 className="flex w-full justify-center">Join</h1>
+            <h1 className="flex w-full justify-center">Join Jobber</h1>
             <Button
               className="cursor-pointer rounded text-gray-400 hover:text-gray-600"
               role="button"
@@ -99,20 +97,23 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
         <div className="flex w-full items-center justify-center px-5 py-5">
           <ol className="flex w-full">
             <li className="flex w-full items-center text-white after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-sky-500 after:content-[''] dark:after:border-sky-500">
-              <span
-                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-500 font-bold dark:bg-sky-500 lg:h-12 lg:w-12 ${step === 2 ? 'bg-sky-500 dark:bg-sky-500' : 'bg-sky-300/50 dark:bg-sky-300'}`}
-              >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-500 font-bold dark:bg-sky-500 lg:h-12 lg:w-12">
                 1
               </span>
             </li>
             <li className="flex items-center">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-bold text-white lg:h-12 lg:w-12">
+              <span
+                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-bold text-white lg:h-12 lg:w-12 ${
+                  step === 2 ? 'bg-sky-500 dark:bg-sky-500' : 'bg-sky-300/50 dark:bg-sky-300/50'
+                }`}
+              >
                 2
               </span>
             </li>
           </ol>
         </div>
         <div className="px-5">{alertMessage && <Alert type="error" message={alertMessage} />}</div>
+
         {step === 1 && (
           <div className="relative px-5 py-5">
             <div>
@@ -154,19 +155,9 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
               <div className="relative mb-5 mt-2">
                 <div className="absolute right-0 flex h-full cursor-pointer items-center pr-3 text-gray-600">
                   {passwordType === 'password' ? (
-                    <FaEyeSlash
-                      onClick={() => {
-                        setPasswordType('text');
-                      }}
-                      className="icon icon-tabler icon-tabler-info-circle"
-                    />
+                    <FaEyeSlash onClick={() => setPasswordType('text')} className="icon icon-tabler icon-tabler-info-circle" />
                   ) : (
-                    <FaEye
-                      onClick={() => {
-                        setPasswordType('password');
-                      }}
-                      className="icon icon-tabler icon-tabler-info-circle"
-                    />
+                    <FaEye onClick={() => setPasswordType('password')} className="icon icon-tabler icon-tabler-info-circle" />
                   )}
                 </div>
                 <TextInput
@@ -192,6 +183,7 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
             />
           </div>
         )}
+
         {step === 2 && (
           <div className="relative px-5 py-5">
             <div className="h-24">
@@ -218,18 +210,25 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
                 Profile Picture
               </label>
               <div
-                className="relative mb-5 mt-2 w-[20%] cursor-pointer"
                 onMouseEnter={() => setShowImageSelect(true)}
                 onMouseLeave={() => setShowImageSelect(false)}
+                className="relative mb-5 mt-2 w-[20%] cursor-pointer"
               >
-                {profileImage && <img id="profilePicture" src={profileImage} alt="Profile Picture" className="" />}
+                {profileImage && (
+                  <img
+                    id="profilePicture"
+                    src={profileImage}
+                    alt="Profile Picture"
+                    className="left-0 top-0 h-20 w-20 rounded-full bg-white object-cover"
+                  />
+                )}
                 {!profileImage && (
                   <div className="left-0 top-0 flex h-20 w-20 cursor-pointer justify-center rounded-full bg-[#dee1e7]"></div>
                 )}
                 {showImageSelect && (
                   <div
-                    className="absolute left-0 top-0 flex h-20 w-20 cursor-pointer justify-center rounded-full bg-[#dee1e7]"
                     onClick={() => fileInputRef.current?.click()}
+                    className="absolute left-0 top-0 flex h-20 w-20 cursor-pointer justify-center rounded-full bg-[#dee1e7]"
                   >
                     <FaCamera className="flex self-center" />
                   </div>
@@ -237,8 +236,8 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
                 <TextInput
                   name="image"
                   ref={fileInputRef}
-                  style={{ display: 'none' }}
                   type="file"
+                  style={{ display: 'none' }}
                   onClick={() => {
                     if (fileInputRef.current) {
                       fileInputRef.current.value = '';
@@ -253,11 +252,12 @@ const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement =
               className={`text-md block w-full cursor-pointer rounded bg-sky-500 px-8 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none ${
                 !userInfo.country || !userInfo.profilePicture ? 'cursor-not-allowed' : 'cursor-pointer'
               }`}
-              label={`${isLoading ? 'Signup In Progress...' : 'Signup'}`}
+              label={`${isLoading ? 'SIGNUP IN PROGRESS...' : 'SIGNUP'}`}
               onClick={onRegisterUser}
             />
           </div>
         )}
+
         <hr />
         <div className="px-5 py-4">
           <div className="ml-2 flex w-full justify-center text-sm font-medium">
