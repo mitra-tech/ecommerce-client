@@ -18,3 +18,26 @@ export interface IChatBoxProps {
   gigId: string;
   onClose: () => void;
 }
+
+export interface IMessageDocument {
+  _id?: string;
+  conversationId?: string;
+  body?: string;
+  url?: string;
+  file?: string;
+  fileType?: string;
+  fileSize?: string;
+  fileName?: string;
+  gigId?: string;
+  sellerId?: string;
+  buyerId?: string;
+  senderUsername?: string;
+  senderPicture?: string;
+  receiverUsername?: string;
+  receiverPicture?: string;
+  isRead?: boolean;
+  hasOffer?: boolean;
+  offer?: [];
+  hasConversationId?: boolean;
+  createdAt?: Date | string;
+}
