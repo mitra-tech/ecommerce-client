@@ -1,6 +1,8 @@
 import { FC, ReactElement, useContext, useState } from 'react';
 import { FaArrowRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import ChatBox from 'src/features/chat/components/chatbox/ChatBox';
+import { IChatBuyerProps, IChatSellerProps } from 'src/features/chat/interfaces/chat.interfaces';
 import { GigContext } from 'src/features/gigs/context/GigContext';
 import { ILanguage } from 'src/features/sellers/interfaces/seller.interfaces';
 import Button from 'src/shared/button/Button';
@@ -15,14 +17,26 @@ import { v4 as uuidv4 } from 'uuid';
 
 const GigSeller: FC = (): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
+  const buyer = useAppSelector((state: IReduxState) => state.buyer);
   const { gig, seller } = useContext(GigContext);
   const [approvalModalContent, setApprovalModalContent] = useState<IApprovalModalContent>();
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showChatBox, setShowChatBox] = useState<boolean>(false);
+  const chatSeller: IChatSellerProps = {
+    username: `${seller.username}`,
+    _id: `${seller._id}`,
+    profilePicture: `${seller.profilePicture}`,
+    responseTime: parseInt(`${seller.responseTime}`)
+  };
+  const chatBuyer: IChatBuyerProps = {
+    username: `${buyer.username}`,
+    _id: `${buyer._id}`,
+    profilePicture: `${buyer.profilePicture}`
+  };
 
   return (
     <>
       {showModal && <ApprovalModal approvalModalContent={approvalModalContent} hideCancel={true} onClick={() => setShowModal(false)} />}
-
       <div className="border-grey mb-8 border">
         <div className="flex border-b px-4 py-2">
           <h4 className="font-bold">About The Seller</h4>
@@ -31,7 +45,6 @@ const GigSeller: FC = (): ReactElement => {
           <div className="flex flex-col gap-y-3 md:flex-row md:gap-x-2">
             <img className="flex h-24 w-24 self-center rounded-full object-cover" src={gig.profilePicture} alt="" />
             <div className="flex flex-col self-center">
-              {/* if the buyer wants to see the profile of the seller they should visit the below link */}
               <Link
                 to={`/seller_profile/${lowerCase(`${gig.username}`)}/${gig.sellerId}/view`}
                 className="flex cursor-pointer self-center no-underline hover:underline md:block md:self-start"
@@ -40,7 +53,6 @@ const GigSeller: FC = (): ReactElement => {
               </Link>
               <span className="flex self-center text-sm md:block md:self-start">{seller.oneliner}</span>
               <div className="flex w-full justify-center pt-1 md:justify-start">
-                {/* if seller rating count is zero add gap-x-[5.8rem] otherwise gap-x-5 */}
                 <div className={`flex w-full justify-center md:justify-start ${seller.ratingsCount === 0 ? 'gap-x-[5.8rem]' : 'gap-x-5'}`}>
                   <div className="flex w-full justify-center gap-x-1 md:justify-start">
                     <div className="mt-1 w-20 gap-x-2">
@@ -73,7 +85,6 @@ const GigSeller: FC = (): ReactElement => {
             <div className="flex flex-col">
               <span className="">Languages</span>
               <div className="flex flex-wrap">
-                {/* the seller languages is an array and we want to loop on it and add a ',' after each item, except the last item  */}
                 {seller?.languages &&
                   seller?.languages.map((language: ILanguage, index: number) => (
                     <span className="font-bold" key={uuidv4()}>
@@ -105,13 +116,14 @@ const GigSeller: FC = (): ReactElement => {
                     btnColor: 'bg-sky-500 hover:bg-sky-400'
                   });
                   setShowModal(true);
+                } else {
+                  setShowChatBox((item: boolean) => !item);
                 }
-                // to do - chat box
               }}
             />
           </div>
         </div>
-        {/* to be added - chat box */}
+        {showChatBox && <ChatBox seller={chatSeller} buyer={chatBuyer} gigId={`${gig.id}`} onClose={() => setShowChatBox(false)} />}
       </div>
     </>
   );
