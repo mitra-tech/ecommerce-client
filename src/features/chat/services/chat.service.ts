@@ -1,7 +1,7 @@
 import { IResponse } from 'src/shared/shared.interface';
 import { api } from 'src/store/api';
 
-import { IMessageDocument } from '../interfaces/chat.interfaces';
+import { IMessageDocument } from '../interfaces/chat.interface';
 
 export const chatApi = api.injectEndpoints({
   endpoints: (build) => ({

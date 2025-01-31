@@ -41,3 +41,10 @@ export interface IMessageDocument {
   hasConversationId?: boolean;
   createdAt?: Date | string;
 }
+
+export interface IConversationDocument {
+  _id: string;
+  conversationId: string;
+  senderUsername: string;
+  receiverUsername: string;
+}

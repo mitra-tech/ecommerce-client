@@ -3,8 +3,9 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { ChangeEvent, CSSProperties, Dispatch, KeyboardEvent, ReactNode, SetStateAction } from 'react';
 import { IAuthDocument, IResetPassword, ISignInPayload, ISignUpPayload } from 'src/features/auth/interfaces/auth.interface';
 import { IBuyerDocument } from 'src/features/buyer/interfaces/buyer.interface';
+import { IConversationDocument, IMessageDocument } from 'src/features/chat/interfaces/chat.interface';
 import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
-import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
+import { IOrderDocument, IOrderNotifcation } from 'src/features/order/interfaces/order.interfaces';
 import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
 
 export type validationErrorsType = ISignInPayload | ISignUpPayload | IResetPassword;
@@ -23,11 +24,17 @@ export interface IResponse {
   gigs?: ISellerGig[];
   total?: number;
   sortItems?: string[];
+  conversations?: IConversationDocument[] | IMessageDocument[];
+  messages?: IMessageDocument[];
+  messageData?: IMessageDocument;
   conversationId?: string;
   clientSecret?: string;
   paymentIntentId?: string;
   order?: IOrderDocument;
   orders?: IOrderDocument[];
+  review?: [];
+  reviews?: [];
+  notifications?: IOrderNotifcation[];
   browserName?: string;
   deviceType?: string;
 }

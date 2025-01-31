@@ -2,7 +2,7 @@ import { FC, ReactElement, useContext, useState } from 'react';
 import { FaArrowRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ChatBox from 'src/features/chat/components/chatbox/ChatBox';
-import { IChatBuyerProps, IChatSellerProps } from 'src/features/chat/interfaces/chat.interfaces';
+import { IChatBuyerProps, IChatSellerProps } from 'src/features/chat/interfaces/chat.interface';
 import { GigContext } from 'src/features/gigs/context/GigContext';
 import { ILanguage } from 'src/features/sellers/interfaces/seller.interfaces';
 import Button from 'src/shared/button/Button';
