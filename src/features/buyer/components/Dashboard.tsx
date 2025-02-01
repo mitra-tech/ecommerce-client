@@ -1,7 +1,8 @@
-import { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import BuyerTable from './BuyerTable';
 import { orderTypes } from 'src/shared/utils/utils.service';
 import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
+import { socket, socketService } from 'src/sockets/socket.service';
 
 const BuyerDashboard: FC = (): ReactElement => {
   const BUYER_GIG_STATUS = {
@@ -13,6 +14,13 @@ const BuyerDashboard: FC = (): ReactElement => {
   };
   const [type, setType] = useState<string>(BUYER_GIG_STATUS.ACTIVE);
   const orders: IOrderDocument[] = [];
+
+  useEffect(() => {
+    socketService.setupSocketConnection();
+    // send a request to the server to fetch or retrieve the list of currently logged-in users
+    socket.emit('getLoggedInUsers', '');
+  }, []);
+
   return (
     <div className="container mx-auto mt-8 px-6 md:px-12 lg:px-6">
       <div className="flex flex-col flex-wrap">
