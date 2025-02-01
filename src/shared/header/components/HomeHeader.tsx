@@ -17,6 +17,7 @@ import SettingsDropdown from './SettingsDropdown';
 import { updateCategoryContainer } from '../reducers/category.reducer';
 import { updateHeader } from '../reducers/header.reducer';
 import HeaderSearchInput from './HeaderSearchInput';
+import MessageDropdown from './MessageDropdown';
 
 const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
@@ -29,13 +30,12 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
   const orderDropdownRef = useRef<HTMLDivElement | null>(null);
   const navElement = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
-
   const [resendEmail] = useResendEmailMutation();
 
   const [isSettingsDropdown, setIsSettingsDropdown] = useDetectOutsideClick(settingsDropdownRef, false);
-  const isMessageDropdownOpen = false;
-  const isNotificationDropdownOpen = false;
-  const isOrderDropdownOpen = false;
+  const [isMessageDropdownOpen, setIsMessageDropdownOpen] = useDetectOutsideClick(messageDropdownRef, false);
+  const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] = useDetectOutsideClick(notificationDropdownRef, false);
+  const [isOrderDropdownOpen, setIsOrderDropdownOpen] = useDetectOutsideClick(orderDropdownRef, false);
 
   const onResendEmail = async (): Promise<void> => {
     try {
@@ -47,8 +47,22 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
     }
   };
 
+
   const toggleDropdown = (): void => {
     setIsSettingsDropdown(!isSettingsDropdown);
+    setIsMessageDropdownOpen(false);
+    setIsNotificationDropdownOpen(false);
+    setIsOrderDropdownOpen(false);
+  };
+
+  // If the notification dropdown is open, and user receives a new notification and clicks on that, the notification dropdown should get close.
+  const toggleMessageDropdown = (): void => {
+    setIsMessageDropdownOpen(!isMessageDropdownOpen);
+    setIsNotificationDropdownOpen(false);
+    setIsOrderDropdownOpen(false);
+    setIsSettingsDropdown(false);
+    dispatch(updateHeader('home'));
+    dispatch(updateCategoryContainer(true));
   };
 
   return (
@@ -84,7 +98,7 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
                   >
                     Jobber
                   </Link>
-                  <HeaderSearchInput/>
+                  <HeaderSearchInput />
                 </div>
               </div>
             </div>
@@ -117,6 +131,7 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
                   <li className="relative z-50 flex cursor-pointer items-center">
                     <Button
                       className="relative px-4"
+                      onClick={toggleMessageDropdown}
                       label={
                         <>
                           <FaRegEnvelope />
@@ -134,7 +149,9 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
                       leaveFrom="opacity-100 translate-y-0"
                       leaveTo="opacity-0 translate-y-1"
                     >
-                      <div className="absolute right-0 mt-5 w-96"></div>
+                      <div className="absolute right-0 mt-5 w-96">
+                      <MessageDropdown setIsMessageDropdownOpen={setIsMessageDropdownOpen} />
+                      </div>
                     </Transition>
                   </li>
                   <li className="relative z-50 flex cursor-pointer items-center">
