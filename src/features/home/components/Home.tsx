@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useEffect } from 'react';
 import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
 import { useGetGigsByCategoryQuery, useGetTopRatedGigsByCategoryQuery } from 'src/features/gigs/services/gigs.service';
 import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
@@ -11,6 +11,7 @@ import { IReduxState } from 'src/store/store.interface';
 import FeaturedExperts from './FeaturedExperts';
 import HomeGigsView from './HomeGigsView';
 import HomeSlider from './HomeSlider';
+import { socketService } from 'src/sockets/socket.service';
 
 const Home: FC = (): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
@@ -37,6 +38,10 @@ const Home: FC = (): ReactElement => {
   // if (isSellerDataSuccess) {
   //   topGigs = sellerData.gigs as ISellerGig[];
   // }
+
+  useEffect(() => {
+    socketService.setupSocketConnection();
+  }, []);
 
   return (
     <div className="m-auto px-6 w-screen relative min-h-screen xl:container md:px-12 lg:px-6">
