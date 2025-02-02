@@ -22,8 +22,11 @@ const DashboardHeader: FC = (): ReactElement => {
   useEffect(() => {
     socketService.setupSocketConnection();
     socket.emit('getLoggedInUsers', '');
+    // listen for online users
     socket.on('online', (data: string[]) => {
+      // find the username of the authenticated user
       const username = find(data, (name: string) => name === authUser.username);
+      // set the authenticated username
       setAuthUsername(`${username}`);
     });
   }, [authUser.username]);
