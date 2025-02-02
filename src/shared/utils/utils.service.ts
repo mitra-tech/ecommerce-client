@@ -204,3 +204,7 @@ export const expectedGigDelivery = (): string[] => {
 export const generateRandomNumber = (length: number): number => {
   return Math.floor(Math.random() * (9 * Math.pow(10, length - 1))) + Math.pow(10, length - 1);
 };
+
+export const isFetchBaseQueryError = (error: unknown): boolean => {
+  return typeof error === 'object' && error !== null && 'status' in error && 'data' in error;
+};
