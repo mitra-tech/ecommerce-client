@@ -19,13 +19,18 @@ const GigCardDisplayItem: FC<IGigCardItems> = ({ gig, linkTarget, showEditIcon }
   const navigateToEditGig = (gigId: string): void => {
     navigate(`/manage_gigs/edit/${gigId}`, { state: gig });
   };
+
+  // every time the user clciks on the gig, we are going to save the gig title to the server
   const saveGigTitle = (gig: ISellerGig): void => {
     if (authUser?.username) {
       const category: string = replaceAmpersandAndDashWithSpace(gig.categories);
+      // setup the event for the category that we are sending from the client to the server
       socket.emit('category', category, authUser.username);
     }
   };
+  // we get the online users and check if the seller is online
   useEffect(() => {
+    // connect to the socket
     socketService.setupSocketConnection();
     socket.emit('getLoggedInUsers', '');
     socket.on('online', (data: string[]) => {
