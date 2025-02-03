@@ -27,10 +27,12 @@ const ChatList: FC = (): ReactElement => {
   const selectUserFromList = async (user: IMessageDocument): Promise<void> => {
     try {
       setSelectedUser(user);
+      // get the url path, split with '/' and remove the last two items from the path
       const pathList: string[] = location.pathname.split('/');
       pathList.splice(-2, 2);
       const locationPathname: string = !pathList.join('/') ? location.pathname : pathList.join('/');
       const chatUsername: string = (user.receiverUsername !== authUser?.username ? user.receiverUsername : user.senderUsername) as string;
+      // navigate to the chat page with the selected user
       navigate(`${locationPathname}/${lowerCase(chatUsername)}/${user.conversationId}`);
       socket.emit('getLoggedInUsers', '');
       if (user.receiverUsername === authUser?.username && lowerCase(`${user.senderUsername}`) === username && !user.isRead) {
