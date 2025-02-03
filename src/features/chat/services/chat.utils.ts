@@ -1,11 +1,10 @@
-import { cloneDeep, findIndex, remove } from 'lodash';
+import { cloneDeep, filter, findIndex, remove } from 'lodash';
 import { Dispatch, SetStateAction } from 'react';
 import { lowerCase } from 'src/shared/utils/utils.service';
 import { socket } from 'src/sockets/socket.service';
 
 import { IMessageDocument } from '../interfaces/chat.interface';
 
-// recieved chat message
 export const chatMessageReceived = (
   conversationId: string,
   chatMessagesData: IMessageDocument[],
@@ -25,11 +24,11 @@ export const chatMessageReceived = (
   });
 };
 
-// recieved chat messages
 export const chatListMessageReceived = (
   username: string,
   chatList: IMessageDocument[],
   conversationListRef: IMessageDocument[],
+  // dispatch: Dispatch<AnyAction>,
   setChatList: Dispatch<SetStateAction<IMessageDocument[]>>
 ): void => {
   socket.on('message received', (data: IMessageDocument) => {
@@ -45,7 +44,13 @@ export const chatListMessageReceived = (
         remove(conversationListRef, (chat: IMessageDocument) => chat.receiverUsername === data.receiverUsername);
       }
       conversationListRef = [data, ...conversationListRef];
-
+      if (lowerCase(`${data.receiverUsername}`) === lowerCase(`${username}`)) {
+        const list: IMessageDocument[] = filter(
+          conversationListRef,
+          (item: IMessageDocument) => !item.isRead && item.receiverUsername === username
+        );
+        console.log(list);
+      }
       setChatList(conversationListRef);
     }
   });
