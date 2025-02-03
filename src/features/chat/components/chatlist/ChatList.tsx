@@ -1,5 +1,5 @@
 import { filter, orderBy } from 'lodash';
-import { FC, ReactElement, useEffect, useState } from 'react';
+import { FC, ReactElement, useEffect, useRef, useState } from 'react';
 import { FaCheck, FaCheckDouble, FaCircle } from 'react-icons/fa';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Location, NavigateFunction, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { IMessageDocument } from '../../interfaces/chat.interface';
 import { useGetConversationListQuery, useMarkMultipleMessagesAsReadMutation } from '../../services/chat.service';
+import { chatListMessageReceived, chatListMessageUpdated } from '../../services/chat.utils';
 
 const ChatList: FC = (): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
@@ -23,6 +24,8 @@ const ChatList: FC = (): ReactElement => {
   const dispatch = useAppDispatch();
   const { data, isSuccess } = useGetConversationListQuery(`${authUser.username}`);
   const [markMultipleMessagesAsRead] = useMarkMultipleMessagesAsReadMutation();
+  const conversationsListRef = useRef<IMessageDocument[]>([]);
+
 
   const selectUserFromList = async (user: IMessageDocument): Promise<void> => {
     try {
@@ -36,6 +39,7 @@ const ChatList: FC = (): ReactElement => {
       navigate(`${locationPathname}/${lowerCase(chatUsername)}/${user.conversationId}`);
       socket.emit('getLoggedInUsers', '');
       if (user.receiverUsername === authUser?.username && lowerCase(`${user.senderUsername}`) === username && !user.isRead) {
+        // check in the chat list if the message is not read and the receiver is the logged in user
         const list: IMessageDocument[] = filter(
           chatList,
           (item: IMessageDocument) => !item.isRead && item.receiverUsername === authUser?.username
@@ -56,9 +60,16 @@ const ChatList: FC = (): ReactElement => {
   };
 
   useEffect(() => {
+    chatListMessageReceived(`${authUser.username}`, chatList, conversationsListRef.current, dispatch, setChatList);
+    chatListMessageUpdated(`${authUser.username}`, chatList, conversationsListRef.current, dispatch, setChatList);
+  }, [authUser.username, conversationId, chatList, dispatch]);
+
+
+  useEffect(() => {
     if (isSuccess) {
       const sortedConversations: IMessageDocument[] = orderBy(data.conversations, ['createdAt'], ['desc']) as IMessageDocument[];
       setChatList(sortedConversations);
+      // dispatch update notification
     }
   }, [isSuccess, username, data?.conversations, dispatch]);
 

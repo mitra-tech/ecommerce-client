@@ -4,6 +4,7 @@ import { lowerCase } from 'src/shared/utils/utils.service';
 import { socket } from 'src/sockets/socket.service';
 
 import { IMessageDocument } from '../interfaces/chat.interface';
+import { AnyAction } from 'redux';
 
 export const chatMessageReceived = (
   conversationId: string,
@@ -28,7 +29,7 @@ export const chatListMessageReceived = (
   username: string,
   chatList: IMessageDocument[],
   conversationListRef: IMessageDocument[],
-  // dispatch: Dispatch<AnyAction>,
+  dispatch: Dispatch<AnyAction>,
   setChatList: Dispatch<SetStateAction<IMessageDocument[]>>
 ): void => {
   socket.on('message received', (data: IMessageDocument) => {
@@ -60,6 +61,7 @@ export const chatListMessageUpdated = (
   username: string,
   chatList: IMessageDocument[],
   conversationListRef: IMessageDocument[],
+  dispatch: Dispatch<AnyAction>,
   setChatList: Dispatch<SetStateAction<IMessageDocument[]>>
 ): void => {
   socket.on('message updated', (data: IMessageDocument) => {
