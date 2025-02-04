@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface IChatSellerProps {
   _id: string;
   username: string;
@@ -47,4 +49,12 @@ export interface IConversationDocument {
   conversationId: string;
   senderUsername: string;
   receiverUsername: string;
+}
+
+
+export interface IChatWindowProps {
+  chatMessages: IMessageDocument[];
+  isError: boolean;
+  isLoading: boolean;
+  setSkip?: Dispatch<SetStateAction<boolean>>;
 }
