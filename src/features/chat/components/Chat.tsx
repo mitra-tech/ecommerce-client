@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { IMessageDocument } from '../interfaces/chat.interface';
 import { useGetUserMessagesQuery } from '../services/chat.service';
 import { chatMessageReceived } from '../services/chat.utils';
+import ChatWindow from './chatwindow/ChatWindow';
 
 const Chat: FC = (): ReactElement => {
   const { conversationId } = useParams<string>();
@@ -27,9 +28,11 @@ const Chat: FC = (): ReactElement => {
       <div className="lg:border-grey relative w-full overflow-hidden lg:w-1/3 lg:border-r"></div>
 
       <div className="relative hidden w-full overflow-hidden md:w-2/3 lg:flex">
-        {/* to do: Chat window */}
-
-        <div className="flex w-full items-center justify-center">Select a user to chat with.</div>
+        {conversationId && chatMessagesData.length > 0 ? (
+          <ChatWindow setSkip={setSkip} chatMessages={chatMessagesData} isError={isError} isLoading={isLoading} />
+        ) : (
+          <div className="flex w-full items-center justify-center">Select a user to chat with.</div>
+        )}
       </div>
     </div>
   );
