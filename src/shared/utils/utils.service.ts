@@ -208,3 +208,16 @@ export const generateRandomNumber = (length: number): number => {
 export const isFetchBaseQueryError = (error: unknown): boolean => {
   return typeof error === 'object' && error !== null && 'status' in error && 'data' in error;
 };
+
+
+export const bytesToSize = (bytes: number): string => {
+  const sizes: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  if (bytes === 0) {
+    return 'n/a';
+  }
+  const i = parseInt(`${Math.floor(Math.log(bytes) / Math.log(1024))}`, 10);
+  if (i === 0) {
+    return `${bytes} ${sizes[i]}`;
+  }
+  return `${(bytes / 1024 ** i).toFixed(1)} ${sizes[i]}`;
+};

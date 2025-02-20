@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
 
 export interface IChatSellerProps {
   _id: string;
@@ -57,4 +57,16 @@ export interface IChatWindowProps {
   isError: boolean;
   isLoading: boolean;
   setSkip?: Dispatch<SetStateAction<boolean>>;
+}
+
+
+
+export interface IFilePreviewProps {
+  image: string;
+  file: File;
+  isLoading: boolean;
+  message: string;
+  handleChange: (event: ChangeEvent) => void;
+  onSubmit: (event: FormEvent) => void;
+  onRemoveImage: () => void;
 }
