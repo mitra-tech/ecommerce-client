@@ -1,4 +1,5 @@
 import { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
+import { IOffer } from "src/features/order/interfaces/order.interfaces";
 
 export interface IChatSellerProps {
   _id: string;
@@ -39,7 +40,7 @@ export interface IMessageDocument {
   receiverPicture?: string;
   isRead?: boolean;
   hasOffer?: boolean;
-  offer?: [];
+  offer?: IOffer;
   hasConversationId?: boolean;
   createdAt?: Date | string;
 }
