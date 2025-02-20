@@ -17,6 +17,7 @@ import useChatScrollToBottom from '../../hooks/useChatScrollToBottom';
 import { IChatWindowProps, IMessageDocument } from '../../interfaces/chat.interface';
 import { useSaveChatMessageMutation } from '../../services/chat.service';
 import { useAppSelector } from 'src/store/store';
+import ChatImagePreview from './ChatImagePreview';
 
 const MESSAGE_STATUS = {
   EMPTY: '',
@@ -58,6 +59,10 @@ const ChatWindow: FC<IChatWindowProps> = ({ chatMessages, isLoading, setSkip }):
         setShowImagePreview(MESSAGE_STATUS.LOADING);
       }
     }
+  };
+
+  const setChatMessage = (event: ChangeEvent): void => {
+    setMessage((event.target as HTMLInputElement).value);
   };
 
   const sendMessage = async (event: FormEvent): Promise<void> => {
@@ -160,9 +165,18 @@ const ChatWindow: FC<IChatWindowProps> = ({ chatMessages, isLoading, setSkip }):
           </div>
           <div className="relative z-10 flex flex-col">
             {showImagePreview && (
-             <div>
-              {/* to do: chat image preview */}
-             </div>
+              <ChatImagePreview
+                image={URL.createObjectURL(selectedFile as File)}
+                file={selectedFile as File}
+                isLoading={isUploadingFile}
+                message={message}
+                handleChange={setChatMessage}
+                onSubmit={sendMessage}
+                onRemoveImage={() => {
+                  setSelectedFile(null);
+                  setShowImagePreview(MESSAGE_STATUS.IS_LOADING);
+                }}
+              />
             )}
             {!showImagePreview && (
               <div className="bottom-0 left-0 right-0 z-0 h-28 px-4 ">
