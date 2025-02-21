@@ -1,4 +1,4 @@
-import { find } from 'lodash';
+import { filter, find } from 'lodash';
 import { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useRef, useState } from 'react';
 import { FaPaperclip, FaPaperPlane } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
@@ -6,20 +6,21 @@ import { IBuyerDocument } from 'src/features/buyer/interfaces/buyer.interface';
 import { useGetBuyerByUsernameQuery } from 'src/features/buyer/services/buyer.service';
 import { useGetGigByIdQuery } from 'src/features/gigs/services/gigs.service';
 import Button from 'src/shared/button/Button';
+import { updateNotification } from 'src/shared/header/reducers/notification.reducer';
 import TextInput from 'src/shared/inputs/TextInput';
 import OfferModal from 'src/shared/modals/OfferModal';
 import { checkFile, fileType, readAsBase64 } from 'src/shared/utils/image-utils.service';
 import { TimeAgo } from 'src/shared/utils/timeago.utils';
 import { firstLetterUppercase, showErrorToast } from 'src/shared/utils/utils.service';
 import { socket, socketService } from 'src/sockets/socket.service';
-import { useAppSelector } from 'src/store/store';
+import { useAppDispatch, useAppSelector } from 'src/store/store';
 import { IReduxState } from 'src/store/store.interface';
 import { v4 as uuidv4 } from 'uuid';
 
 import useChatScrollToBottom from '../../hooks/useChatScrollToBottom';
 import { IChatWindowProps, IMessageDocument } from '../../interfaces/chat.interface';
 import { useSaveChatMessageMutation } from '../../services/chat.service';
-
+import ChatFile from './ChatFile';
 import ChatImagePreview from './ChatImagePreview';
 import ChatOffer from './ChatOffer';
 
@@ -44,6 +45,7 @@ const ChatWindow: FC<IChatWindowProps> = ({ chatMessages, isLoading, setSkip }):
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploadingFile, setIsUploadingFile] = useState<boolean>(MESSAGE_STATUS.IS_LOADING);
   const [message, setMessage] = useState<string>(MESSAGE_STATUS.EMPTY);
+  const dispatch = useAppDispatch();
   const { data: buyerData, isSuccess: isBuyerSuccess } = useGetBuyerByUsernameQuery(`${firstLetterUppercase(`${username}`)}`);
   const { data } = useGetGigByIdQuery(singleMessageRef.current ? `${singleMessageRef.current?.gigId}` : NOT_EXISTING_ID);
   const [saveChatMessage] = useSaveChatMessageMutation();
@@ -117,6 +119,11 @@ const ChatWindow: FC<IChatWindowProps> = ({ chatMessages, isLoading, setSkip }):
   };
 
   useEffect(() => {
+    const list: IMessageDocument[] = filter(chatMessages, (item: IMessageDocument) => !item.isRead && item.receiverUsername === username);
+    dispatch(updateNotification({ hasUnreadMessage: list.length > 0 }));
+  }, [chatMessages, dispatch, username]);
+
+  useEffect(() => {
     socketService.setupSocketConnection();
     socket.emit('getLoggedInUsers', '');
     socket.on('online', (data: string[]) => {
@@ -170,7 +177,7 @@ const ChatWindow: FC<IChatWindowProps> = ({ chatMessages, isLoading, setSkip }):
                       <div className="flex flex-col text-[#777d74]">
                         <span>{message.body}</span>
                         {message.hasOffer && <ChatOffer message={message} seller={seller} gig={data?.gig} />}
-                        {/* to do: chat file */}
+                        {message.file && <ChatFile message={message} />}
                       </div>
                     </div>
                   </div>
