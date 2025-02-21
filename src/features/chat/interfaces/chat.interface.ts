@@ -1,5 +1,7 @@
-import { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
-import { IOffer } from "src/features/order/interfaces/order.interfaces";
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
+import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
+import { IOffer } from 'src/features/order/interfaces/order.interfaces';
+import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
 
 export interface IChatSellerProps {
   _id: string;
@@ -13,7 +15,6 @@ export interface IChatBuyerProps {
   username: string;
   profilePicture: string;
 }
-
 
 export interface IChatBoxProps {
   seller: IChatSellerProps;
@@ -52,15 +53,12 @@ export interface IConversationDocument {
   receiverUsername: string;
 }
 
-
 export interface IChatWindowProps {
   chatMessages: IMessageDocument[];
   isError: boolean;
   isLoading: boolean;
   setSkip?: Dispatch<SetStateAction<boolean>>;
 }
-
-
 
 export interface IFilePreviewProps {
   image: string;
@@ -70,4 +68,10 @@ export interface IFilePreviewProps {
   handleChange: (event: ChangeEvent) => void;
   onSubmit: (event: FormEvent) => void;
   onRemoveImage: () => void;
+}
+
+export interface IChatMessageProps {
+  message: IMessageDocument;
+  seller?: ISellerDocument;
+  gig?: ISellerGig;
 }
