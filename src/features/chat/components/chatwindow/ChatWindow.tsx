@@ -1,4 +1,4 @@
-import { filter, find } from 'lodash';
+import { find } from 'lodash';
 import { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useRef, useState } from 'react';
 import { FaPaperclip, FaPaperPlane } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
@@ -12,7 +12,7 @@ import { checkFile, fileType, readAsBase64 } from 'src/shared/utils/image-utils.
 import { TimeAgo } from 'src/shared/utils/timeago.utils';
 import { firstLetterUppercase, showErrorToast } from 'src/shared/utils/utils.service';
 import { socket, socketService } from 'src/sockets/socket.service';
-import { useAppDispatch, useAppSelector } from 'src/store/store';
+import { useAppSelector } from 'src/store/store';
 import { IReduxState } from 'src/store/store.interface';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -44,7 +44,6 @@ const ChatWindow: FC<IChatWindowProps> = ({ chatMessages, isLoading, setSkip }):
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploadingFile, setIsUploadingFile] = useState<boolean>(MESSAGE_STATUS.IS_LOADING);
   const [message, setMessage] = useState<string>(MESSAGE_STATUS.EMPTY);
-  const dispatch = useAppDispatch();
   const { data: buyerData, isSuccess: isBuyerSuccess } = useGetBuyerByUsernameQuery(`${firstLetterUppercase(`${username}`)}`);
   const { data } = useGetGigByIdQuery(singleMessageRef.current ? `${singleMessageRef.current?.gigId}` : NOT_EXISTING_ID);
   const [saveChatMessage] = useSaveChatMessageMutation();
