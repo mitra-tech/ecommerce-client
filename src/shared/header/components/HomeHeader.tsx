@@ -3,7 +3,7 @@ import { IHomeHeaderProps } from '../interfaces/header.interface';
 import { FaAngleLeft, FaAngleRight, FaBars, FaRegBell, FaRegEnvelope } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Transition } from '@headlessui/react';
-import { FC, ReactElement, useRef } from 'react';
+import { FC, ReactElement, useEffect, useRef } from 'react';
 import { categories, replaceSpacesWithDash, showErrorToast, showSuccessToast } from 'src/shared/utils/utils.service';
 import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch, useAppSelector } from 'src/store/store';
@@ -18,6 +18,11 @@ import { updateCategoryContainer } from '../reducers/category.reducer';
 import { updateHeader } from '../reducers/header.reducer';
 import HeaderSearchInput from './HeaderSearchInput';
 import MessageDropdown from './MessageDropdown';
+import { socket, socketService } from 'src/sockets/socket.service';
+import { IOrderNotifcation } from 'src/features/order/interfaces/order.interfaces';
+import { filter } from 'lodash';
+import { updateNotification } from '../reducers/notification.reducer';
+import { IMessageDocument } from 'src/features/chat/interfaces/chat.interface';
 
 const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
@@ -47,7 +52,6 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
     }
   };
 
-
   const toggleDropdown = (): void => {
     setIsSettingsDropdown(!isSettingsDropdown);
     setIsMessageDropdownOpen(false);
@@ -64,6 +68,27 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
     dispatch(updateHeader('home'));
     dispatch(updateCategoryContainer(true));
   };
+
+  useEffect(() => {
+    socketService.setupSocketConnection();
+    socket.emit('getLoggedInUsers', '');
+  }, []);
+
+  useEffect(() => {
+    socket.on('message received', (data: IMessageDocument) => {
+      // only for receiver
+      if (data.receiverUsername === `${authUser.username}` && !data.isRead) {
+        dispatch(updateNotification({ hasUnreadMessage: true }));
+      }
+    });
+  }, []);
+
+  socket.on('order notification', (_, data: IOrderNotifcation) => {
+    // only for receiver
+    if (data.userTo === `${authUser.username}` && !data.isRead) {
+      dispatch(updateNotification({ hasUnreadNotification: true }));
+    }
+  });
 
   return (
     <header>
@@ -150,7 +175,7 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
                       leaveTo="opacity-0 translate-y-1"
                     >
                       <div className="absolute right-0 mt-5 w-96">
-                      <MessageDropdown setIsMessageDropdownOpen={setIsMessageDropdownOpen} />
+                        <MessageDropdown setIsMessageDropdownOpen={setIsMessageDropdownOpen} />
                       </div>
                     </Transition>
                   </li>
