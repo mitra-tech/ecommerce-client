@@ -3,7 +3,7 @@ import { IHomeHeaderProps } from '../interfaces/header.interface';
 import { FaAngleLeft, FaAngleRight, FaBars, FaRegBell, FaRegEnvelope } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Transition } from '@headlessui/react';
-import { FC, ReactElement, useEffect, useRef } from 'react';
+import { FC, ReactElement, useEffect, useRef, useState } from 'react';
 import { categories, replaceSpacesWithDash, showErrorToast, showSuccessToast } from 'src/shared/utils/utils.service';
 import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch, useAppSelector } from 'src/store/store';
@@ -18,9 +18,9 @@ import { updateCategoryContainer } from '../reducers/category.reducer';
 import { updateHeader } from '../reducers/header.reducer';
 import HeaderSearchInput from './HeaderSearchInput';
 import MessageDropdown from './MessageDropdown';
-import { socket, socketService } from 'src/sockets/socket.service';
+import { socket } from 'src/sockets/socket.service';
 import { IOrderNotifcation } from 'src/features/order/interfaces/order.interfaces';
-import { filter } from 'lodash';
+import {  find } from 'lodash';
 import { updateNotification } from '../reducers/notification.reducer';
 import { IMessageDocument } from 'src/features/chat/interfaces/chat.interface';
 
@@ -34,6 +34,8 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
   const notificationDropdownRef = useRef<HTMLDivElement | null>(null);
   const orderDropdownRef = useRef<HTMLDivElement | null>(null);
   const navElement = useRef<HTMLDivElement | null>(null);
+  const [authUsername, setAuthUsername] = useState<string>('');
+
   const dispatch = useAppDispatch();
   const [resendEmail] = useResendEmailMutation();
 
@@ -70,25 +72,25 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
   };
 
   useEffect(() => {
-    socketService.setupSocketConnection();
-    socket.emit('getLoggedInUsers', '');
-  }, []);
-
-  useEffect(() => {
     socket.on('message received', (data: IMessageDocument) => {
       // only for receiver
       if (data.receiverUsername === `${authUser.username}` && !data.isRead) {
         dispatch(updateNotification({ hasUnreadMessage: true }));
       }
     });
-  }, []);
 
-  socket.on('order notification', (_, data: IOrderNotifcation) => {
-    // only for receiver
-    if (data.userTo === `${authUser.username}` && !data.isRead) {
-      dispatch(updateNotification({ hasUnreadNotification: true }));
-    }
-  });
+    socket.on('order notification', (_, data: IOrderNotifcation) => {
+      // only for receiver
+      if (data.userTo === `${authUser.username}` && !data.isRead) {
+        dispatch(updateNotification({ hasUnreadNotification: true }));
+      }
+    });
+
+    socket.on('online', (data: string[]) => {
+      const username = find(data, (name: string) => name === authUser.username);
+      setAuthUsername(`${username}`);
+    });
+  }, [authUser.username, dispatch]);
 
   return (
     <header>
