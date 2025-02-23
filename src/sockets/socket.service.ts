@@ -2,10 +2,9 @@ import { io, Socket } from 'socket.io-client';
 
 export let socket: Socket;
 
-const VITE_BASE_ENDPOINT = "http://localhost:4000";
 class SocketService {
   setupSocketConnection() {
-    socket = io(VITE_BASE_ENDPOINT, {
+    socket = io(import.meta.env.VITE_BASE_ENDPOINT, {
       // we chose to use websocket for this project, if websocket is not available, socket io will choose to use polling
       transports: ['websocket'],
       secure: true

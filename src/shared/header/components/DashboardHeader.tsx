@@ -1,38 +1,38 @@
 import { Transition } from '@headlessui/react';
+import { find } from 'lodash';
 import { FC, ReactElement, useEffect, useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Link } from 'react-router-dom';
 import Button from 'src/shared/button/Button';
 import { lowerCase } from 'src/shared/utils/utils.service';
+import { socket, socketService } from 'src/sockets/socket.service';
 import { useAppSelector } from 'src/store/store';
 import { IReduxState } from 'src/store/store.interface';
+
+import DashboardHeaderSideBar from './mobile/DashboardHeaderSideBar';
 import SettingsDropdown from './SettingsDropdown';
-import { socket, socketService } from 'src/sockets/socket.service';
-import { find } from 'lodash';
 
 const DashboardHeader: FC = (): ReactElement => {
   const seller = useAppSelector((state: IReduxState) => state.seller);
   const buyer = useAppSelector((state: IReduxState) => state.buyer);
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-  const [openSidebar, setOpenSidebar] = useState<boolean>(false);
   const [authUsername, setAuthUsername] = useState<string>('');
+  const [openSidebar, setOpenSidebar] = useState<boolean>(false);
 
   useEffect(() => {
     socketService.setupSocketConnection();
     socket.emit('getLoggedInUsers', '');
-    // listen for online users
     socket.on('online', (data: string[]) => {
-      // find the username of the authenticated user
       const username = find(data, (name: string) => name === authUser.username);
-      // set the authenticated username
       setAuthUsername(`${username}`);
     });
   }, [authUser.username]);
 
   return (
     <>
+      {openSidebar && <DashboardHeaderSideBar setOpenSidebar={setOpenSidebar} />}
       <header>
         <nav className="navbar peer-checked:navbar-active relative z-20 w-full border-b bg-white shadow-2xl shadow-gray-600/5 backdrop-blur dark:shadow-none">
           <div className="m-auto px-6 xl:container md:px-12 lg:px-6">
@@ -84,7 +84,6 @@ const DashboardHeader: FC = (): ReactElement => {
                               placeholderSrc="https://placehold.co/330x220?text=Profile+Image"
                               effect="blur"
                             />
-
                             {authUsername === authUser.username && (
                               <span className="absolute bottom-1 left-8 h-2.5 w-2.5 rounded-full border-2 border-white bg-green-400"></span>
                             )}
