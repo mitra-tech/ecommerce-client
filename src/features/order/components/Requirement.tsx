@@ -1,3 +1,4 @@
+import { PDFDownloadLink } from '@react-pdf/renderer';
 import { ChangeEvent, FC, ReactElement, useRef, useState } from 'react';
 import { NavigateFunction, useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
@@ -11,8 +12,10 @@ import { deleteFromLocalStorage, generateRandomNumber, getDataFromLocalStorage, 
 import { useAppSelector } from 'src/store/store';
 import { IReduxState } from 'src/store/store.interface';
 
-import { IOffer, IOrderDocument } from '../interfaces/order.interfaces';
+import { OrderContext } from '../context/OrderContext';
+import { IOffer, IOrderDocument, IOrderInvoice } from '../interfaces/order.interfaces';
 import { useCreateOrderMutation } from '../services/order.service';
+import Invoice from './invoice/Invoice';
 
 const Requirement: FC = (): ReactElement => {
   const buyer = useAppSelector((state: IReduxState) => state.buyer);
@@ -23,6 +26,7 @@ const Requirement: FC = (): ReactElement => {
   const placeholder = 'https://placehold.co/330x220?text=Placeholder';
   const offer: IOffer = JSON.parse(`${searchParams.get('offer')}`);
   const order_date = `${searchParams.get('order_date')}`;
+  const serviceFee: number = offer.price < 50 ? (5.5 / 100) * offer.price + 2 : (5.5 / 100) * offer.price;
   const navigate: NavigateFunction = useNavigate();
   const orderId = `JO${generateRandomNumber(11)}`;
   const invoiceId = `JI${generateRandomNumber(11)}`;
@@ -32,6 +36,24 @@ const Requirement: FC = (): ReactElement => {
   if (isSuccess) {
     gigRef.current = data.gig;
   }
+  const orderInvoice: IOrderInvoice = {
+    invoiceId,
+    orderId,
+    date: `${new Date()}`,
+    buyerUsername: `${buyer.username}`,
+    orderService: [
+      {
+        service: `${gigRef?.current?.title}`,
+        quantity: 1,
+        price: offer.price
+      },
+      {
+        service: 'Service Fee',
+        quantity: 1,
+        price: serviceFee
+      }
+    ]
+  };
 
   const startOrder = async (): Promise<void> => {
     try {
@@ -90,11 +112,16 @@ const Requirement: FC = (): ReactElement => {
             <span className="text-base font-bold text-black lg:text-xl">Thank you for your purchase</span>
             <div className="flex gap-1">
               You can{' '}
-              <div>
-                {/* to do: Pdf download link*/}
-                {/* to do: order context */}
-                {/* to do: invooice */}
-              </div>
+              <PDFDownloadLink
+                document={
+                  <OrderContext.Provider value={{ orderInvoice }}>
+                    <Invoice />
+                  </OrderContext.Provider>
+                }
+                fileName={`${orderInvoice.invoiceId}.pdf`}
+              >
+                <div className="cursor-pointer text-blue-400 underline">download your invoice</div>
+              </PDFDownloadLink>
             </div>
           </div>
           <div className="border-grey border">
