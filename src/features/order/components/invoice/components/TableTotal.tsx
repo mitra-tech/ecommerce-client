@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useContext } from 'react';
+import { OrderContext } from 'src/features/order/context/OrderContext';
+import { IOrderInvoiceService } from 'src/features/order/interfaces/order.interfaces';
 
 const styles = StyleSheet.create({
   tbody: {
@@ -17,26 +19,35 @@ const styles = StyleSheet.create({
 });
 
 const TableTotal: FC = (): ReactElement => {
+  const { orderInvoice } = useContext(OrderContext);
+
   return (
     <>
-      <View style={{ width: '100%', flexDirection: 'row', marginTop: 10 }}>
-        <View style={[styles.tbody, styles.total]}>
-          <Text></Text>
+      {orderInvoice && Object.keys(orderInvoice).length && (
+        <View style={{ width: '100%', flexDirection: 'row', marginTop: 10 }}>
+          <View style={[styles.tbody, styles.total]}>
+            <Text></Text>
+          </View>
+          <View style={styles.tbody}></View>
+          <View style={styles.tbody}></View>
+          <View style={styles.tbody}></View>
+          <View style={styles.tbody}></View>
+          <View style={styles.tbody}>
+            <Text></Text>
+          </View>
+          <View style={styles.tbody}>
+            <Text>Total</Text>
+          </View>
+          <View style={styles.tbody}>
+            <Text>
+              $
+              {orderInvoice.orderService
+                .reduce((sum: number, item: IOrderInvoiceService) => sum + item.price * item.quantity, 0)
+                .toFixed(2)}
+            </Text>
+          </View>
         </View>
-        <View style={styles.tbody}></View>
-        <View style={styles.tbody}></View>
-        <View style={styles.tbody}></View>
-        <View style={styles.tbody}></View>
-        <View style={styles.tbody}>
-          <Text></Text>
-        </View>
-        <View style={styles.tbody}>
-          <Text>Total</Text>
-        </View>
-        <View style={styles.tbody}>
-          <Text></Text>
-        </View>
-      </View>
+      )}
     </>
   );
 };

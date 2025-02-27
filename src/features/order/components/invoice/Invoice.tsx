@@ -1,52 +1,35 @@
-import { Link, StyleSheet, Text, View } from '@react-pdf/renderer';
-import { FC, ReactElement, useContext } from 'react';
-import { OrderContext } from 'src/features/order/context/OrderContext';
-import { TimeAgo } from 'src/shared/utils/timeago.utils';
+import { Document, Font, Page, StyleSheet } from '@react-pdf/renderer';
+import { FC, ReactElement } from 'react';
 
-const CLIENT_ENDPOINT = import.meta.env.VITE_CLIENT_ENDPOINT;
+import InvoiceTextInfo from './components/InvoiceTextInfo';
+import InvoiceTitle from './components/InvoiceTitle';
+import InvoiceUserInfo from './components/InvoiceUserInfo';
+import TableBody from './components/TableBody';
+import TableHead from './components/TableHead';
+import TableTotal from './components/TableTotal';
 
 const styles = StyleSheet.create({
-  spaceBetween: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', color: '#3E3E3E' },
-  titleContainer: { flexDirection: 'row', marginTop: 20 },
-  title: { fontSize: 11, fontFamily: 'Lato Bold', fontWeight: 'bold' },
-  subTitle: { fontSize: 10 },
-  link: { fontSize: 10, color: '#4aa1f3' }
+  page: { fontSize: 11, paddingTop: 20, paddingLeft: 40, paddingRight: 40, lineHeight: 1.5, flexDirection: 'column' }
 });
 
-const InvoiceUserInfo: FC = (): ReactElement => {
-  const { orderInvoice } = useContext(OrderContext);
+Font.register({
+  family: 'Lato Bold',
+  src: 'https://fonts.gstatic.com/s/lato/v16/S6u9w4BMUTPHh6UVSwiPHA.ttf'
+});
 
+const Invoice: FC = (): ReactElement => {
   return (
-    <>
-      {orderInvoice && Object.keys(orderInvoice).length && (
-        <>
-          <View style={styles.titleContainer}>
-            <View style={styles.spaceBetween}>
-              <View style={{ maxWidth: 200 }}>
-                <Text style={styles.title}>To </Text>
-                <Text style={styles.subTitle}>{orderInvoice.buyerUsername}</Text>
-              </View>
-              <View style={{ maxWidth: 200 }}>
-                <Text style={styles.title}>Date issued</Text>
-                <Text style={styles.subTitle}>{TimeAgo.dayMonthYear(`${orderInvoice.date}`)}</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.titleContainer}>
-            <View style={styles.spaceBetween}>
-              <View></View>
-              <View style={{ maxWidth: 200 }}>
-                <Text style={styles.title}>Order number</Text>
-                <Link src={`${`${CLIENT_ENDPOINT}/orders/${orderInvoice.orderId}/activities`}`} style={styles.link}>
-                  {orderInvoice.orderId}
-                </Link>
-              </View>
-            </View>
-          </View>
-        </>
-      )}
-    </>
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <InvoiceTitle />
+        <InvoiceUserInfo />
+        <TableHead />
+        <TableBody />
+        <TableTotal />
+        <InvoiceTextInfo />
+      </Page>
+    </Document>
   );
 };
 
-export default InvoiceUserInfo;
+export default Invoice;

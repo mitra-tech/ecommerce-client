@@ -3,12 +3,13 @@ import ChatBox from 'src/features/chat/components/chatbox/ChatBox';
 import { IChatBuyerProps, IChatSellerProps } from 'src/features/chat/interfaces/chat.interface';
 import { TimeAgo } from 'src/shared/utils/timeago.utils';
 
+import { OrderContext } from '../../context/OrderContext';
 import { DivElementRefType, IOrderActivitiesProps } from '../../interfaces/order.interfaces';
 
 const OrderActivities: ForwardRefExoticComponent<Omit<IOrderActivitiesProps, 'ref'> & RefAttributes<HTMLDivElement>> = forwardRef<
   DivElementRefType,
   IOrderActivitiesProps
->((props, ref) => {
+>((props) => {
   const { order, authUser, viewDeliveryBtnClicked } = props;
   const [showChatBox, setShowChatBox] = useState<boolean>(false);
   const chatSeller: IChatSellerProps = {
@@ -30,7 +31,12 @@ const OrderActivities: ForwardRefExoticComponent<Omit<IOrderActivitiesProps, 're
           {TimeAgo.chatMessageTransform(`${order.dateOrdered}`)}
         </div>
       </div>
-      {/* to do */}
+      <OrderContext.Provider value={{ order, authUser, viewDeliveryBtnClicked }}>
+        {/* to do: order placed */}
+        {/* to do: order extension */}
+        {/* to do: order delivered */}
+        {/* to do: order review */}
+      </OrderContext.Provider>
       <div className="px-3 pt-2 flex">
         If you need to contact the {order.buyerUsername === authUser.username ? 'seller' : 'buyer'},
         <div onClick={() => setShowChatBox((item: boolean) => !item)} className="px-2 text-blue-500 cursor-pointer hover:underline">
