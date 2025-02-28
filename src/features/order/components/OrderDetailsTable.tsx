@@ -1,11 +1,14 @@
+import { PDFDownloadLink } from '@react-pdf/renderer';
 import { FC, ReactElement, useRef, useState } from 'react';
 import { FaBox, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { TimeAgo } from 'src/shared/utils/timeago.utils';
 
+import { OrderContext } from '../context/OrderContext';
 import { IOrderInvoice, IOrderProps } from '../interfaces/order.interfaces';
+import Invoice from './invoice/Invoice';
 
-const OrderDetailsTable: FC<IOrderProps> = ({ order }): ReactElement => {
+const OrderDetailsTable: FC<IOrderProps> = ({ order, authUser }): ReactElement => {
   const [showOrderDetailsPanel, setShowOrderDetailsPanel] = useState<boolean>(false);
   const orderInvoice = useRef<IOrderInvoice>({} as IOrderInvoice);
   if (order && Object.keys(order).length > 0) {
@@ -60,7 +63,18 @@ const OrderDetailsTable: FC<IOrderProps> = ({ order }): ReactElement => {
                       Date ordered <p className="font-bold italic">{TimeAgo.dayMonthYear(`${order?.dateOrdered}`)}</p>
                     </div>
                   </div>
-                  {/* to do */}
+                  {order.buyerUsername === authUser.username && (
+                    <PDFDownloadLink
+                      document={
+                        <OrderContext.Provider value={{ orderInvoice: orderInvoice.current }}>
+                          <Invoice />
+                        </OrderContext.Provider>
+                      }
+                      fileName={`${orderInvoice.current.invoiceId}.pdf`}
+                    >
+                      <div className="cursor-pointer text-blue-400 underline">Download invoice</div>
+                    </PDFDownloadLink>
+                  )}
                 </div>
                 <div className="mt-4">
                   <div className="relative overflow-x-auto">
