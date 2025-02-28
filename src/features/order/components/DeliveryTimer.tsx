@@ -1,10 +1,11 @@
 import { FC, ReactElement, useState } from 'react';
 import Button from 'src/shared/button/Button';
-
+import DeliverWorkModal from 'src/shared/modals/DeliverWorkModal';
+import ExtendDateModal from 'src/shared/modals/ExtendDateModal';
 import { IModalProps } from 'src/shared/modals/interfaces/modal.interface';
 
 import { useCountDown } from '../hooks/useCountDown';
-import { IOrderDisplayModal } from '../interfaces/order.interfaces';
+import { IOrderDisplayModal, IOrderDocument } from '../interfaces/order.interfaces';
 
 const DeliveryTimer: FC<IModalProps> = ({ order, authUser }): ReactElement => {
   const [displayModal, setDisplayModal] = useState<IOrderDisplayModal>({
@@ -15,9 +16,12 @@ const DeliveryTimer: FC<IModalProps> = ({ order, authUser }): ReactElement => {
 
   return (
     <>
-      {/* to do: extend date modal  */}
-      {/* to do: deliver work modal  */}
-
+      {displayModal.extendDelivery && (
+        <ExtendDateModal order={order as IOrderDocument} onClose={() => setDisplayModal({ ...displayModal, extendDelivery: false })} />
+      )}
+      {displayModal.deliverWork && (
+        <DeliverWorkModal order={order as IOrderDocument} onClose={() => setDisplayModal({ ...displayModal, deliverWork: false })} />
+      )}
       <div className="mb-6 flex flex-col gap-4 rounded-[4px] bg-white px-4 py-3">
         <div className="text-base font-bold">
           {!order?.delivered
