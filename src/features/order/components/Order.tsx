@@ -8,6 +8,7 @@ import { IReduxState } from 'src/store/store.interface';
 
 import { IOrderDocument } from '../interfaces/order.interfaces';
 import { useGetOrderByOrderIdQuery } from '../services/order.service';
+import DeliveryTimer from './DeliveryTimer';
 import OrderActivities from './order-activities/OrderActivities';
 import OrderDetailsTable from './OrderDetailsTable';
 
@@ -82,9 +83,9 @@ const Order: FC = (): ReactElement => {
         <div className="w-full p-4 lg:w-1/3 ">
           {Object.keys(order).length > 0 ? (
             <>
-              {/* to do: delivery timer */}
+              {order.delivered && authUser.username === order.sellerUsername && <DeliveryTimer order={order} authUser={authUser} />}
               {order.delivered && authUser.username === order.sellerUsername && <></>}
-              {/* to do: delivery timer */}
+              {!order.delivered && <DeliveryTimer order={order} authUser={authUser} />}
 
               <div className="bg-white">
                 <div className="mb-2 flex flex-col border-b px-4 pb-4 pt-3 md:flex-row">
