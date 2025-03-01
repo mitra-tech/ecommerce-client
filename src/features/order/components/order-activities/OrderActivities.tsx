@@ -5,11 +5,15 @@ import { TimeAgo } from 'src/shared/utils/timeago.utils';
 
 import { OrderContext } from '../../context/OrderContext';
 import { DivElementRefType, IOrderActivitiesProps } from '../../interfaces/order.interfaces';
+import OrderDelivered from './components/OrderDelivered';
+import OrderExtension from './components/OrderExtension';
+import OrderPlaced from './components/OrderPlaced';
+import OrderReview from './components/OrderReview';
 
 const OrderActivities: ForwardRefExoticComponent<Omit<IOrderActivitiesProps, 'ref'> & RefAttributes<HTMLDivElement>> = forwardRef<
   DivElementRefType,
   IOrderActivitiesProps
->((props) => {
+>((props, ref) => {
   const { order, authUser, viewDeliveryBtnClicked } = props;
   const [showChatBox, setShowChatBox] = useState<boolean>(false);
   const chatSeller: IChatSellerProps = {
@@ -32,10 +36,10 @@ const OrderActivities: ForwardRefExoticComponent<Omit<IOrderActivitiesProps, 're
         </div>
       </div>
       <OrderContext.Provider value={{ order, authUser, viewDeliveryBtnClicked }}>
-        {/* to do: order placed */}
-        {/* to do: order extension */}
-        {/* to do: order delivered */}
-        {/* to do: order review */}
+        <OrderPlaced />
+        <OrderExtension />
+        <OrderDelivered ref={ref} />
+        <OrderReview />
       </OrderContext.Provider>
       <div className="px-3 pt-2 flex">
         If you need to contact the {order.buyerUsername === authUser.username ? 'seller' : 'buyer'},
