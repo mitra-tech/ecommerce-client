@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import { IReviewDocument } from 'src/features/order/interfaces/review.interfaces';
 import { IRatingCategories, ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
 
 export interface ITagsInputProps {
@@ -134,4 +135,9 @@ export interface IGigContext {
   seller: ISellerDocument;
   isSuccess?: boolean;
   isLoading?: boolean;
+}
+export interface IGigViewReviewsProps {
+  showRatings: boolean;
+  reviews?: IReviewDocument[];
+  hasFetchedReviews?: boolean;
 }

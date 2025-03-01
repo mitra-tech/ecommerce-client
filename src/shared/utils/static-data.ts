@@ -8,6 +8,7 @@ import { IBuyerDocument } from 'src/features/buyer/interfaces/buyer.interface';
 import { ICategory } from 'src/features/home/interfaces/home.interfaces';
 import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
 import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
+import { IRatingTypes } from 'src/features/order/interfaces/review.interfaces';
 
 export const categories: ICategory[] = [
   {
@@ -149,4 +150,13 @@ export const emptyGigData: ISellerGig = {
   price: 0,
   coverImage: '',
   createdAt: ''
+};
+
+
+export const ratingTypes: IRatingTypes = {
+  one: '1',
+  two: '2',
+  three: '3',
+  four: '4',
+  five: '5'
 };
