@@ -2,20 +2,22 @@ import { FC, ReactElement } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
 import { useGetGigsBySellerIdQuery, useGetSellerPausedGigsQuery } from 'src/features/gigs/services/gigs.service';
+import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
+import { useGetOrdersBySellerIdQuery } from 'src/features/order/services/order.service';
 import DashboardHeader from 'src/shared/header/components/DashboardHeader';
 
 import { ISellerDocument } from '../../interfaces/seller.interfaces';
 import { useGetSellerByIdQuery } from '../../services/seller.service';
-import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
 
 const Seller: FC = (): ReactElement => {
   const { sellerId } = useParams<string>();
   const { data, isSuccess } = useGetSellerByIdQuery(`${sellerId}`);
   const { data: sellerGigs, isSuccess: isSellerGigsSuccess } = useGetGigsBySellerIdQuery(`${sellerId}`);
   const { data: sellerPausedGigs, isSuccess: isSellerPausedGigsSuccess } = useGetSellerPausedGigsQuery(`${sellerId}`);
+  const { data: sellerOrders, isSuccess: isSellerOrdersSuccess } = useGetOrdersBySellerIdQuery(`${sellerId}`);
   let gigs: ISellerGig[] = [];
-  const orders: IOrderDocument[] = [];
   let pausedGigs: ISellerGig[] = [];
+  let orders: IOrderDocument[] = [];
   let seller: ISellerDocument | undefined = undefined;
 
   if (isSuccess) {
@@ -30,7 +32,9 @@ const Seller: FC = (): ReactElement => {
     pausedGigs = sellerPausedGigs?.gigs as ISellerGig[];
   }
 
-  // to do: seller order success
+  if (isSellerOrdersSuccess) {
+    orders = sellerOrders?.orders as IOrderDocument[];
+  }
 
   return (
     <div className="relative w-screen">
