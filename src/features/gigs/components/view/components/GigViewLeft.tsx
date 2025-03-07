@@ -1,14 +1,15 @@
 import { FC, ReactElement } from 'react';
-import GigLeftOverview from './gigViewLeft/GigLeftOverview';
+
 import GigLeftAbout from './gigViewLeft/GigLeftAbout';
-import GigViewReviews from './gigViewLeft/GigViewReview';
+import GigLeftOverview from './gigViewLeft/GigLeftOverview';
+import GigViewReviews from './gigViewLeft/GigViewReviews';
 
 const GigViewLeft: FC = (): ReactElement => {
   return (
     <>
       <GigLeftOverview />
       <GigLeftAbout />
-      <GigViewReviews />
+      <GigViewReviews showRatings={true} hasFetchedReviews={false} />
     </>
   );
 };

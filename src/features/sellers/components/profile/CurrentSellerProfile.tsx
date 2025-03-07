@@ -1,10 +1,17 @@
 import { FC, ReactElement, useEffect, useState } from 'react';
 import equal from 'react-fast-compare';
 import { useParams } from 'react-router-dom';
+import GigViewReviews from 'src/features/gigs/components/view/components/gigViewLeft/GigViewReviews';
+import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
+import { useGetGigsBySellerIdQuery } from 'src/features/gigs/services/gigs.service';
+import { IReviewDocument } from 'src/features/order/interfaces/review.interfaces';
+import { useGetReviewsBySellerIdQuery } from 'src/features/order/services/review.service';
 import Breadcrumb from 'src/shared/breadcrumbs/Breadcrumbs';
 import Button from 'src/shared/button/Button';
+import GigCardDisplayItem from 'src/shared/gigs/GigCardDisplayItem';
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 import { IResponse } from 'src/shared/shared.interface';
+import { showErrorToast, showSuccessToast } from 'src/shared/utils/utils.service';
 import { useAppDispatch, useAppSelector } from 'src/store/store';
 import { IReduxState } from 'src/store/store.interface';
 import { v4 as uuidv4 } from 'uuid';
@@ -15,10 +22,6 @@ import { useUpdateSellerMutation } from '../../services/seller.service';
 import ProfileHeader from './components/ProfileHeader';
 import ProfileTabs from './components/ProfileTabs';
 import SellerOverview from './components/SellerOverview';
-import { showErrorToast, showSuccessToast } from 'src/shared/utils/utils.service';
-import GigCardDisplayItem from 'src/shared/gigs/GigCardDisplayItem';
-import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
-import { useGetGigsBySellerIdQuery } from 'src/features/gigs/services/gigs.service';
 
 const CurrentSellerProfile: FC = (): ReactElement => {
   const seller = useAppSelector((state: IReduxState) => state.seller);
@@ -27,10 +30,15 @@ const CurrentSellerProfile: FC = (): ReactElement => {
   const [type, setType] = useState<string>('Overview');
   const { sellerId } = useParams();
   const dispatch = useAppDispatch();
-  const [updateSeller, { isLoading }] = useUpdateSellerMutation();
   const { data, isSuccess: isSellerGigSuccess, isLoading: isSellerGigLoading } = useGetGigsBySellerIdQuery(`${sellerId}`);
+  const { data: sellerData, isSuccess: isGigReviewSuccess, isLoading: isGigReviewLoading } = useGetReviewsBySellerIdQuery(`${sellerId}`);
+  const [updateSeller, { isLoading }] = useUpdateSellerMutation();
+  let reviews: IReviewDocument[] = [];
+  if (isGigReviewSuccess) {
+    reviews = sellerData.reviews as IReviewDocument[];
+  }
 
-  const isDataLoading: boolean = isSellerGigLoading && !isSellerGigSuccess;
+  const isDataLoading: boolean = isSellerGigLoading && isGigReviewLoading && !isSellerGigSuccess && !isGigReviewSuccess;
 
   const onUpdateSeller = async (): Promise<void> => {
     try {
@@ -93,8 +101,8 @@ const CurrentSellerProfile: FC = (): ReactElement => {
                     <GigCardDisplayItem key={uuidv4()} gig={gig} linkTarget={false} showEditIcon={true} />
                   ))}
               </div>
-            )}{' '}
-            {type === 'Ratings & Reviews' && <div>Ratings & Reviews</div>}
+            )}
+            {type === 'Ratings & Reviews' && <GigViewReviews showRatings={false} reviews={reviews} hasFetchedReviews={true} />}
           </div>
         </div>
       )}
