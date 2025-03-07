@@ -23,6 +23,7 @@ import { IOrderNotifcation } from 'src/features/order/interfaces/order.interface
 import {  find } from 'lodash';
 import { updateNotification } from '../reducers/notification.reducer';
 import { IMessageDocument } from 'src/features/chat/interfaces/chat.interface';
+import OrderDropdown from './OrderDropdown';
 
 const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
@@ -35,6 +36,7 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
   const orderDropdownRef = useRef<HTMLDivElement | null>(null);
   const navElement = useRef<HTMLDivElement | null>(null);
   const [authUsername, setAuthUsername] = useState<string>('');
+
 
   const dispatch = useAppDispatch();
   const [resendEmail] = useResendEmailMutation();
@@ -201,7 +203,9 @@ const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactEleme
                       leaveFrom="opacity-100 translate-y-0"
                       leaveTo="opacity-0 translate-y-1"
                     >
-                      <div className="absolute right-0 mt-5 w-96">{/*      {/* TODO: Mesage Dropdown */}</div>
+                      <div className="absolute right-0 mt-5 w-96">
+                          <OrderDropdown buyer={buyer} setIsOrderDropdownOpen={setIsOrderDropdownOpen} />
+                        </div>
                     </Transition>
                   </li>
 
