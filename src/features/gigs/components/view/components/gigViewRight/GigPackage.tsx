@@ -20,7 +20,6 @@ const GigPackage: FC = (): ReactElement => {
     const deliveryInDays: number = parseInt(gig.expectedDelivery.split(' ')[0]);
     const newDate: Date = new Date();
     newDate.setDate(newDate.getDate() + deliveryInDays);
-    // the data we want to send to the checkout page
     const offerParams: IOffer = {
       gigTitle: gig.title,
       description: gig.basicDescription,
@@ -28,7 +27,6 @@ const GigPackage: FC = (): ReactElement => {
       deliveryInDays,
       oldDeliveryDate: `${newDate}`,
       newDeliveryDate: `${newDate}`,
-      // the below values are when selller sends an offer to buyer to accept or cancel the offer in the chat page
       accepted: false,
       cancelled: false
     };
@@ -61,7 +59,6 @@ const GigPackage: FC = (): ReactElement => {
           <li className="flex justify-between">
             <div className="ml-15 flex w-full py-1">
               <Button
-                // if the user is the seller of the gig, the button will be disabled
                 disabled={authUser.username === gig.username}
                 className={`text-md flex w-full justify-between rounded bg-sky-500 px-8 py-2 font-bold text-white focus:outline-none
                 ${authUser.username === gig.username ? 'opacity-20 cursor-not-allowed' : 'hover:bg-sky-400 cursor-pointer'}
@@ -72,7 +69,6 @@ const GigPackage: FC = (): ReactElement => {
                     <FaArrowRight className="flex self-center" />
                   </>
                 }
-                // if the user email (buyer email) is not verified we will show a modal to the user to verify their email
                 onClick={() => {
                   if (authUser && !authUser.emailVerified) {
                     setApprovalModalContent({
