@@ -18,6 +18,7 @@ import Chat from './features/chat/components/Chat';
 import Checkout from './features/order/components/Checkout';
 import Requirement from './features/order/components/Requirement';
 import Order from './features/order/components/Order';
+import Settings from './features/settings/components/Settings';
 
 const Layout = ({ backgroundColor = '#fff', children }: { backgroundColor: string; children: ReactNode }): JSX.Element => (
   <div style={{ backgroundColor }} className="flex flex-grow">
@@ -240,6 +241,18 @@ const AppRouter: FC = () => {
           <ProtectedRoute>
             <Layout backgroundColor="#f5f5f5">
               <Order />
+            </Layout>
+          </ProtectedRoute>
+        </Suspense>
+      )
+    },
+    {
+      path: '/:username/edit',
+      element: (
+        <Suspense>
+          <ProtectedRoute>
+            <Layout backgroundColor="#f5f5f5">
+              <Settings />
             </Layout>
           </ProtectedRoute>
         </Suspense>

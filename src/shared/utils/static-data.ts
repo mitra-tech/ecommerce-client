@@ -160,3 +160,8 @@ export const ratingTypes: IRatingTypes = {
   four: '4',
   five: '5'
 };
+
+export const PASSWORD_TYPE = {
+  TEXT: 'text',
+  PASSWORD: 'password'
+};
