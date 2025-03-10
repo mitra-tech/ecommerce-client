@@ -19,6 +19,7 @@ import Checkout from './features/order/components/Checkout';
 import Requirement from './features/order/components/Requirement';
 import Order from './features/order/components/Order';
 import Settings from './features/settings/components/Settings';
+import GigsIndexDisplay from './features/index/gig-tabs/GigIndexDisplay';
 
 const Layout = ({ backgroundColor = '#fff', children }: { backgroundColor: string; children: ReactNode }): JSX.Element => (
   <div style={{ backgroundColor }} className="flex flex-grow">
@@ -45,6 +46,26 @@ const AppRouter: FC = () => {
       element: (
         <Suspense>
           <ConfirmEmail />
+        </Suspense>
+      )
+    },
+    {
+      path: '/search/categories/:category',
+      element: (
+        <Suspense>
+          <Layout backgroundColor="#ffffff">
+            <GigsIndexDisplay type="categories" />
+          </Layout>
+        </Suspense>
+      )
+    },
+    {
+      path: '/gigs/search',
+      element: (
+        <Suspense>
+          <Layout backgroundColor="#ffffff">
+            <GigsIndexDisplay type="search" />
+          </Layout>
         </Suspense>
       )
     },
