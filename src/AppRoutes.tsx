@@ -19,7 +19,8 @@ import Checkout from './features/order/components/Checkout';
 import Requirement from './features/order/components/Requirement';
 import Order from './features/order/components/Order';
 import Settings from './features/settings/components/Settings';
-import GigsIndexDisplay from './features/index/gig-tabs/GigIndexDisplay';
+import GigsIndexDisplay from './features/index/gig-tabs/GigsIndexDisplay';
+import GigInfoDisplay from './features/index/gig-tabs/GigInfoDisplay';
 
 const Layout = ({ backgroundColor = '#fff', children }: { backgroundColor: string; children: ReactNode }): JSX.Element => (
   <div style={{ backgroundColor }} className="flex flex-grow">
@@ -65,6 +66,16 @@ const AppRouter: FC = () => {
         <Suspense>
           <Layout backgroundColor="#ffffff">
             <GigsIndexDisplay type="search" />
+          </Layout>
+        </Suspense>
+      )
+    },
+    {
+      path: '/gig/:gigId/:title',
+      element: (
+        <Suspense>
+          <Layout backgroundColor="#ffffff">
+            <GigInfoDisplay />
           </Layout>
         </Suspense>
       )
