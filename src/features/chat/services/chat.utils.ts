@@ -4,6 +4,7 @@ import { lowerCase } from 'src/shared/utils/utils.service';
 import { socket } from 'src/sockets/socket.service';
 
 import { IMessageDocument } from '../interfaces/chat.interface';
+import { updateNotification } from 'src/shared/header/reducers/notification.reducer';
 import { AnyAction } from 'redux';
 
 export const chatMessageReceived = (
@@ -50,7 +51,7 @@ export const chatListMessageReceived = (
           conversationListRef,
           (item: IMessageDocument) => !item.isRead && item.receiverUsername === username
         );
-        console.log(list);
+        dispatch(updateNotification({ hasUnreadMessage: list.length > 0 }));
       }
       setChatList(conversationListRef);
     }
@@ -74,7 +75,13 @@ export const chatListMessageUpdated = (
       if (messageIndex > -1) {
         conversationListRef.splice(messageIndex, 1, data);
       }
-
+      if (lowerCase(`${data.receiverUsername}`) === lowerCase(`${username}`)) {
+        const list: IMessageDocument[] = filter(
+          conversationListRef,
+          (item: IMessageDocument) => !item.isRead && item.receiverUsername === username
+        );
+        dispatch(updateNotification({ hasUnreadMessage: list.length > 0 }));
+      }
       setChatList(conversationListRef);
     }
   });

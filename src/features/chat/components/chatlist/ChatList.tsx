@@ -3,6 +3,7 @@ import { FC, ReactElement, useEffect, useRef, useState } from 'react';
 import { FaCheck, FaCheckDouble, FaCircle } from 'react-icons/fa';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Location, NavigateFunction, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { updateNotification } from 'src/shared/header/reducers/notification.reducer';
 import { TimeAgo } from 'src/shared/utils/timeago.utils';
 import { isFetchBaseQueryError, lowerCase, showErrorToast } from 'src/shared/utils/utils.service';
 import { socket } from 'src/sockets/socket.service';
@@ -17,6 +18,7 @@ import { chatListMessageReceived, chatListMessageUpdated } from '../../services/
 const ChatList: FC = (): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
   const [selectedUser, setSelectedUser] = useState<IMessageDocument>();
+  const conversationsListRef = useRef<IMessageDocument[]>([]);
   const [chatList, setChatList] = useState<IMessageDocument[]>([]);
   const { username, conversationId } = useParams<string>();
   const navigate: NavigateFunction = useNavigate();
@@ -24,22 +26,17 @@ const ChatList: FC = (): ReactElement => {
   const dispatch = useAppDispatch();
   const { data, isSuccess } = useGetConversationListQuery(`${authUser.username}`);
   const [markMultipleMessagesAsRead] = useMarkMultipleMessagesAsReadMutation();
-  const conversationsListRef = useRef<IMessageDocument[]>([]);
-
 
   const selectUserFromList = async (user: IMessageDocument): Promise<void> => {
     try {
       setSelectedUser(user);
-      // get the url path, split with '/' and remove the last two items from the path
       const pathList: string[] = location.pathname.split('/');
       pathList.splice(-2, 2);
       const locationPathname: string = !pathList.join('/') ? location.pathname : pathList.join('/');
       const chatUsername: string = (user.receiverUsername !== authUser?.username ? user.receiverUsername : user.senderUsername) as string;
-      // navigate to the chat page with the selected user
       navigate(`${locationPathname}/${lowerCase(chatUsername)}/${user.conversationId}`);
       socket.emit('getLoggedInUsers', '');
       if (user.receiverUsername === authUser?.username && lowerCase(`${user.senderUsername}`) === username && !user.isRead) {
-        // check in the chat list if the message is not read and the receiver is the logged in user
         const list: IMessageDocument[] = filter(
           chatList,
           (item: IMessageDocument) => !item.isRead && item.receiverUsername === authUser?.username
@@ -60,18 +57,19 @@ const ChatList: FC = (): ReactElement => {
   };
 
   useEffect(() => {
-    chatListMessageReceived(`${authUser.username}`, chatList, conversationsListRef.current, dispatch, setChatList);
-    chatListMessageUpdated(`${authUser.username}`, chatList, conversationsListRef.current, dispatch, setChatList);
-  }, [authUser.username, conversationId, chatList, dispatch]);
-
-
-  useEffect(() => {
     if (isSuccess) {
       const sortedConversations: IMessageDocument[] = orderBy(data.conversations, ['createdAt'], ['desc']) as IMessageDocument[];
       setChatList(sortedConversations);
-      // dispatch update notification
+      if (!sortedConversations.length) {
+        dispatch(updateNotification({ hasUnreadMessage: false }));
+      }
     }
   }, [isSuccess, username, data?.conversations, dispatch]);
+
+  useEffect(() => {
+    chatListMessageReceived(`${authUser.username}`, chatList, conversationsListRef.current, dispatch, setChatList);
+    chatListMessageUpdated(`${authUser.username}`, chatList, conversationsListRef.current, dispatch, setChatList);
+  }, [authUser.username, conversationId, chatList, dispatch]);
 
   return (
     <>
