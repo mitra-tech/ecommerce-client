@@ -1,12 +1,14 @@
 import { FC, ReactElement, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { ToastContainer} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 import AppRouter from './AppRoutes';
+import useBeforeWindowUnload from './shared/hooks/useBeforeWindowUnload';
 import { socketService } from './sockets/socket.service';
 
 const App: FC = (): ReactElement => {
-  // once the component is mounted, we will setup the socket connection to socket.io server
+  useBeforeWindowUnload();
+
   useEffect(() => {
     socketService.setupSocketConnection();
   }, []);

@@ -1,15 +1,15 @@
 import { Dispatch } from '@reduxjs/toolkit';
+import axios, { AxiosResponse } from 'axios';
 import countries, { LocalizedCountryNames } from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json';
+import { filter } from 'lodash';
+import millify from 'millify';
 import { NavigateFunction } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { logout } from 'src/features/auth/reducers/logout.reducer';
 import { authApi } from 'src/features/auth/services/auth.service';
+import { IOrderDocument } from 'src/features/order/interfaces/order.interface';
 import { api } from 'src/store/api';
-import millify from 'millify';
-import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
-import { filter } from 'lodash';
-import { toast } from 'react-toastify';
-import axios, { AxiosResponse } from 'axios';
 
 countries.registerLocale(enLocale);
 
@@ -21,6 +21,7 @@ export const firstLetterUppercase = (str: string): string => {
   const valueString = lowerCase(`${str}`);
   return `${valueString.charAt(0).toUpperCase()}${valueString.slice(1).toLowerCase()}`;
 };
+
 export const replaceSpacesWithDash = (title: string): string => {
   const lowercaseTitle: string = lowerCase(`${title}`);
   return lowercaseTitle.replace(/\/| /g, '-'); // replace / and space with -
@@ -54,6 +55,26 @@ export const categories = (): string[] => {
   ];
 };
 
+export const expectedGigDelivery = (): string[] => {
+  return [
+    '1 Day Delivery',
+    '2 Days Delivery',
+    '3 Days Delivery',
+    '4 Days Delivery',
+    '5 Days Delivery',
+    '6 Days Delivery',
+    '7 Days Delivery',
+    '10 Days Delivery',
+    '14 Days Delivery',
+    '21 Days Delivery',
+    '30 Days Delivery',
+    '45 Days Delivery',
+    '60 Days Delivery',
+    '75 Days Delivery',
+    '90 Days Delivery'
+  ];
+};
+
 export const countriesList = (): string[] => {
   const countriesObj: LocalizedCountryNames<{ select: 'official' }> = countries.getNames('en', { select: 'official' });
   return Object.values(countriesObj);
@@ -82,7 +103,6 @@ export const deleteFromLocalStorage = (key: string): void => {
   window.localStorage.removeItem(key);
 };
 
-
 export const applicationLogout = (dispatch: Dispatch, navigate: NavigateFunction) => {
   const loggedInUsername: string = getDataFromSessionStorage('loggedInuser');
   dispatch(logout({}));
@@ -96,11 +116,8 @@ export const applicationLogout = (dispatch: Dispatch, navigate: NavigateFunction
   navigate('/');
 };
 
-export const shortenLargeNumbers = (data: number | undefined): string => {
-  if (data === undefined) {
-    return '0';
-  }
-  return millify(data, { precision: 0 });
+export const isFetchBaseQueryError = (error: unknown): boolean => {
+  return typeof error === 'object' && error !== null && 'status' in error && 'data' in error;
 };
 
 export const orderTypes = (status: string, orders: IOrderDocument[]): number => {
@@ -108,15 +125,9 @@ export const orderTypes = (status: string, orders: IOrderDocument[]): number => 
   return orderList.length;
 };
 
-// set maxoffset to 10 and we get the last current 10 years
-export const yearsList = (maxOffset: number): string[] => {
-  const years: string[] = [];
-  const currentYear: number = new Date().getFullYear();
-  for (let i = 0; i <= maxOffset; i++) {
-    const year: number = currentYear - i;
-    years.push(`${year}`);
-  }
-  return years;
+export const sellerOrderList = (status: string, orders: IOrderDocument[]): IOrderDocument[] => {
+  const orderList: IOrderDocument[] = filter(orders, (order: IOrderDocument) => lowerCase(order.status) === lowerCase(status));
+  return orderList;
 };
 
 export const degreeList = (): string[] => {
@@ -127,6 +138,23 @@ export const languageLevel = (): string[] => {
   return ['Basic', 'Conversational', 'Fluent', 'Native'];
 };
 
+export const yearsList = (maxOffset: number): string[] => {
+  const years: string[] = [];
+  const currentYear: number = new Date().getFullYear();
+  for (let i = 0; i <= maxOffset; i++) {
+    const year: number = currentYear - i;
+    years.push(`${year}`);
+  }
+  return years;
+};
+
+export const shortenLargeNumbers = (data: number | undefined): string => {
+  if (data === undefined) {
+    return '0';
+  }
+  return millify(data, { precision: 0 });
+};
+
 export const rating = (num: number): number => {
   if (num) {
     return Math.round(num * 10) / 10;
@@ -134,7 +162,6 @@ export const rating = (num: number): number => {
   return 0.0;
 };
 
-// Toast success messages
 export const showSuccessToast = (message: string): void => {
   toast.success(message, {
     position: 'bottom-right',
@@ -148,7 +175,6 @@ export const showSuccessToast = (message: string): void => {
   });
 };
 
-// Toast error messages
 export const showErrorToast = (message: string): void => {
   toast.error(message, {
     position: 'bottom-right',
@@ -162,13 +188,6 @@ export const showErrorToast = (message: string): void => {
   });
 };
 
-
-export const sellerOrderList = (status: string, orders: IOrderDocument[]): IOrderDocument[] => {
-  const orderList: IOrderDocument[] = filter(orders, (order: IOrderDocument) => lowerCase(order.status) === lowerCase(status));
-  return orderList;
-};
-
-// Quill editor utils
 export const reactQuillUtils = () => {
   const modules = {
     toolbar: [
@@ -180,36 +199,9 @@ export const reactQuillUtils = () => {
   return { modules, formats };
 };
 
-
-export const expectedGigDelivery = (): string[] => {
-  return [
-    '1 Day Delivery',
-    '2 Days Delivery',
-    '3 Days Delivery',
-    '4 Days Delivery',
-    '5 Days Delivery',
-    '6 Days Delivery',
-    '7 Days Delivery',
-    '10 Days Delivery',
-    '14 Days Delivery',
-    '21 Days Delivery',
-    '30 Days Delivery',
-    '45 Days Delivery',
-    '60 Days Delivery',
-    '75 Days Delivery',
-    '90 Days Delivery'
-  ];
-};
-
-
 export const generateRandomNumber = (length: number): number => {
   return Math.floor(Math.random() * (9 * Math.pow(10, length - 1))) + Math.pow(10, length - 1);
 };
-
-export const isFetchBaseQueryError = (error: unknown): boolean => {
-  return typeof error === 'object' && error !== null && 'status' in error && 'data' in error;
-};
-
 
 export const bytesToSize = (bytes: number): string => {
   const sizes: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -223,6 +215,10 @@ export const bytesToSize = (bytes: number): string => {
   return `${(bytes / 1024 ** i).toFixed(1)} ${sizes[i]}`;
 };
 
+export const getFileBlob = async (url: string): Promise<AxiosResponse> => {
+  const response: AxiosResponse = await axios.get(url, { responseType: 'blob' });
+  return response;
+};
 
 export const downloadFile = (blobUrl: string, fileName: string): void => {
   const link: HTMLAnchorElement = document.createElement('a');
@@ -236,9 +232,4 @@ export const downloadFile = (blobUrl: string, fileName: string): void => {
   if (link.parentNode) {
     link.parentNode.removeChild(link);
   }
-};
-
-export const getFileBlob = async (url: string): Promise<AxiosResponse> => {
-  const response: AxiosResponse = await axios.get(url, { responseType: 'blob' });
-  return response;
 };

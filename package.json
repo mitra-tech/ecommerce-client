@@ -26,6 +26,7 @@
     "i18n-iso-countries": "^7.13.0",
     "lodash": "^4.17.21",
     "millify": "^6.1.0",
+    "quill": "^2.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-fast-compare": "^3.2.2",
@@ -38,7 +39,7 @@
     "react-toastify": "^10.0.6",
     "redux-persist": "^6.0.0",
     "sass": "^1.81.0",
-    "socket.io-client": "^4.8.1",
+    "socket.io-client": "^4.8.0",
     "typed.js": "^2.1.0",
     "uuid": "^11.0.3",
     "yup": "^1.5.0"

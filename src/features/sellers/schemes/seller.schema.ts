@@ -1,6 +1,6 @@
 import { array, boolean, object, ObjectSchema, string } from 'yup';
 
-import { IEducation, IExperience, ILanguage, IPersonalInfoData } from '../interfaces/seller.interfaces';
+import { IEducation, IExperience, ILanguage, IPersonalInfoData } from '../interfaces/seller.interface';
 
 const personalInfoSchema: ObjectSchema<IPersonalInfoData> = object({
   fullName: string().required({ fullName: 'Fullname is a required field' }),

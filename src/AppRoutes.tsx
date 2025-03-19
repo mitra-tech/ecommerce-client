@@ -1,26 +1,31 @@
 import { FC, ReactNode, Suspense } from 'react';
-import { useRoutes, RouteObject } from 'react-router-dom';
+import { RouteObject, useRoutes } from 'react-router-dom';
+
 import AppPage from './features/AppPage';
-import Home from './features/home/components/Home';
-import ResetPassword from './features/auth/components/ResetPassword';
 import ConfirmEmail from './features/auth/components/ConfirmEmail';
-import ProtectedRoute from './features/ProtectedRoute';
-import Error from './features/error/Error';
+import ResetPassword from './features/auth/components/ResetPassword';
 import BuyerDashboard from './features/buyer/components/Dashboard';
+import Chat from './features/chat/components/Chat';
+import Error from './features/error/Error';
+import AddGig from './features/gigs/components/gig/AddGig';
+import EditGig from './features/gigs/components/gig/EditGig';
+import Gigs from './features/gigs/components/gigs/Gigs';
+import GigView from './features/gigs/components/view/GigView';
+import Home from './features/home/components/Home';
+import GigInfoDisplay from './features/index/gig-tabs/GigInfoDisplay';
+import GigsIndexDisplay from './features/index/gig-tabs/GigsIndexDisplay';
+import Checkout from './features/order/components/Checkout';
+import Order from './features/order/components/Order';
+import Requirement from './features/order/components/Requirement';
+import ProtectedRoute from './features/ProtectedRoute';
 import AddSeller from './features/sellers/components/add/AddSeller';
+import ManageEarnings from './features/sellers/components/dashboard/ManageEarnings';
+import ManageOrders from './features/sellers/components/dashboard/ManageOrders';
+import Seller from './features/sellers/components/dashboard/Seller';
+import SellerDashboard from './features/sellers/components/dashboard/SellerDashboard';
 import CurrentSellerProfile from './features/sellers/components/profile/CurrentSellerProfile';
 import SellerProfile from './features/sellers/components/profile/SellerProfile';
-import Seller from './features/sellers/components/dashboard/Seller';
-import AddGig from './features/gigs/components/gig/AddGig';
-import GigView from './features/gigs/components/view/GigView';
-import Gigs from './features/gigs/components/gigs/Gigs';
-import Chat from './features/chat/components/Chat';
-import Checkout from './features/order/components/Checkout';
-import Requirement from './features/order/components/Requirement';
-import Order from './features/order/components/Order';
 import Settings from './features/settings/components/Settings';
-import GigsIndexDisplay from './features/index/gig-tabs/GigsIndexDisplay';
-import GigInfoDisplay from './features/index/gig-tabs/GigInfoDisplay';
 
 const Layout = ({ backgroundColor = '#fff', children }: { backgroundColor: string; children: ReactNode }): JSX.Element => (
   <div style={{ backgroundColor }} className="flex flex-grow">
@@ -104,7 +109,6 @@ const AppRouter: FC = () => {
         </Suspense>
       )
     },
-    // seller routes
     {
       path: '/seller_onboarding',
       element: (
@@ -155,19 +159,18 @@ const AppRouter: FC = () => {
       children: [
         {
           path: 'seller_dashboard',
-          element: <Seller />
+          element: <SellerDashboard />
         },
         {
           path: 'manage_orders',
-          element: <Seller />
+          element: <ManageOrders />
         },
         {
           path: 'manage_earnings',
-          element: <Seller />
+          element: <ManageEarnings />
         }
       ]
     },
-    // Gig routes
     {
       path: '/manage_gigs/new/:sellerId',
       element: (
@@ -175,6 +178,18 @@ const AppRouter: FC = () => {
           <ProtectedRoute>
             <Layout backgroundColor="#ffffff">
               <AddGig />
+            </Layout>
+          </ProtectedRoute>
+        </Suspense>
+      )
+    },
+    {
+      path: '/manage_gigs/edit/:gigId',
+      element: (
+        <Suspense>
+          <ProtectedRoute>
+            <Layout backgroundColor="#ffffff">
+              <EditGig />
             </Layout>
           </ProtectedRoute>
         </Suspense>
@@ -216,8 +231,6 @@ const AppRouter: FC = () => {
         </Suspense>
       )
     },
-
-    // Chat routes
     {
       path: '/inbox',
       element: (
@@ -299,6 +312,7 @@ const AppRouter: FC = () => {
       )
     }
   ];
+
   return useRoutes(routes);
 };
 

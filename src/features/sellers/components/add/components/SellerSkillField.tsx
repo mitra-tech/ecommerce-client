@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, ReactElement } from 'react';
-import { ISkillProps } from 'src/features/sellers/interfaces/seller.interfaces';
+import { ISkillProps } from 'src/features/sellers/interfaces/seller.interface';
 import Button from 'src/shared/button/Button';
 import TextInput from 'src/shared/inputs/TextInput';
 

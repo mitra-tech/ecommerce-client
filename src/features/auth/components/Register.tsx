@@ -21,6 +21,7 @@ import { registerUserSchema } from '../schemes/auth.schema';
 import { useSignUpMutation } from '../services/auth.service';
 
 const RegisterModal: FC<IModalBgProps> = ({ onClose, onToggle }): ReactElement => {
+
   const [step, setStep] = useState<number>(1);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [country, setCountry] = useState<string>('Select Country');

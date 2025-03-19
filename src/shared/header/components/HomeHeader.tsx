@@ -6,10 +6,11 @@ import { Link } from 'react-router-dom';
 import { addAuthUser } from 'src/features/auth/reducers/auth.reducer';
 import { useResendEmailMutation } from 'src/features/auth/services/auth.service';
 import { IMessageDocument } from 'src/features/chat/interfaces/chat.interface';
-import { IOrderNotifcation } from 'src/features/order/interfaces/order.interfaces';
+import { IOrderNotifcation } from 'src/features/order/interfaces/order.interface';
 import { useGetNotificationsByIdQuery } from 'src/features/order/services/notification.service';
 import Banner from 'src/shared/banner/Banner';
 import Button from 'src/shared/button/Button';
+import useDetectOutsideClick from 'src/shared/hooks/useDetectOutsideClick';
 import { IResponse } from 'src/shared/shared.interface';
 import { categories, replaceSpacesWithDash, showErrorToast, showSuccessToast } from 'src/shared/utils/utils.service';
 import { socket, socketService } from 'src/sockets/socket.service';
@@ -28,7 +29,6 @@ import MobileHeaderSearchInput from './mobile/MobileHeaderSearchInput';
 import NotificationDropdown from './NotificationDropdown';
 import OrderDropdown from './OrderDropdown';
 import SettingsDropdown from './SettingsDropdown';
-import useDetectOutsideClick from 'src/shared/hooks/UseDetectOutSideClick';
 
 const HomeHeader: FC<IHomeHeaderProps> = ({ showCategoryContainer }): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);

@@ -2,11 +2,12 @@ import { FC, ReactElement, useRef, useState } from 'react';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { IGigTopProps, ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
+import GigIndexItem from 'src/features/index/gig-tabs/GigIndexItem';
+import { socket } from 'src/sockets/socket.service';
 import { v4 as uuidv4 } from 'uuid';
 
 import { replaceSpacesWithDash } from '../utils/utils.service';
 import GigCardDisplayItem from './GigCardDisplayItem';
-import { socket } from 'src/sockets/socket.service';
 
 interface IScrollProps {
   start: boolean;
@@ -70,7 +71,7 @@ const TopGigsView: FC<IGigTopProps> = ({ gigs, title, subTitle, category, width,
         <div className="relative flex gap-x-8 pt-3">
           {gigs.map((gig: ISellerGig) => (
             <div key={uuidv4()} className={`${width}`}>
-              {type === 'home' ? <GigCardDisplayItem gig={gig} linkTarget={false} showEditIcon={false} /> : <div>Gig index item</div>}
+              {type === 'home' ? <GigCardDisplayItem gig={gig} linkTarget={false} showEditIcon={false} /> : <GigIndexItem gig={gig} />}
             </div>
           ))}
         </div>

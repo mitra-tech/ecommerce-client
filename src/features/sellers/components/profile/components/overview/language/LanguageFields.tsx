@@ -1,11 +1,11 @@
 import { cloneDeep, filter, findIndex } from 'lodash';
 import { ChangeEvent, FC, ReactElement, useContext, useState } from 'react';
 import { SellerContext } from 'src/features/sellers/context/SellerContext';
-import { ILanguage, ILanguageEditFieldsProps } from 'src/features/sellers/interfaces/seller.interfaces';
+import { ILanguage, ILanguageEditFieldsProps } from 'src/features/sellers/interfaces/seller.interface';
 import Button from 'src/shared/button/Button';
 import Dropdown from 'src/shared/dropdown/Dropdown';
 import TextInput from 'src/shared/inputs/TextInput';
-import { languageLevel } from 'src/shared/utils/utils.service';
+import { languageLevel, showErrorToast } from 'src/shared/utils/utils.service';
 
 const LanguageFields: FC<ILanguageEditFieldsProps> = ({
   type,
@@ -39,7 +39,7 @@ const LanguageFields: FC<ILanguageEditFieldsProps> = ({
         setSellerProfile({ ...sellerProfile, languages: clonedLanguages });
         setShowLanguageEditForm(false);
       } else {
-        console.log('You need to have at least one language.');
+        showErrorToast('You need to have at least one language.');
       }
     }
   };

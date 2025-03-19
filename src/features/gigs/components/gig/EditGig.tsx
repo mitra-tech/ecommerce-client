@@ -4,7 +4,7 @@ import equal from 'react-fast-compare';
 import { FaCamera } from 'react-icons/fa';
 import ReactQuill, { UnprivilegedEditor } from 'react-quill';
 import { NavigateFunction, useLocation, useNavigate, useParams } from 'react-router-dom';
-import Breadcrumb from 'src/shared/breadcrumbs/Breadcrumbs';
+import Breadcrumb from 'src/shared/breadcrumb/Breadcrumb';
 import Button from 'src/shared/button/Button';
 import Dropdown from 'src/shared/dropdown/Dropdown';
 import TextAreaInput from 'src/shared/inputs/TextAreaInput';
@@ -28,7 +28,7 @@ import { IReduxState } from 'src/store/store.interface';
 
 import { useGigSchema } from '../../hooks/useGigSchema';
 import { GIG_MAX_LENGTH, IAllowedGigItem, ICreateGig, ISellerGig, IShowGigModal } from '../../interfaces/gig.interface';
-import { gigInfoSchema } from '../../schemas/gig.schema';
+import { gigInfoSchema } from '../../schemes/gig.schema';
 import { useUpdateGigMutation } from '../../services/gigs.service';
 import TagsInput from './components/TagsInput';
 

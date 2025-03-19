@@ -1,5 +1,5 @@
 import { FC, ReactElement } from 'react';
-import { IProfileTabsProps } from 'src/features/sellers/interfaces/seller.interfaces';
+import { IProfileTabsProps } from 'src/features/sellers/interfaces/seller.interface';
 import Dropdown from 'src/shared/dropdown/Dropdown';
 
 const ProfileTabs: FC<IProfileTabsProps> = ({ type, setType }): ReactElement => {

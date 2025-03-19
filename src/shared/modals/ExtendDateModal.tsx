@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, ReactElement, useState } from 'react';
-import { IExtendedDateModalProps, IExtendedDelivery } from 'src/features/order/interfaces/order.interfaces';
+import { IExtendedDateModalProps, IExtendedDelivery } from 'src/features/order/interfaces/order.interface';
 import { useRequestDeliveryDateExtensionMutation } from 'src/features/order/services/order.service';
 
 import Button from '../button/Button';

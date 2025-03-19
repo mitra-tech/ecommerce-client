@@ -1,5 +1,5 @@
-import { ISellerGig } from "src/features/gigs/interfaces/gig.interface";
-import { ISellerDocument } from "src/features/sellers/interfaces/seller.interfaces";
+import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
+import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interface';
 
 export interface IHomeProps {
   gigs: ISellerGig[];
@@ -13,11 +13,11 @@ export interface ISliderState {
   slideIndex: number;
 }
 
+export interface IFeaturedExpertProps {
+  sellers: ISellerDocument[];
+}
+
 export interface ICategory {
   name: string;
   icon: string;
-}
-
-export interface IFeaturedExpertProps {
-  sellers: ISellerDocument[];
 }

@@ -4,7 +4,7 @@ import { IChatBuyerProps, IChatSellerProps } from 'src/features/chat/interfaces/
 import { TimeAgo } from 'src/shared/utils/timeago.utils';
 
 import { OrderContext } from '../../context/OrderContext';
-import { DivElementRefType, IOrderActivitiesProps } from '../../interfaces/order.interfaces';
+import { DivElementRefType, IOrderActivitiesProps } from '../../interfaces/order.interface';
 import OrderDelivered from './components/OrderDelivered';
 import OrderExtension from './components/OrderExtension';
 import OrderPlaced from './components/OrderPlaced';

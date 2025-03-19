@@ -1,9 +1,8 @@
-
 import { orderBy } from 'lodash';
 import { FC, ReactElement, useEffect, useState } from 'react';
 import { FaRegEnvelope, FaRegEnvelopeOpen } from 'react-icons/fa';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { IOrderNotifcation } from 'src/features/order/interfaces/order.interfaces';
+import { IOrderNotifcation } from 'src/features/order/interfaces/order.interface';
 import { useGetNotificationsByIdQuery, useMarkUnreadNotificationMutation } from 'src/features/order/services/notification.service';
 import { TimeAgo } from 'src/shared/utils/timeago.utils';
 import { showErrorToast } from 'src/shared/utils/utils.service';

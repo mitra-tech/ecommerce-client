@@ -2,11 +2,11 @@ import { FC, ReactElement } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
 import { useGetGigsBySellerIdQuery, useGetSellerPausedGigsQuery } from 'src/features/gigs/services/gigs.service';
-import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
+import { IOrderDocument } from 'src/features/order/interfaces/order.interface';
 import { useGetOrdersBySellerIdQuery } from 'src/features/order/services/order.service';
 import DashboardHeader from 'src/shared/header/components/DashboardHeader';
 
-import { ISellerDocument } from '../../interfaces/seller.interfaces';
+import { ISellerDocument } from '../../interfaces/seller.interface';
 import { useGetSellerByIdQuery } from '../../services/seller.service';
 
 const Seller: FC = (): ReactElement => {

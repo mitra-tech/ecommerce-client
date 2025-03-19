@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
-import { IReviewDocument } from 'src/features/order/interfaces/review.interfaces';
-import { IRatingCategories, ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
+import { IRatingCategories, IReviewDocument } from 'src/features/order/interfaces/review.interface';
+import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interface';
 
 export interface ITagsInputProps {
   title: string;
@@ -109,6 +109,19 @@ export interface ISelectedBudget {
   maxPrice: string;
 }
 
+export interface IGigViewReviewsProps {
+  showRatings: boolean;
+  reviews?: IReviewDocument[];
+  hasFetchedReviews?: boolean;
+}
+
+export interface IGigContext {
+  gig: ISellerGig;
+  seller: ISellerDocument;
+  isSuccess?: boolean;
+  isLoading?: boolean;
+}
+
 export interface IGigInfo {
   total: number | string;
   title: string;
@@ -128,16 +141,4 @@ export interface IGigTopProps {
   category?: string;
   width: string;
   type: string;
-}
-
-export interface IGigContext {
-  gig: ISellerGig;
-  seller: ISellerDocument;
-  isSuccess?: boolean;
-  isLoading?: boolean;
-}
-export interface IGigViewReviewsProps {
-  showRatings: boolean;
-  reviews?: IReviewDocument[];
-  hasFetchedReviews?: boolean;
 }

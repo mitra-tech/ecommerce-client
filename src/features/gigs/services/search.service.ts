@@ -1,4 +1,3 @@
-
 import { IResponse } from 'src/shared/shared.interface';
 import { api } from 'src/store/api';
 

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import ChatBox from 'src/features/chat/components/chatbox/ChatBox';
 import { IChatBuyerProps, IChatSellerProps } from 'src/features/chat/interfaces/chat.interface';
 import { GigContext } from 'src/features/gigs/context/GigContext';
-import { ILanguage } from 'src/features/sellers/interfaces/seller.interfaces';
+import { ILanguage } from 'src/features/sellers/interfaces/seller.interface';
 import Button from 'src/shared/button/Button';
 import ApprovalModal from 'src/shared/modals/ApprovalModal';
 import { IApprovalModalContent } from 'src/shared/modals/interfaces/modal.interface';

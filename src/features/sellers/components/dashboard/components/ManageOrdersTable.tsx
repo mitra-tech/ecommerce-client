@@ -1,6 +1,6 @@
 import { FC, ReactElement, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { IOrderDocument, IOrderMessage, IOrderTableProps } from 'src/features/order/interfaces/order.interfaces';
+import { IOrderDocument, IOrderMessage, IOrderTableProps } from 'src/features/order/interfaces/order.interface';
 import { useCancelOrderMutation } from 'src/features/order/services/order.service';
 import Button from 'src/shared/button/Button';
 import { updateHeader } from 'src/shared/header/reducers/header.reducer';

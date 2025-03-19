@@ -2,7 +2,7 @@ import { ChangeEvent, FC, FormEvent, ReactElement, RefObject, useEffect, useRef,
 import { FaSearch } from 'react-icons/fa';
 import { createSearchParams, NavigateFunction, useNavigate } from 'react-router-dom';
 import Button from 'src/shared/button/Button';
-import TextInput from '../../shared/inputs/TextInput';
+import TextInput from 'src/shared/inputs/TextInput';
 import { replaceSpacesWithDash } from 'src/shared/utils/utils.service';
 import Typed from 'typed.js';
 import { v4 as uuidv4 } from 'uuid';

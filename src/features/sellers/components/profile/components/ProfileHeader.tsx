@@ -4,7 +4,7 @@ import { ChangeEvent, FC, ReactElement, useEffect, useState } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { IGigInfo } from 'src/features/gigs/interfaces/gig.interface';
-import { IProfileHeaderProps, ISellerProfileItem, IShowEditItem } from 'src/features/sellers/interfaces/seller.interfaces';
+import { IProfileHeaderProps, ISellerProfileItem, IShowEditItem } from 'src/features/sellers/interfaces/seller.interface';
 import Button from 'src/shared/button/Button';
 import TextInput from 'src/shared/inputs/TextInput';
 import StarRating from 'src/shared/rating/StarRating';

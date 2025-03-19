@@ -4,7 +4,7 @@ import Button from 'src/shared/button/Button';
 import { updateHeader } from 'src/shared/header/reducers/header.reducer';
 import { useAppDispatch } from 'src/store/store';
 
-import { ISellerDocument, SellerContextType } from '../../interfaces/seller.interfaces';
+import { ISellerDocument, SellerContextType } from '../../interfaces/seller.interface';
 import ProfileHeader from '../profile/components/ProfileHeader';
 import DashboardMain from './components/DashboardMain';
 

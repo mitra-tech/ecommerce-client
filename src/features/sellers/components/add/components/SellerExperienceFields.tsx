@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, ReactElement } from 'react';
-import { IExperience, IExperienceProps } from 'src/features/sellers/interfaces/seller.interfaces';
+import { IExperience, IExperienceProps } from 'src/features/sellers/interfaces/seller.interface';
 import Button from 'src/shared/button/Button';
 import Dropdown from 'src/shared/dropdown/Dropdown';
 import TextAreaInput from 'src/shared/inputs/TextAreaInput';

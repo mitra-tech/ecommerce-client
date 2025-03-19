@@ -2,8 +2,7 @@ import { Dispatch, MouseEventHandler, ReactNode, SetStateAction } from 'react';
 import { IAuthUser } from 'src/features/auth/interfaces/auth.interface';
 import { IBuyerDocument } from 'src/features/buyer/interfaces/buyer.interface';
 import { IMessageDocument } from 'src/features/chat/interfaces/chat.interface';
-import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
-
+import { IOrderDocument } from 'src/features/order/interfaces/order.interface';
 
 export interface IModalBgProps {
   children?: ReactNode;
@@ -11,6 +10,7 @@ export interface IModalBgProps {
   onToggle?: Dispatch<SetStateAction<boolean>>;
   onTogglePassword?: Dispatch<SetStateAction<boolean>>;
 }
+
 export interface IModalProps {
   header?: string;
   gigTitle?: string;
@@ -25,7 +25,6 @@ export interface IModalProps {
   onClick?: () => void;
   onClose?: () => void;
 }
-
 
 export interface IApprovalModalContent {
   header: string;

@@ -2,7 +2,7 @@
 import { FC, ReactElement, useContext, useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { OrderContext } from 'src/features/order/context/OrderContext';
-import { IExtendedDelivery } from 'src/features/order/interfaces/order.interfaces';
+import { IExtendedDelivery } from 'src/features/order/interfaces/order.interface';
 import { useUpdateDeliveryDateMutation } from 'src/features/order/services/order.service';
 import Button from 'src/shared/button/Button';
 import ApprovalModal from 'src/shared/modals/ApprovalModal';

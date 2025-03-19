@@ -1,7 +1,7 @@
 import { cloneDeep, filter, findIndex } from 'lodash';
 import { ChangeEvent, FC, ReactElement, useContext, useState } from 'react';
 import { SellerContext } from 'src/features/sellers/context/SellerContext';
-import { ICertificate, ICertificateEditProps } from 'src/features/sellers/interfaces/seller.interfaces';
+import { ICertificate, ICertificateEditProps } from 'src/features/sellers/interfaces/seller.interface';
 import Button from 'src/shared/button/Button';
 import Dropdown from 'src/shared/dropdown/Dropdown';
 import TextInput from 'src/shared/inputs/TextInput';

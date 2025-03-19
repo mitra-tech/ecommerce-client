@@ -1,8 +1,8 @@
 import { FC, ReactElement } from 'react';
 
-import GigLeftAbout from './gigViewLeft/GigLeftAbout';
-import GigLeftOverview from './gigViewLeft/GigLeftOverview';
-import GigViewReviews from './gigViewLeft/GigViewReviews';
+import GigLeftAbout from './GigViewLeft/GigLeftAbout';
+import GigLeftOverview from './GigViewLeft/GigLeftOverview';
+import GigViewReviews from './GigViewLeft/GigViewReviews';
 
 const GigViewLeft: FC = (): ReactElement => {
   return (

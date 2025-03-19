@@ -1,4 +1,3 @@
-
 import { FC, ReactElement, Suspense, useRef, useState } from 'react';
 import { FaArrowRight, FaCircleNotch, FaRegClock } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';

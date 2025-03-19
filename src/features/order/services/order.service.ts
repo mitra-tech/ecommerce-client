@@ -1,7 +1,7 @@
 import { IResponse } from 'src/shared/shared.interface';
 import { api } from 'src/store/api';
 
-import { IDeliveredWork, IExtendedDelivery, IOrderDocument, IOrderMessage } from '../interfaces/order.interfaces';
+import { IDeliveredWork, IExtendedDelivery, IOrderDocument, IOrderMessage } from '../interfaces/order.interface';
 
 export const ordersApi = api.injectEndpoints({
   endpoints: (build) => ({

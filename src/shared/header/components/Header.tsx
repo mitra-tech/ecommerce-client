@@ -8,6 +8,7 @@ import { IButtonProps } from 'src/shared/shared.interface';
 import { saveToLocalStorage } from 'src/shared/utils/utils.service';
 
 import { IHeader, IHeaderModalProps } from '../interfaces/header.interface';
+import HeaderSideBar from './mobile/HeaderSideBar';
 
 const Button: LazyExoticComponent<FC<IButtonProps>> = lazy(() => import('src/shared/button/Button'));
 
@@ -40,7 +41,9 @@ const Header: FC<IHeader> = ({ navClass }): ReactElement => {
           onToggle={() => setShowModal((item: IHeaderModalProps) => ({ ...item, login: true, forgotPassword: false }))}
         />
       )}
-
+      {openSidebar && (
+        <HeaderSideBar setShowLoginModal={setShowModal} setShowRegisterModal={setShowModal} setOpenSidebar={setOpenSidebar} />
+      )}
       <header>
         <nav className={navClass}>
           <div className="m-auto px-6 xl:container md:px-12 lg:px-6">

@@ -13,9 +13,9 @@ import { useAppSelector } from 'src/store/store';
 import { IReduxState } from 'src/store/store.interface';
 
 import { OrderContext } from '../context/OrderContext';
-import { IOffer, IOrderDocument, IOrderInvoice } from '../interfaces/order.interfaces';
+import { IOffer, IOrderDocument, IOrderInvoice } from '../interfaces/order.interface';
 import { useCreateOrderMutation } from '../services/order.service';
-import Invoice from './invoice/Invoice';
+import Invoice from './Invoice/Invoice';
 
 const Requirement: FC = (): ReactElement => {
   const buyer = useAppSelector((state: IReduxState) => state.buyer);

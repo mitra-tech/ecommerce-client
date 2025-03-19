@@ -1,38 +1,37 @@
+import Quill from 'quill';
 import { ChangeEvent, FC, ReactElement, useRef, useState } from 'react';
+import equal from 'react-fast-compare';
 import { FaCamera } from 'react-icons/fa';
 import ReactQuill, { UnprivilegedEditor } from 'react-quill';
-import equal from 'react-fast-compare';
-
-import Quill from 'quill';
-import BreadCrumb from 'src/shared/breadcrumbs/Breadcrumbs';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
+import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interface';
+import { addSeller } from 'src/features/sellers/reducers/seller.reducer';
+import Breadcrumb from 'src/shared/breadcrumb/Breadcrumb';
 import Button from 'src/shared/button/Button';
 import Dropdown from 'src/shared/dropdown/Dropdown';
 import TextAreaInput from 'src/shared/inputs/TextAreaInput';
 import TextInput from 'src/shared/inputs/TextInput';
-import { useAppSelector } from 'src/store/store';
-import { IReduxState } from 'src/store/store.interface';
-import { GIG_MAX_LENGTH, IAllowedGigItem, ICreateGig, IShowGigModal } from '../../interfaces/gig.interface';
+import ApprovalModal from 'src/shared/modals/ApprovalModal';
+import { IApprovalModalContent } from 'src/shared/modals/interfaces/modal.interface';
+import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
+import { IResponse } from 'src/shared/shared.interface';
+import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service';
 import {
   categories,
-  reactQuillUtils,
   expectedGigDelivery,
-  showErrorToast,
   lowerCase,
-  replaceSpacesWithDash
+  reactQuillUtils,
+  replaceSpacesWithDash,
+  showErrorToast
 } from 'src/shared/utils/utils.service';
-import TagsInput from './components/TagsInput';
-import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service';
+import { useAppDispatch, useAppSelector } from 'src/store/store';
+import { IReduxState } from 'src/store/store.interface';
+
 import { useGigSchema } from '../../hooks/useGigSchema';
-import { gigInfoSchema } from '../../schemas/gig.schema';
-import { IApprovalModalContent } from 'src/shared/modals/interfaces/modal.interface';
-import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
-import ApprovalModal from 'src/shared/modals/ApprovalModal';
+import { GIG_MAX_LENGTH, IAllowedGigItem, ICreateGig, IShowGigModal } from '../../interfaces/gig.interface';
+import { gigInfoSchema } from '../../schemes/gig.schema';
 import { useCreateGigMutation } from '../../services/gigs.service';
-import { IResponse } from 'src/shared/shared.interface';
-import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
-import { addSeller } from 'src/features/sellers/reducers/seller.reducer';
-import { useDispatch } from 'react-redux';
-import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
+import TagsInput from './components/TagsInput';
 
 const defaultGigInfo: ICreateGig = {
   title: '',
@@ -49,20 +48,16 @@ const defaultGigInfo: ICreateGig = {
 
 const AddGig: FC = (): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
+  const seller = useAppSelector((state: IReduxState) => state.seller);
   const [gigInfo, setGigInfo] = useState<ICreateGig>(defaultGigInfo);
   const [subCategory, setSubCategory] = useState<string[]>([]);
   const [subCategoryInput, setSubCategoryInput] = useState<string>('');
   const [tags, setTags] = useState<string[]>([]);
   const [tagsInput, setTagsInput] = useState<string>('');
-  const dispatch = useDispatch();
-  const seller = useAppSelector((state: IReduxState) => state.seller);
-
-  // We want to keep the initial state of the gigInfo object.
-  const gigInfoRef = useRef<ICreateGig>(defaultGigInfo);
-  const { sellerId } = useParams();
-  const [approvalModalContent, setApprovalModalContent] = useState<IApprovalModalContent>();
-  const navigate: NavigateFunction = useNavigate();
-  // We want to delete the character count for the description field if they exceed the max length.
+  const [showGigModal, setShowGigModal] = useState<IShowGigModal>({
+    image: false,
+    cancel: false
+  });
   const reactQuillRef = useRef<ReactQuill | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const [allowedGigItemLength, setAllowedGigItemLength] = useState<IAllowedGigItem>({
@@ -71,12 +66,14 @@ const AddGig: FC = (): ReactElement => {
     basicDescription: '100/100',
     descriptionCharacters: '1200/1200'
   });
-  const [showGigModal, setShowGigModal] = useState<IShowGigModal>({
-    image: false,
-    cancel: false
-  });
+  const gigInfoRef = useRef<ICreateGig>(defaultGigInfo);
+  const [approvalModalContent, setApprovalModalContent] = useState<IApprovalModalContent>();
+  const navigate: NavigateFunction = useNavigate();
+  const dispatch = useAppDispatch();
+  const { sellerId } = useParams();
   const [schemaValidation] = useGigSchema({ schema: gigInfoSchema, gigInfo });
   const [createGig, { isLoading }] = useCreateGigMutation();
+
   const handleFileChange = async (event: ChangeEvent): Promise<void> => {
     const target: HTMLInputElement = event.target as HTMLInputElement;
     if (target.files) {
@@ -129,10 +126,11 @@ const AddGig: FC = (): ReactElement => {
       showErrorToast('Error creating gig');
     }
   };
-  // Cancel the gig creation
+
   const onCancelCreate = (): void => {
     navigate(`/seller_profile/${lowerCase(`${authUser.username}/${sellerId}/edit`)}`);
   };
+
   return (
     <>
       {showGigModal.cancel && (
@@ -143,7 +141,7 @@ const AddGig: FC = (): ReactElement => {
         />
       )}
       <div className="relative w-screen">
-        <BreadCrumb breadCrumbItems={['Seller', 'Create new gig']} />
+        <Breadcrumb breadCrumbItems={['Seller', 'Create new gig']} />
         <div className="container relative mx-auto my-5 px-2 pb-12 md:px-0">
           {isLoading && <CircularPageLoader />}
           {authUser && !authUser.emailVerified && (
@@ -166,7 +164,7 @@ const AddGig: FC = (): ReactElement => {
                   placeholder="I will build something I'm good at."
                   maxLength={80}
                   onChange={(event: ChangeEvent) => {
-                    const gigTitleValue = (event.target as HTMLInputElement).value;
+                    const gigTitleValue: string = (event.target as HTMLInputElement).value;
                     setGigInfo({ ...gigInfo, title: gigTitleValue });
                     const counter: number = GIG_MAX_LENGTH.gigTitle - gigTitleValue.length;
                     setAllowedGigItemLength({ ...allowedGigItemLength, gigTitle: `${counter}/80` });
@@ -188,7 +186,7 @@ const AddGig: FC = (): ReactElement => {
                   value={gigInfo.basicTitle}
                   maxLength={40}
                   onChange={(event: ChangeEvent) => {
-                    const basicTitleValue = (event.target as HTMLInputElement).value;
+                    const basicTitleValue: string = (event.target as HTMLInputElement).value;
                     setGigInfo({ ...gigInfo, basicTitle: basicTitleValue });
                     const counter: number = GIG_MAX_LENGTH.basicTitle - basicTitleValue.length;
                     setAllowedGigItemLength({ ...allowedGigItemLength, basicTitle: `${counter}/40` });
@@ -210,7 +208,7 @@ const AddGig: FC = (): ReactElement => {
                   rows={5}
                   maxLength={100}
                   onChange={(event: ChangeEvent) => {
-                    const basicDescriptionValue = (event.target as HTMLInputElement).value;
+                    const basicDescriptionValue: string = (event.target as HTMLInputElement).value;
                     setGigInfo({ ...gigInfo, basicDescription: basicDescriptionValue });
                     const counter: number = GIG_MAX_LENGTH.basicDescription - basicDescriptionValue.length;
                     setAllowedGigItemLength({ ...allowedGigItemLength, basicDescription: `${counter}/100` });
@@ -227,18 +225,15 @@ const AddGig: FC = (): ReactElement => {
                 <ReactQuill
                   theme="snow"
                   value={gigInfo.description}
-                  className="border-grey  rounded border"
+                  className="border-grey border rounded"
                   modules={reactQuillUtils().modules}
                   formats={reactQuillUtils().formats}
                   ref={(element: ReactQuill | null) => {
                     reactQuillRef.current = element;
-                    // we get accsess to some of the methods of the editor
-                    const ReactQuillEditor = reactQuillRef.current?.getEditor();
-                    // listen to the text-change event
-                    ReactQuillEditor?.on('text-change', () => {
-                      // get the length of the characters in the input text
-                      if (ReactQuillEditor.getLength() > GIG_MAX_LENGTH.fullDescription) {
-                        ReactQuillEditor.deleteText(GIG_MAX_LENGTH.fullDescription, ReactQuillEditor.getLength());
+                    const reactQuillEditor = reactQuillRef.current?.getEditor();
+                    reactQuillEditor?.on('text-change', () => {
+                      if (reactQuillEditor.getLength() > GIG_MAX_LENGTH.fullDescription) {
+                        reactQuillEditor.deleteText(GIG_MAX_LENGTH.fullDescription, reactQuillEditor.getLength());
                       }
                     });
                   }}
@@ -295,6 +290,7 @@ const AddGig: FC = (): ReactElement => {
               setItem={setTags}
               setItemInput={setTagsInput}
             />
+
             <div className="mb-6 grid md:grid-cols-5">
               <div className="pb-2 text-base font-medium">
                 Price<sup className="top-[-0.3em] text-base text-red-500">*</sup>
@@ -326,7 +322,7 @@ const AddGig: FC = (): ReactElement => {
                   onClick={(item: string) => {
                     setGigInfo({ ...gigInfo, expectedDelivery: item });
                   }}
-                />{' '}
+                />
               </div>
             </div>
             <div className="mb-6 grid md:grid-cols-5">

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IEducation, IExperience, ILanguage, IPersonalInfoData } from 'src/features/sellers/interfaces/seller.interfaces';
+import { IEducation, IExperience, ILanguage, IPersonalInfoData } from 'src/features/sellers/interfaces/seller.interface';
 
 import {
   ArrayOfEducationSchema,
@@ -7,7 +7,7 @@ import {
   ArrayOfLanguagesSchema,
   ArrayOfSkillsSchema,
   personalInfoSchema
-} from '../schemas/seller.schema';
+} from '../schemes/seller.schema';
 
 interface IUseSellerSchema {
   personalInfo: IPersonalInfoData;

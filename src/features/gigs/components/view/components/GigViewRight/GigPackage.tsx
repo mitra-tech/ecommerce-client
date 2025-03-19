@@ -2,7 +2,7 @@ import { FC, ReactElement, useContext, useState } from 'react';
 import { FaArrowRight, FaRegClock } from 'react-icons/fa';
 import { createSearchParams, NavigateFunction, useNavigate } from 'react-router-dom';
 import { GigContext } from 'src/features/gigs/context/GigContext';
-import { IOffer } from 'src/features/order/interfaces/order.interfaces';
+import { IOffer } from 'src/features/order/interfaces/order.interface';
 import Button from 'src/shared/button/Button';
 import ApprovalModal from 'src/shared/modals/ApprovalModal';
 import { IApprovalModalContent } from 'src/shared/modals/interfaces/modal.interface';

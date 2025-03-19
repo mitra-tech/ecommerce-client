@@ -1,8 +1,9 @@
 import { FC, ReactElement, useContext, useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaRegStar } from 'react-icons/fa';
 import { OrderContext } from 'src/features/order/context/OrderContext';
-import { IOrderReviewModal } from 'src/features/order/interfaces/order.interfaces';
+import { IOrderReviewModal } from 'src/features/order/interfaces/order.interface';
 import Button from 'src/shared/button/Button';
+import ReviewModal from 'src/shared/modals/ReviewModal';
 import StarRating from 'src/shared/rating/StarRating';
 import { TimeAgo } from 'src/shared/utils/timeago.utils';
 
@@ -17,7 +18,12 @@ const OrderReview: FC = (): ReactElement => {
 
   return (
     <>
-      {/* to do: order review modal */}
+      {orderReviewModal.buyerReview && (
+        <ReviewModal type="buyer-review" order={order} onClose={() => setOrderReviewModal({ ...orderReviewModal, buyerReview: false })} />
+      )}
+      {orderReviewModal.sellerReview && (
+        <ReviewModal type="seller-review" order={order} onClose={() => setOrderReviewModal({ ...orderReviewModal, sellerReview: false })} />
+      )}
       {order?.approved && authUser?.username === order.buyerUsername && order.buyerReview?.rating === 0 && (
         <div className="flex rounded-[4px] bg-white px-4 py-3">
           <div className="w-full">

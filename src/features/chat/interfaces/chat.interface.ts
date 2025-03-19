@@ -1,26 +1,30 @@
 import { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
 import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
-import { IOffer } from 'src/features/order/interfaces/order.interfaces';
-import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interfaces';
+import { IOffer } from 'src/features/order/interfaces/order.interface';
+import { ISellerDocument } from 'src/features/sellers/interfaces/seller.interface';
 
-export interface IChatSellerProps {
-  _id: string;
-  username: string;
-  profilePicture: string;
-  responseTime: number;
+export interface IChatWindowProps {
+  chatMessages: IMessageDocument[];
+  isError: boolean;
+  isLoading: boolean;
+  setSkip?: Dispatch<SetStateAction<boolean>>;
 }
 
-export interface IChatBuyerProps {
-  _id: string;
-  username: string;
-  profilePicture: string;
+export interface IFilePreviewProps {
+  image: string;
+  file: File;
+  isLoading: boolean;
+  message: string;
+  handleChange: (event: ChangeEvent) => void;
+  onSubmit: (event: FormEvent) => void;
+  onRemoveImage: () => void;
 }
 
-export interface IChatBoxProps {
-  seller: IChatSellerProps;
-  buyer: IChatBuyerProps;
-  gigId: string;
-  onClose: () => void;
+export interface IConversationDocument {
+  _id: string;
+  conversationId: string;
+  senderUsername: string;
+  receiverUsername: string;
 }
 
 export interface IMessageDocument {
@@ -46,28 +50,24 @@ export interface IMessageDocument {
   createdAt?: Date | string;
 }
 
-export interface IConversationDocument {
+export interface IChatBoxProps {
+  seller: IChatSellerProps;
+  buyer: IChatBuyerProps;
+  gigId: string;
+  onClose: () => void;
+}
+
+export interface IChatSellerProps {
   _id: string;
-  conversationId: string;
-  senderUsername: string;
-  receiverUsername: string;
+  username: string;
+  profilePicture: string;
+  responseTime: number;
 }
 
-export interface IChatWindowProps {
-  chatMessages: IMessageDocument[];
-  isError: boolean;
-  isLoading: boolean;
-  setSkip?: Dispatch<SetStateAction<boolean>>;
-}
-
-export interface IFilePreviewProps {
-  image: string;
-  file: File;
-  isLoading: boolean;
-  message: string;
-  handleChange: (event: ChangeEvent) => void;
-  onSubmit: (event: FormEvent) => void;
-  onRemoveImage: () => void;
+export interface IChatBuyerProps {
+  _id: string;
+  username: string;
+  profilePicture: string;
 }
 
 export interface IChatMessageProps {

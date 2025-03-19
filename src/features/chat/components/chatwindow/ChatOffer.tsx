@@ -1,7 +1,7 @@
 import { FC, ReactElement } from 'react';
 import { FaRegClock } from 'react-icons/fa';
 import { createSearchParams, NavigateFunction, useNavigate } from 'react-router-dom';
-import { IOffer } from 'src/features/order/interfaces/order.interfaces';
+import { IOffer } from 'src/features/order/interfaces/order.interface';
 import Button from 'src/shared/button/Button';
 import { showErrorToast } from 'src/shared/utils/utils.service';
 

@@ -1,12 +1,12 @@
 import { cloneDeep, findIndex } from 'lodash';
 import { ChangeEvent, FC, ReactElement, useContext, useState } from 'react';
 import { SellerContext } from 'src/features/sellers/context/SellerContext';
-import { IEducation, IEducationEditProps } from 'src/features/sellers/interfaces/seller.interfaces';
+import { IEducation, IEducationEditProps } from 'src/features/sellers/interfaces/seller.interface';
 import Button from 'src/shared/button/Button';
 import TextInput from 'src/shared/inputs/TextInput';
 import { countriesList, degreeList, yearsList } from 'src/shared/utils/utils.service';
 
-import Dropdown from 'src/shared/dropdown/Dropdown';
+import Dropdown from '../../../../../../../shared/dropdown/Dropdown';
 
 const EducationFields: FC<IEducationEditProps> = ({
   type,

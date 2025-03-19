@@ -2,7 +2,7 @@ import { FC, ReactElement, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { GigContext } from 'src/features/gigs/context/GigContext';
 import { IGigViewReviewsProps } from 'src/features/gigs/interfaces/gig.interface';
-import { IRatingCategories, IRatingCategoryItem, IReviewDocument } from 'src/features/order/interfaces/review.interfaces';
+import { IRatingCategories, IRatingCategoryItem, IReviewDocument } from 'src/features/order/interfaces/review.interface';
 import { useGetReviewsByGigIdQuery } from 'src/features/order/services/review.service';
 import StarRating from 'src/shared/rating/StarRating';
 import { ratingTypes } from 'src/shared/utils/static-data';

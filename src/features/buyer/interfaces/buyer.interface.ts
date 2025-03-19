@@ -3,9 +3,9 @@ export interface IBuyerDocument {
   username?: string;
   email?: string;
   profilePicture?: string;
-  country?: string;
+  country: string;
   isSeller?: boolean;
-  purchasedGigs?: string[];
+  purchasedGigs: string[];
   createdAt?: Date | string;
   updatedAt?: Date | string;
 }

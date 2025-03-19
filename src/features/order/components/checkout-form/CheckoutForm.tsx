@@ -6,7 +6,7 @@ import { FC, FormEvent, ReactElement, useEffect, useState } from 'react';
 import { createSearchParams } from 'react-router-dom';
 import Button from 'src/shared/button/Button';
 
-import { ICheckoutProps } from '../../interfaces/order.interfaces';
+import { ICheckoutProps } from '../../interfaces/order.interface';
 import CheckoutFormSkeleton from './CheckoutFormSkeleton';
 
 const CLIENT_ENDPOINT = import.meta.env.VITE_CLIENT_ENDPOINT;

@@ -1,7 +1,7 @@
 import { createSlice, Slice } from '@reduxjs/toolkit';
 import { emptySellerData } from 'src/shared/utils/static-data';
 
-import { IReduxSeller, ISellerDocument } from '../interfaces/seller.interfaces';
+import { IReduxSeller, ISellerDocument } from '../interfaces/seller.interface';
 
 const initialValue: ISellerDocument = emptySellerData;
 

@@ -7,7 +7,7 @@ import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
 import { IResponse } from 'src/shared/shared.interface';
 import { saveToLocalStorage, showErrorToast } from 'src/shared/utils/utils.service';
 
-import { IOffer } from '../interfaces/order.interfaces';
+import { IOffer } from '../interfaces/order.interface';
 import { useCreateOrderIntentMutation } from '../services/order.service';
 import CheckoutForm from './checkout-form/CheckoutForm';
 

@@ -1,8 +1,11 @@
 import { FC, ReactElement, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import GigViewReviews from 'src/features/gigs/components/view/components/GigViewLeft/GigViewReviews';
 import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
 import { useGetGigsBySellerIdQuery } from 'src/features/gigs/services/gigs.service';
-import Breadcrumb from 'src/shared/breadcrumbs/Breadcrumbs';
+import { IReviewDocument } from 'src/features/order/interfaces/review.interface';
+import { useGetReviewsBySellerIdQuery } from 'src/features/order/services/review.service';
+import Breadcrumb from 'src/shared/breadcrumb/Breadcrumb';
 import GigCardDisplayItem from 'src/shared/gigs/GigCardDisplayItem';
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 import { v4 as uuidv4 } from 'uuid';
@@ -17,8 +20,18 @@ const SellerProfile: FC = (): ReactElement => {
   const { sellerId } = useParams();
   const { data: sellerData, isLoading: isSellerLoading, isSuccess: isSellerSuccess } = useGetSellerByIdQuery(`${sellerId}`);
   const { data: gigData, isSuccess: isSellerGigSuccess, isLoading: isSellerGigLoading } = useGetGigsBySellerIdQuery(`${sellerId}`);
+  const {
+    data: sellerReviewsData,
+    isSuccess: isGigReviewSuccess,
+    isLoading: isGigReviewLoading
+  } = useGetReviewsBySellerIdQuery(`${sellerId}`);
+  let reviews: IReviewDocument[] = [];
+  if (isGigReviewSuccess) {
+    reviews = sellerReviewsData.reviews as IReviewDocument[];
+  }
 
-  const isLoading: boolean = isSellerGigLoading && isSellerLoading && !isSellerSuccess && !isSellerGigSuccess;
+  const isLoading: boolean =
+    isSellerGigLoading && isSellerLoading && isGigReviewLoading && !isSellerSuccess && !isSellerGigSuccess && !isGigReviewSuccess;
 
   return (
     <div className="relative w-full pb-6">
@@ -42,7 +55,7 @@ const SellerProfile: FC = (): ReactElement => {
                   ))}
               </div>
             )}
-            {type === 'Ratings & Reviews' && <div>Ratings & reviews </div>}
+            {type === 'Ratings & Reviews' && <GigViewReviews showRatings={false} reviews={reviews} hasFetchedReviews={true} />}
           </div>
         </div>
       )}

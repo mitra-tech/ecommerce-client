@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, ReactElement } from 'react';
-import { ILanguage, ILanguageProps } from 'src/features/sellers/interfaces/seller.interfaces';
+import { ILanguage, ILanguageProps } from 'src/features/sellers/interfaces/seller.interface';
 import Button from 'src/shared/button/Button';
 import TextInput from 'src/shared/inputs/TextInput';
 import { languageLevel } from 'src/shared/utils/utils.service';

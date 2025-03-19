@@ -5,7 +5,7 @@ import ExtendDateModal from 'src/shared/modals/ExtendDateModal';
 import { IModalProps } from 'src/shared/modals/interfaces/modal.interface';
 
 import { useCountDown } from '../hooks/useCountDown';
-import { IOrderDisplayModal, IOrderDocument } from '../interfaces/order.interfaces';
+import { IOrderDisplayModal, IOrderDocument } from '../interfaces/order.interface';
 
 const DeliveryTimer: FC<IModalProps> = ({ order, authUser }): ReactElement => {
   const [displayModal, setDisplayModal] = useState<IOrderDisplayModal>({

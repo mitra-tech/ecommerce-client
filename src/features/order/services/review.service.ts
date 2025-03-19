@@ -1,7 +1,7 @@
 import { IResponse } from 'src/shared/shared.interface';
 import { api } from 'src/store/api';
 
-import { IReviewDocument } from '../interfaces/review.interfaces';
+import { IReviewDocument } from '../interfaces/review.interface';
 
 export const reviewApi = api.injectEndpoints({
   endpoints: (build) => ({

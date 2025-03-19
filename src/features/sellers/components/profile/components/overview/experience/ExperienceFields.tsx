@@ -1,7 +1,7 @@
 import { cloneDeep, findIndex } from 'lodash';
 import { ChangeEvent, FC, ReactElement, useContext, useState } from 'react';
 import { SellerContext } from 'src/features/sellers/context/SellerContext';
-import { IExperience, IExperienceEditProps } from 'src/features/sellers/interfaces/seller.interfaces';
+import { IExperience, IExperienceEditProps } from 'src/features/sellers/interfaces/seller.interface';
 import Button from 'src/shared/button/Button';
 import TextAreaInput from 'src/shared/inputs/TextAreaInput';
 import TextInput from 'src/shared/inputs/TextInput';

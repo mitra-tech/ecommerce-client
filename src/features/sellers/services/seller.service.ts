@@ -1,7 +1,7 @@
 import { IResponse } from 'src/shared/shared.interface';
 import { api } from 'src/store/api';
 
-import { ISellerDocument } from '../interfaces/seller.interfaces';
+import { ISellerDocument } from '../interfaces/seller.interface';
 
 export const sellerApi = api.injectEndpoints({
   endpoints: (build) => ({

@@ -2,8 +2,8 @@ import { FC, ReactElement, ReactNode, useCallback, useEffect, useState } from 'r
 import { Navigate, NavigateFunction, useNavigate } from 'react-router-dom';
 import HomeHeader from 'src/shared/header/components/HomeHeader';
 import { applicationLogout, saveToSessionStorage } from 'src/shared/utils/utils.service';
-import { useAppDispatch, useAppSelector } from '../store/store';
-import { IReduxState } from '../store/store.interface';
+import { useAppDispatch, useAppSelector } from 'src/store/store';
+import { IReduxState } from 'src/store/store.interface';
 
 import { addAuthUser } from './auth/reducers/auth.reducer';
 import { useCheckCurrentUserQuery } from './auth/services/auth.service';
@@ -11,7 +11,7 @@ import { useCheckCurrentUserQuery } from './auth/services/auth.service';
 export interface IProtectedRouteProps {
   children: ReactNode;
 }
-// This file contains all the routes that unauthenticated users cant have access to.
+
 const ProtectedRoute: FC<IProtectedRouteProps> = ({ children }): ReactElement => {
   const authUser = useAppSelector((state: IReduxState) => state.authUser);
   const showCategoryContainer = useAppSelector((state: IReduxState) => state.showCategoryContainer);

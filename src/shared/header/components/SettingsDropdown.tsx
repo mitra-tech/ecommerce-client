@@ -1,7 +1,7 @@
 import { FC, ReactElement } from 'react';
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
 import { applicationLogout, lowerCase } from 'src/shared/utils/utils.service';
-import { useAppDispatch } from '../../../store/store';
+import { useAppDispatch } from 'src/store/store';
 
 import { IHomeHeaderProps } from '../interfaces/header.interface';
 import { updateCategoryContainer } from '../reducers/category.reducer';
@@ -48,7 +48,8 @@ const SettingsDropdown: FC<IHomeHeaderProps> = ({ seller, authUser, buyer, type,
                   setIsDropdownOpen(false);
                 }
                 dispatch(updateHeader('home'));
-                dispatch(updateCategoryContainer(true));              }}
+                dispatch(updateCategoryContainer(true));
+              }}
             >
               Add a new gig
             </Link>

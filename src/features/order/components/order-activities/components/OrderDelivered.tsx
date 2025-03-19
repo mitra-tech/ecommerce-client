@@ -4,7 +4,7 @@ import { FaCheck, FaChevronDown, FaChevronUp, FaDownload, FaGift } from 'react-i
 import ChatBox from 'src/features/chat/components/chatbox/ChatBox';
 import { IChatBuyerProps, IChatSellerProps } from 'src/features/chat/interfaces/chat.interface';
 import { OrderContext } from 'src/features/order/context/OrderContext';
-import { IDeliveredWork, IOrderDeliveredModal, IOrderDeliveredProps, IOrderMessage } from 'src/features/order/interfaces/order.interfaces';
+import { IDeliveredWork, IOrderDeliveredModal, IOrderDeliveredProps, IOrderMessage } from 'src/features/order/interfaces/order.interface';
 import { useApproveOrderMutation } from 'src/features/order/services/order.service';
 import Button from 'src/shared/button/Button';
 import ApprovalModal from 'src/shared/modals/ApprovalModal';

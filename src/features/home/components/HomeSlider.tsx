@@ -1,8 +1,8 @@
 import { FC, ReactElement, useEffect, useState } from 'react';
 import { ISliderImagesText } from 'src/shared/shared.interface';
-import { sliderImages, sliderImagesText } from '../../../shared/utils/static-data';
+import { sliderImages, sliderImagesText } from 'src/shared/utils/static-data';
 
-import { ISliderState } from '../interfaces/home.interfaces';
+import { ISliderState } from '../interfaces/home.interface';
 
 const HomeSlider: FC = (): ReactElement => {
   const [slideState, setSlideState] = useState<ISliderState>({

@@ -1,12 +1,12 @@
 import { findIndex } from 'lodash';
 import { FC, ReactElement, useEffect, useMemo, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
+import { IOrderDocument } from 'src/features/order/interfaces/order.interface';
 import { orderTypes, sellerOrderList, shortenLargeNumbers } from 'src/shared/utils/utils.service';
 import { socket } from 'src/sockets/socket.service';
 
-import { SellerContextType } from '../../interfaces/seller.interfaces';
+import { SellerContextType } from '../../interfaces/seller.interface';
 import ManageOrdersTable from './components/ManageOrdersTable';
-import { IOrderDocument } from 'src/features/order/interfaces/order.interfaces';
 
 const SELLER_GIG_STATUS = {
   ACTIVE: 'active',
@@ -22,9 +22,7 @@ const ManageOrders: FC = (): ReactElement => {
   const ordersRef = useMemo(() => [...orders], [orders]);
 
   useEffect(() => {
-    // listen for order notification (order notification comes with the order object)
     socket.on('order notification', (order: IOrderDocument) => {
-      // if an order was created or updated, and order notification is emmitted, we look for the id inside the ordersRef array and replace it with the the one coming from the socket
       const index = findIndex(ordersRef, ['orderId', order.orderId]);
       if (index > -1) {
         ordersRef.splice(index, 1, order);

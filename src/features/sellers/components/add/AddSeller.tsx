@@ -3,7 +3,7 @@ import { FC, FormEvent, ReactElement, useEffect, useState } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { IBuyerDocument } from 'src/features/buyer/interfaces/buyer.interface';
 import { addBuyer } from 'src/features/buyer/reducers/buyer.reducer';
-import Breadcrumb from 'src/shared/breadcrumbs/Breadcrumbs';
+import Breadcrumb from 'src/shared/breadcrumb/Breadcrumb';
 import Button from 'src/shared/button/Button';
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader';
 import { IResponse } from 'src/shared/shared.interface';
@@ -12,15 +12,15 @@ import { useAppDispatch, useAppSelector } from 'src/store/store';
 import { IReduxState } from 'src/store/store.interface';
 
 import { useSellerSchema } from '../../hooks/useSellerSchema';
-import { ICertificate, IEducation, IExperience, ILanguage, IPersonalInfoData, ISellerDocument } from '../../interfaces/seller.interfaces';
+import { ICertificate, IEducation, IExperience, ILanguage, IPersonalInfoData, ISellerDocument } from '../../interfaces/seller.interface';
 import { addSeller } from '../../reducers/seller.reducer';
 import { useCreateSellerMutation } from '../../services/seller.service';
 import PersonalInfo from './components/PersonalInfo';
 import SellerCertificateFields from './components/SellerCertificateFields';
 import SellerEducationFields from './components/SellerEducationFields';
 import SellerExperienceFields from './components/SellerExperienceFields';
-import SellerLanguageFields from './components/SellerLanguageFields';
-import SellerSkillField from './components/SellerSkillFields';
+import SellerLanguageFields from './components/SellerLanguagesFields';
+import SellerSkillField from './components/SellerSkillField';
 import SellerSocialLinksFields from './components/SellerSocialLinksFields';
 
 const AddSeller: FC = (): ReactElement => {

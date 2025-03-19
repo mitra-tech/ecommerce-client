@@ -6,7 +6,7 @@ import { socket, socketService } from 'src/sockets/socket.service';
 import { useAppSelector } from 'src/store/store';
 import { IReduxState } from 'src/store/store.interface';
 
-import { IOrderDocument } from '../interfaces/order.interfaces';
+import { IOrderDocument } from '../interfaces/order.interface';
 import { useGetOrderByOrderIdQuery } from '../services/order.service';
 import DeliveryTimer from './DeliveryTimer';
 import OrderActivities from './order-activities/OrderActivities';

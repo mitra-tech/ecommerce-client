@@ -1,7 +1,7 @@
 import { FC, ReactElement, useContext, useState } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
 import { SellerContext } from 'src/features/sellers/context/SellerContext';
-import { ILanguage } from 'src/features/sellers/interfaces/seller.interfaces';
+import { ILanguage } from 'src/features/sellers/interfaces/seller.interface';
 import { v4 as uuidv4 } from 'uuid';
 
 import LanguageFields from './LanguageFields';

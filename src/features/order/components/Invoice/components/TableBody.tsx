@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import { FC, Fragment, ReactElement, useContext } from 'react';
 import { OrderContext } from 'src/features/order/context/OrderContext';
-import { IOrderInvoiceService } from 'src/features/order/interfaces/order.interfaces';
+import { IOrderInvoiceService } from 'src/features/order/interfaces/order.interface';
 
 const styles = StyleSheet.create({
   tbody: { fontSize: 9, paddingTop: 4, textAlign: 'center', flex: 1, borderColor: 'whitesmoke', borderBottomWidth: 1 },

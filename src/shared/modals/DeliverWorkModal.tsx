@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, ReactElement, useRef, useState } from 'react';
 import { FaCircleNotch, FaPaperclip, FaRegFile, FaTimes } from 'react-icons/fa';
-import { IDeliveredWork } from 'src/features/order/interfaces/order.interfaces';
+import { IDeliveredWork } from 'src/features/order/interfaces/order.interface';
 import { useDeliverOrderMutation } from 'src/features/order/services/order.service';
 
 import Button from '../button/Button';

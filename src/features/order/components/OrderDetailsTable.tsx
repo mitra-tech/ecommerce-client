@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import { TimeAgo } from 'src/shared/utils/timeago.utils';
 
 import { OrderContext } from '../context/OrderContext';
-import { IOrderInvoice, IOrderProps } from '../interfaces/order.interfaces';
-import Invoice from './invoice/Invoice';
+import { IOrderInvoice, IOrderProps } from '../interfaces/order.interface';
+import Invoice from './Invoice/Invoice';
 
 const OrderDetailsTable: FC<IOrderProps> = ({ order, authUser }): ReactElement => {
   const [showOrderDetailsPanel, setShowOrderDetailsPanel] = useState<boolean>(false);

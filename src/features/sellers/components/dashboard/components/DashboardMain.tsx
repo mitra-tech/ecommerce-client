@@ -4,7 +4,7 @@ import { FaMapMarkerAlt, FaRegClock, FaUserAlt } from 'react-icons/fa';
 import { useOutletContext } from 'react-router-dom';
 import StickyBox from 'react-sticky-box';
 import { ISellerGig } from 'src/features/gigs/interfaces/gig.interface';
-import { SellerContextType } from 'src/features/sellers/interfaces/seller.interfaces';
+import { SellerContextType } from 'src/features/sellers/interfaces/seller.interface';
 import GigCardItem from 'src/shared/gigs/GigCardItem';
 import StarRating from 'src/shared/rating/StarRating';
 import { TimeAgo } from 'src/shared/utils/timeago.utils';

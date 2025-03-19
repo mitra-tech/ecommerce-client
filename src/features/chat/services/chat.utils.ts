@@ -1,11 +1,11 @@
+import { AnyAction } from '@reduxjs/toolkit';
 import { cloneDeep, filter, findIndex, remove } from 'lodash';
 import { Dispatch, SetStateAction } from 'react';
+import { updateNotification } from 'src/shared/header/reducers/notification.reducer';
 import { lowerCase } from 'src/shared/utils/utils.service';
 import { socket } from 'src/sockets/socket.service';
 
 import { IMessageDocument } from '../interfaces/chat.interface';
-import { updateNotification } from 'src/shared/header/reducers/notification.reducer';
-import { AnyAction } from 'redux';
 
 export const chatMessageReceived = (
   conversationId: string,
